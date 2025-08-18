@@ -206,7 +206,10 @@ section img:hover {
     justify-items: center;
     padding: 20px;
 }
-
+/* autofitauto-fit: Ajusta automáticamente el número de columnas, 
+minmax(300px, 1fr): Cada columna tiene mínimo 300px y máximo 1 fracción del espacio,
+gap: 20px: Espacio entre cards,
+justify-items: center: Centra horizontalmente las cards*/
 .galeria-card {
     position: relative;
     width: 100%;
