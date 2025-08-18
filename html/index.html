@@ -1,53 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <!--Etiqueta para controlar como se vera la pag web en dispositivos mobiles-->    
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Clinica Bosque Verde</title>
-        <link rel="stylesheet" href="../css/style.css">
-    </head>
-    <body>
-        <!-- Barra de navegación -->
-        <nav>
-            <a href="index.html">Clínica Bosque Verde</a>
-            <ul class="link-container">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="profesionales.html">Profesional Acreditado</a></li>
-                <li><a href="pago.html">Pago en Línea</a></li>
-                <li><a href="centro.html">Centro Medico</a></li>
-                <li><a href="admision.html">Admisión y Presupuestos</a></li>
-                <li><a href="galerias.html">Galerias</a></li>
-                <li><a href="login.html">Inicio de Sesión</a></li>
-            </ul>
-            <a href="reservar.html">Reservar Cita</a>
-        </nav>
-        <!-- Hero -->
-        <header>
-            <h1>Bienvenido a Clínica Bosque Verde</h1>
-            <h3>Tu salud, nuestra prioridad.</h3>
-            <a href="reservar.html">Reservar ahora</a>
-        </header>
+<head>
+    <meta charset="UTF-8">
+    <!--Etiqueta para controlar como se vera la pag web en dispositivos móviles-->    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Bosque Verde</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="logo-container">
+            <img src="../assets/images/logo.jpeg" alt="Logo Clínica Bosque Verde" class="logo">
+            <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
+        </div>
+        <ul class="link-container">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="profesionales.html">Profesional Acreditado</a></li>
+            <li><a href="pago.html">Pago en Línea</a></li>
+            <li><a href="centro.html">Centro Médico</a></li>
+            <li><a href="admision.html">Admisión y Presupuestos</a></li>
+            <li><a href="galerias.html">Galerías</a></li>
+            <li><a href="login.html">Inicio de Sesión</a></li>
+        </ul>
+        <a href="reservar.html" class="btn-reservar">Reservar Cita</a>
+    </nav>
 
-        <!-- Servicios -->
-        <section>
-            <h2>Nuestros Servicios</h2>
-            <ul>
-                <li>Consultas medicas generales</li>
-                <li>Especialidades</li>
-                <li>Examenes y procedimientos</li>
-            </ul>
-        </section>
+    <!-- Hero -->
+    <header class="hero">
+        <h1>Bienvenido a Clínica Bosque Verde</h1>
+        <h3>Tu salud, nuestra prioridad.</h3>
+        <a href="reservar.html" class="btn-hero">Reservar ahora</a>
+    </header>
 
-        <!-- Mapa -->
-        <section>
-            <h2>Ubicación</h2>
-            <p>Avenida Santa Rosa #230</p>
-        </section>
+    <!-- Servicios con cards -->
+    <section>
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="galeria-container">
+            <!-- Card 1 -->
+            <div class="galeria-card">
+                <img src="../assets/images/clinica4.jpg" alt="Consulta Médica General">
+                <div class="galeria-info">
+                    <h3>Consultas Médicas Generales</h3>
+                    <p>Atención personalizada con profesionales acreditados para el cuidado integral de tu salud.</p>
+                    <a href="#" class="galeria-btn">Más información</a>
+                </div>
+            </div>
 
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2025 Clinica Bosque Verde</p>
-        </footer>
-    </body>
+            <!-- Card 2 -->
+            <div class="galeria-card">
+                <img src="../assets/images/clinica5.jpg" alt="Especialidades Médicas">
+                <div class="galeria-info">
+                    <h3>Especialidades</h3>
+                    <p>Unidades médicas que abarcan diversas áreas, desde odontología hasta pediatría y más.</p>
+                    <a href="#" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="galeria-card">
+                <img src="../assets/images/clinica7.jpg" alt="Exámenes y Procedimientos">
+                <div class="galeria-info">
+                    <h3>Exámenes y Procedimientos</h3>
+                    <p>Equipamiento de última generación en radiología, laboratorio clínico y diagnósticos de precisión.</p>
+                    <a href="#" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mapa -->
+    <section>
+        <h2 class="section-title">Ubicación</h2>
+        <p>Avenida Santa Rosa #230</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Clínica Bosque Verde</p>
+    </footer>
+</body>
 </html>
