@@ -279,3 +279,30 @@ footer {
     padding: 15px 10px;
     margin-top: 40px;
 }
+
+
+/* ---- Hero section ---- */
+.hero-admision {
+     background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    max-width: 900px;
+    margin: 60px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-admision::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
+}
+
+.hero-text {
+    position: relative;
+    z-index: 1;
+}
