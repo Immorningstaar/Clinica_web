@@ -306,3 +306,26 @@ footer {
     position: relative;
     z-index: 1;
 }
+
+
+/* ---- Hero section pago---- */
+.hero-pago {
+     background: url("../assets/images/pago.jpg") center /cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    max-width: 900px;
+    margin: 60px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-pago::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
+}
+
