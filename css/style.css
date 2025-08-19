@@ -1,14 +1,3 @@
-/* LOGO EN EL NAV */
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.logo {
-    height: 150px;
-    width: auto;
-}
-
 /* ====== Estilos globales ====== */
 body {
     font-family: Arial;
@@ -23,21 +12,37 @@ nav {
     background-color: #2E7D32;
     color: white;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
+    padding: 15px;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
+/* LOGO EN EL NAV */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+    max-width: fit-content;
+}
+.logo {
+    height: 150px;
+    width: auto;
+}
 
 .link-container {
     display: flex;
     list-style: none;
-    gap: 20px;
+    align-items: center;
+    justify-self: center;
+    list-style: none;
     margin: 0;
     padding: 0;
+    gap: 20px;
+    flex: 1 1 auto;
+    justify-content: center;
 }
 
 nav a {
@@ -45,10 +50,14 @@ nav a {
     text-decoration: none;
 }
 
-nav > a {
+nav > a, nav > div > a {
     font-weight: bold;
+}
+
+nav > a {
     font-size: 1.2rem;
 }
+
 
 nav a:hover, .link-container a:hover {
     text-decoration: underline;
