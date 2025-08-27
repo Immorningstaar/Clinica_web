@@ -7,12 +7,15 @@ $(document).ready(function () {
         $(".form-control, .form-select").removeClass("is-invalid");
 
         // Campos obligatorios
-        const campos = ["#nombre", "#apellidos", "#correo", "#direccion", "#telefono"];
+        const campos = ["#nombre", "#apellidos", "#rut", "#correo", "#direccion", "#password", "#confirm-password", "#telefono"];
         const mensajes = [
             "El nombre es obligatorio.",
             "Los apellidos son obligatorios.",
+            "El rut es obligatorio",
             "El correo es obligatorio.",
             "La dirección es obligatoria.",
+            "La contraseña es obligatoria",
+            "Confirme la contraseña ingresada",
             "El teléfono es obligatorio.",
             
         ];
@@ -31,3 +34,5 @@ $(document).ready(function () {
         }
     });
 });
+
+

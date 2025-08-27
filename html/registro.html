@@ -50,10 +50,37 @@
                             <div class="error-message text-danger"></div>
                         </div>
 
+                        <!-- Rut-->
+                        <div class="mb-3">
+                            <label for="rut" class="form-label">Rut *</label>
+                            <input type="text" class="form-control" id="rut" placeholder="12345678-9"
+                                pattern="\d{1,8}-[\dKk]" title="Formato: 12345678-9 o 12345678-K">
+                            <div class="error-message text-danger"></div>
+                        </div>
+
+
                         <!-- Correo -->
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico *</label>
                             <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com">
+                            <div class="error-message text-danger"></div>
+                        </div>
+
+                        <!--Password-->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña *</label>
+                             <div class="password-container">
+                            <input type="password" class="form-control" id="password"
+                                placeholder="Ingresa tu contraseña">
+                             </div>
+                            <div class="error-message text-danger"></div>
+                        </div>
+
+                        <!--Repetir Password-->
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label">Repetir Contraseña *</label>
+                            <input type="password" class="form-control" id="confirm-password"
+                                placeholder="Repite tu contraseña">
                             <div class="error-message text-danger"></div>
                         </div>
 
@@ -72,7 +99,7 @@
                         </div>
 
                         <!-- Botón de envío -->
-                        <button type="submit" class="btn btn-success w-100">Registrar</button>
+                        <button type="submit">Registrar</button>
                     </form>
                 </div>
             </div>
