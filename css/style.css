@@ -9,14 +9,15 @@ body {
 
 /* ====== Barra de navegación ====== */
 nav {
-    background-color: #2E7D32;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  background-color: #2E7D32;
+  color: white;
+  display: flex;
+  justify-content: space-between; /* separa izquierda, centro y derecha */
+  align-items: center;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* LOGO EN EL NAV */
@@ -46,16 +47,29 @@ nav {
 }
 
 nav a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
-nav > a, nav > div > a {
-    font-weight: bold;
+nav a:hover {
+  text-decoration: underline;
 }
 
-nav > a {
-    font-size: 1.2rem;
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px; /* separa los elementos del menú */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-left a {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav-right a {
+  font-weight: bold;
 }
 
 
