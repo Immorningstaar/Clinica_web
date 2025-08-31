@@ -9,15 +9,16 @@ body {
 
 /* ====== Barra de navegación ====== */
 nav {
-  background-color: #2E7D32;
-  color: white;
-  display: flex;
-  justify-content: space-between; /* separa izquierda, centro y derecha */
-  align-items: center;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background-color: #2E7D32;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    /* separa izquierda, centro y derecha */
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* LOGO EN EL NAV */
@@ -28,6 +29,7 @@ nav {
     flex: 0 0 auto;
     max-width: fit-content;
 }
+
 .logo {
     height: 150px;
     width: auto;
@@ -47,33 +49,35 @@ nav {
 }
 
 nav a {
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 }
 
 nav a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  gap: 20px; /* separa los elementos del menú */
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    /* separa los elementos del menú */
+    margin: 0;
+    padding: 0;
 }
 
 .nav-left a {
-  font-weight: bold;
-  font-size: 1.2rem;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .nav-right a {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 
-nav a:hover, .link-container a:hover {
+nav a:hover,
+.link-container a:hover {
     text-decoration: underline;
 }
 
@@ -84,13 +88,14 @@ nav a:hover, .link-container a:hover {
 
 /* ====== Encabezado ====== */
 header {
-    background: linear-gradient(rgba(46,125,50,0.7), rgba(46,125,50,0.7)),
-                url('img/clinica1.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(46, 125, 50, 0.7), rgba(46, 125, 50, 0.7)),
+        url('img/clinica1.jpg') center/cover no-repeat;
     text-align: center;
     padding: 55px 20px;
 }
 
-header h1, header h3 {
+header h1,
+header h3 {
     color: white;
 }
 
@@ -126,7 +131,9 @@ section {
     margin: auto;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     color: #2E7D32;
     margin-bottom: 20px;
 }
@@ -136,7 +143,7 @@ form {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     margin: auto;
 }
@@ -147,7 +154,8 @@ label {
     font-weight: bold;
 }
 
-input, button {
+input,
+button {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -233,6 +241,7 @@ section img {
 section img:hover {
     transform: scale(1.05);
 }
+
 .galeria-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -240,6 +249,7 @@ section img:hover {
     justify-items: center;
     padding: 20px;
 }
+
 /* autofitauto-fit: Ajusta automáticamente el número de columnas, 
 minmax(300px, 1fr): Cada columna tiene mínimo 300px y máximo 1 fracción del espacio,
 gap: 20px: Espacio entre cards,
@@ -309,12 +319,12 @@ footer {
 
 /* ---- Hero section ---- */
 .hero-admision {
-     background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
+    background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
     color: white;
     text-align: center;
     padding: 40px 20px;
     border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     max-width: 900px;
     margin: 60px auto;
     position: relative;
@@ -325,7 +335,8 @@ footer {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
+    background: rgba(0, 0, 0, 0.4);
+    /* oscurece para que se lea el texto */
 }
 
 .hero-text {
@@ -336,12 +347,12 @@ footer {
 
 /* ---- Hero section pago---- */
 .hero-pago {
-     background: url("../assets/images/pago.jpg") center /cover no-repeat;
+    background: url("../assets/images/pago.jpg") center /cover no-repeat;
     color: white;
     text-align: center;
     padding: 40px 20px;
     border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     max-width: 900px;
     margin: 60px auto;
     position: relative;
@@ -352,7 +363,8 @@ footer {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
+    background: rgba(0, 0, 0, 0.4);
+    /* oscurece para que se lea el texto */
 }
 
 /* ====== MEDIA QUERIES RESPONSIVE ====== */
@@ -363,5 +375,26 @@ footer {
 
 /* Para móvil */
 @media (max-width: 480px) {
+
     /* estilos para móvil */
+    .hamburger {
+        display: block;
+    }
+    /* oculta navegacion normal*/
+    .link-container {
+        display: none;
+    }
+     /* Navegacion colapsable */
+    .link-container.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #2E7D32;
+        padding: 20px;
+    }
+
+
 }
