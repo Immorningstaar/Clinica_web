@@ -104,5 +104,18 @@
         <footer>
             <p>&copy; 2025 Clínica Bosque Verde</p>
         </footer>
+        
+        <!-- Script para menú hamburguesa -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const hamburger = document.querySelector('.hamburger');
+                const linkContainer = document.querySelector('.link-container');
+                
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    linkContainer.classList.toggle('active');
+                });
+            });
+        </script>
     </body>
 </html>

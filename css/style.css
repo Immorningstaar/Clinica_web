@@ -367,24 +367,47 @@ footer {
     /* oscurece para que se lea el texto */
 }
 
-/* ====== MEDIA QUERIES RESPONSIVE ====== */
-/* Para tablet */
-@media (max-width: 768px) {
-    /* estilos para tablet */
-}
-
-/* Para móvil */
-@media (max-width: 480px) {
-
-    /* estilos para móvil */
+    /* ====== MENÚ HAMBURGUESA ====== */
+    
     .hamburger {
-        display: block;
+        display: none; /* Oculto por defecto en desktop */
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
     }
-    /* oculta navegacion normal*/
+    
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 3px 0;
+        transition: 0.3s;
+    }
+    
+    /* Animación del menú hamburguesa */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+/* ====== MEDIA QUERIES RESPONSIVE ====== */
+/* Tablet */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex; /* Mostrar en tablet */
+    }
+    
     .link-container {
-        display: none;
+        display: none; /* Ocultar navegación normal */
     }
-     /* Navegacion colapsable */
+    
     .link-container.active {
         display: flex;
         flex-direction: column;
@@ -394,7 +417,80 @@ footer {
         right: 0;
         background: #2E7D32;
         padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
+    
+    .link-container li {
+        margin: 10px 0;
+    }
+    
+    /* Grid de servicios para tablet */
+    .galeria-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    /* Hero section para tablet */
+    header {
+        padding: 40px 20px;
+    }
+    
+    /* Tipografía para tablet */
+    h1, h2, h3 {
+        font-size: 22px;
+    }
+    
+    section {
+        padding: 30px 20px;
+    }
+}
 
-
+/* Móvil */
+@media (max-width: 480px) {
+    nav {
+        padding: 10px 15px;
+    }
+    
+    .logo {
+        height: 100px; /* Logo más pequeño en móvil */
+    }
+    
+    .brand-name {
+        font-size: 14px; /* Texto más pequeño */
+    }
+    
+    .btn-reservar {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    /* Grid de servicios para móvil */
+    .galeria-container {
+        grid-template-columns: 1fr; /* 1 columna en móvil */
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    /* Hero section para móvil */
+    header {
+        padding: 30px 15px; /* Menos padding en móvil */
+    }
+    
+    header h1 {
+        font-size: 24px; /* Título más pequeño */
+    }
+    
+    header h3 {
+        font-size: 18px; /* Subtítulo más pequeño */
+    }
+    
+    /* Tipografía para móvil */
+    h1, h2, h3 {
+        font-size: 20px; /* Títulos más pequeños en móvil */
+    }
+    
+    section {
+        padding: 20px 15px; /* Menos padding en secciones */
+    }
 }
