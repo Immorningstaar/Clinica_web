@@ -13,7 +13,6 @@ nav {
     color: white;
     display: flex;
     justify-content: space-between;
-    /* separa izquierda, centro y derecha */
     align-items: center;
     padding: 10px 20px;
     position: sticky;
@@ -35,6 +34,36 @@ nav {
     width: auto;
 }
 
+/* MENÚ HAMBURGUESA */
+.hamburger {
+    display: none; /* Oculto por defecto en desktop */
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    order: 2; /* Posicionar en el medio */
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+/* Animación del menú hamburguesa */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
 .link-container {
     display: flex;
     list-style: none;
@@ -46,6 +75,23 @@ nav {
     gap: 20px;
     flex: 1 1 auto;
     justify-content: center;
+    order: 3; /* Posicionar después del hamburguesa */
+}
+
+/* BOTÓN RESERVAR */
+.btn-reservar {
+    order: 4; /* Posicionar al final */
+    background-color: #fff;
+    color: #2E7D32;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.btn-reservar:hover {
+    background-color: #c8e6c9;
 }
 
 nav a {
@@ -366,36 +412,6 @@ footer {
     background: rgba(0, 0, 0, 0.4);
     /* oscurece para que se lea el texto */
 }
-
-    /* ====== MENÚ HAMBURGUESA ====== */
-    
-    .hamburger {
-        display: none; /* Oculto por defecto en desktop */
-        flex-direction: column;
-        cursor: pointer;
-        padding: 5px;
-    }
-    
-    .hamburger span {
-        width: 25px;
-        height: 3px;
-        background-color: white;
-        margin: 3px 0;
-        transition: 0.3s;
-    }
-    
-    /* Animación del menú hamburguesa */
-    .hamburger.active span:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 6px);
-    }
-    
-    .hamburger.active span:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .hamburger.active span:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px);
-    }
 
 /* ====== MEDIA QUERIES RESPONSIVE ====== */
 /* Tablet */
