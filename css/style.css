@@ -121,7 +121,6 @@ nav ul {
     font-weight: bold;
 }
 
-
 nav a:hover,
 .link-container a:hover {
     text-decoration: underline;
@@ -296,7 +295,7 @@ section img:hover {
     padding: 20px;
 }
 
-/* autofitauto-fit: Ajusta automáticamente el número de columnas, 
+/* autofitauto-fit: Ajustara automáticamente el número de columnas, 
 minmax(300px, 1fr): Cada columna tiene mínimo 300px y máximo 1 fracción del espacio,
 gap: 20px: Espacio entre cards,
 justify-items: center: Centra horizontalmente las cards*/
@@ -362,7 +361,6 @@ footer {
     margin-top: 40px;
 }
 
-
 /* ---- Hero section ---- */
 .hero-admision {
     background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
@@ -389,7 +387,6 @@ footer {
     position: relative;
     z-index: 1;
 }
-
 
 /* ---- Hero section pago---- */
 .hero-pago {
@@ -434,10 +431,24 @@ footer {
         background: #2E7D32;
         padding: 20px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        z-index: 999;
     }
     
     .link-container li {
         margin: 10px 0;
+        text-align: center;
+    }
+    
+    .link-container li a {
+        font-size: 16px;
+        padding: 10px;
+        display: block;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .link-container li a:hover {
+        background-color: rgba(255,255,255,0.1);
     }
     
     /* Grid de servicios para tablet */
@@ -459,6 +470,12 @@ footer {
     
     section {
         padding: 30px 20px;
+    }
+    
+    /* Ajustes de navegación para tablet */
+    .btn-reservar {
+        font-size: 14px;
+        padding: 8px 16px;
     }
 }
 
@@ -508,5 +525,14 @@ footer {
     
     section {
         padding: 20px 15px; /* Menos padding en secciones */
+    }
+    
+    /* Ajustes adicionales para móvil */
+    .galeria-card {
+        max-width: 100%; /* Cards ocupen todo el ancho */
+    }
+    
+    .galeria-card img {
+        height: 180px; /* Imágenes un poco más pequeñas */
     }
 }
