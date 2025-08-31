@@ -355,3 +355,13 @@ footer {
     background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
 }
 
+/* ====== MEDIA QUERIES RESPONSIVE ====== */
+/* Para tablet */
+@media (max-width: 768px) {
+    /* estilos para tablet */
+}
+
+/* Para móvil */
+@media (max-width: 480px) {
+    /* estilos para móvil */
+}
