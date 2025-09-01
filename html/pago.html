@@ -46,27 +46,41 @@
                     Asegúrate de tener a mano tu número de cita y el monto a cancelar antes de continuar.
                 </p>
             </section>
-            <!-- Formulario -->
-            <section class="form-section">
-                <h2>Formulario de Pago</h2>
-                <form>
-                    <div class="form-grid">
-                        <input type="text" placeholder="Número de cita" required>
-                        <input type="number" placeholder="Monto a pagar" required>
-                        <select required>
+             <!-- Formulario -->
+        <section class="form-section">
+            <h2>Formulario de Pago</h2>
+            <form id="pagoForm">
+                <div class="form-grid">
+                    <div>
+                        <input type="text" id="numeroCita" class="form-control" placeholder="Número de cita" required>
+                        <div class="error-message"></div>
+                    </div>
+                    <div>
+                        <input type="number" id="montoPago" class="form-control" placeholder="Monto a pagar" required min="1">
+                        <div class="error-message"></div>
+                    </div>
+                    <div>
+                        <select id="metodoPago" class="form-control" required>
                             <option value="">Seleccione un método de pago</option>
                             <option value="tarjeta">Tarjeta de Crédito/Débito</option>
                             <option value="transferencia">Transferencia Bancaria</option>
                             <option value="webpay">WebPay</option>
                         </select>
-                        <input type="email" placeholder="Correo electrónico de confirmación" required>
+                        <div class="error-message"></div>
                     </div>
-                    <button type="submit" class="btn-submit">Pagar ahora</button>
-                </form>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-    </body>
-</html>
+                    <div>
+                        <input type="email" id="correoConfirmacion" class="form-control" placeholder="Correo electrónico de confirmación" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Pagar ahora</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Clínica Bosque Verde</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/pago.js"></script>

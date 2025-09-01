@@ -1,0 +1,18 @@
+.valid {
+    color: #28a745; /* Verde para indicar éxito */
+}
+
+.invalid {
+    color: #dc3545; /* Rojo para indicar error */
+}
+
+/* Opcional: estilos para los iconos */
+.bi-check-circle-fill, .bi-x-circle-fill {
+    margin-right: 5px;
+    font-size: 1.1em;
+}
+
+/* Opcional: animación suave para los cambios */
+.valid, .invalid {
+    transition: color 0.3s ease;
+}
