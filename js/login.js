@@ -49,7 +49,7 @@ $(document).ready(function () {
         return regex.test(email);
     }
 
-    // ✅ Función para validar contraseña (misma que en el registro)
+    //  Función para validar contraseña 
     function validatePassword(password) {
         const validation = {
             isValid: true,
