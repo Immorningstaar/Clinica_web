@@ -12,7 +12,7 @@ nav {
     background-color: #2E7D32;
     color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* separa izquierda, centro y derecha */
     align-items: center;
     padding: 10px 20px;
     position: sticky;
@@ -134,7 +134,7 @@ nav a:hover,
 /* ====== Encabezado ====== */
 header {
     background: linear-gradient(rgba(46, 125, 50, 0.7), rgba(46, 125, 50, 0.7)),
-        url('img/clinica1.jpg') center/cover no-repeat;
+        url('../assets/images/clinica1.jpg') center/cover no-repeat;
     text-align: center;
     padding: 55px 20px;
 }
@@ -411,8 +411,25 @@ footer {
 }
 
 /* ====== MEDIA QUERIES RESPONSIVE ====== */
-/* Tablet */
-@media (max-width: 768px) {
+
+/* Desktop grande (más de 1024px) */
+@media (min-width: 1024px) {
+    .galeria-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas para desktop grande */
+        gap: 25px;
+        padding: 25px;
+    }
+    
+    h1, h2, h3 {
+        font-size: 28px; /* Títulos más grandes en desktop */
+    }
+    .logo {
+        height: 140px;
+    }
+}
+
+/* Tablet (entre 769px y 1023px) */
+@media (max-width: 1023px) and (min-width: 769px) {
     .hamburger {
         display: flex; /* Mostrar en tablet */
     }
@@ -454,39 +471,122 @@ footer {
     /* Grid de servicios para tablet */
     .galeria-container {
         grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
-        gap: 15px;
-        padding: 15px;
+        gap: 20px;
+        padding: 20px;
     }
     
     /* Hero section para tablet */
     header {
-        padding: 40px 20px;
+        padding: 45px 25px;
     }
     
     /* Tipografía para tablet */
     h1, h2, h3 {
-        font-size: 22px;
+        font-size: 26px; /* Más grande que antes */
     }
     
     section {
-        padding: 30px 20px;
+        padding: 35px 25px;
     }
     
     /* Ajustes de navegación para tablet */
     .btn-reservar {
-        font-size: 14px;
-        padding: 8px 16px;
+        font-size: 15px;
+        padding: 10px 18px;
+    }
+    .logo {
+        height: 120px; /* Logo más pequeño en tablet */
     }
 }
 
-/* Móvil */
+/* Móvil (768px y menos) */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex; /* Mostrar en móvil */
+    }
+    
+    .link-container {
+        display: none; /* Ocultar navegación normal */
+    }
+    
+    .link-container.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #2E7D32;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        z-index: 999;
+    }
+    
+    .link-container li {
+        margin: 10px 0;
+        text-align: center;
+    }
+    
+    .link-container li a {
+        font-size: 16px;
+        padding: 10px;
+        display: block;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .link-container li a:hover {
+        background-color: rgba(255,255,255,0.1);
+    }
+    
+    /* Grid de servicios para móvil */
+    .galeria-container {
+        grid-template-columns: 1fr; /* 1 columna en móvil */
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    /* Hero section para móvil */
+    header {
+        padding: 30px 20px;
+    }
+    
+    /* Tipografía para móvil */
+    h1, h2, h3 {
+        font-size: 24px; /* Títulos apropiados para móvil */
+    }
+    
+    section {
+        padding: 25px 20px;
+    }
+    
+    /* Ajustes de navegación para móvil */
+    .btn-reservar {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    .logo {
+        height: 110px; /* Reducir altura del logo en 768px */
+    }
+    
+    /* Ajustes adicionales para móvil */
+    .galeria-card {
+        max-width: 100%; /* Cards ocupen todo el ancho */
+    }
+    
+    .galeria-card img {
+        height: 180px; /* Imágenes un poco más pequeñas */
+    }
+}
+
+/* Móvil pequeño (480px y menos) */
 @media (max-width: 480px) {
     nav {
         padding: 10px 15px;
     }
     
     .logo {
-        height: 100px; /* Logo más pequeño en móvil */
+        height: 90px; /* Logo más pequeño en móvil */
     }
     
     .brand-name {
@@ -498,41 +598,31 @@ footer {
         padding: 8px 12px;
     }
     
-    /* Grid de servicios para móvil */
-    .galeria-container {
-        grid-template-columns: 1fr; /* 1 columna en móvil */
-        gap: 10px;
-        padding: 10px;
-    }
-    
-    /* Hero section para móvil */
+    /* Hero section para móvil pequeño */
     header {
-        padding: 30px 15px; /* Menos padding en móvil */
+        padding: 25px 15px;
     }
     
     header h1 {
-        font-size: 24px; /* Título más pequeño */
+        font-size: 22px; /* Título más pequeño */
     }
     
     header h3 {
         font-size: 18px; /* Subtítulo más pequeño */
     }
     
-    /* Tipografía para móvil */
+    /* Tipografía para móvil pequeño */
     h1, h2, h3 {
-        font-size: 20px; /* Títulos más pequeños en móvil */
+        font-size: 20px; /* Títulos más pequeños */
     }
     
     section {
-        padding: 20px 15px; /* Menos padding en secciones */
+        padding: 20px 15px;
     }
     
-    /* Ajustes adicionales para móvil */
-    .galeria-card {
-        max-width: 100%; /* Cards ocupen todo el ancho */
-    }
-    
-    .galeria-card img {
-        height: 180px; /* Imágenes un poco más pequeñas */
+    /* Grid para móvil pequeño */
+    .galeria-container {
+        gap: 10px;
+        padding: 10px;
     }
 }
