@@ -170,12 +170,14 @@ button:hover {
 /* ====== Profesionales ====== */
 .profesional-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 45px;
-    padding: 10px 30px;
+    gap: 20px;
+    padding: 20px 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .card-profile {
@@ -355,3 +357,13 @@ footer {
     background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
 }
 
+/* ---- Estilos para pantallas de 768px en adelante ---- */
+@media (min-width: 768px) {
+    .profesional-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 45px;
+        padding: 10px 30px;
+        text-align: left;
+    }
+}
