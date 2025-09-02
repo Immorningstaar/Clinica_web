@@ -223,12 +223,14 @@ button:hover {
 /* ====== Profesionales ====== */
 .profesional-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 45px;
-    padding: 10px 30px;
+    gap: 20px;
+    padding: 20px 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .card-profile {
@@ -361,6 +363,57 @@ footer {
     margin-top: 40px;
 }
 
+/* ---- Responsive: navbar y footer (móvil) ---- */
+@media (max-width: 768px) {
+    /* Nav: apilar verticalmente y mostrar hamburguesa */
+    nav {
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .hamburger {
+        display: flex; /* visible en móvil */
+    }
+
+    .link-container {
+        display: none;            /* oculto por defecto */
+        flex-direction: column;   /* enlaces en columna */
+        width: 100%;
+        gap: 12px;
+        margin-top: 10px;
+        order: 3;                 /* mantener orden lógico */
+    }
+
+    .link-container.active {
+        display: flex;            /* visible cuando se activa desde JS */
+    }
+
+    .link-container li {
+        width: 100%;
+    }
+
+    .link-container li a {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .btn-reservar {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Reducir tamaño de logo para móvil (mejor uso de espacio) */
+    .logo {
+        height: 80px;
+    }
+
+    /* Footer: ajuste de espacios en móvil */
+    footer {
+        padding: 20px 12px;
+    }
+}
+
 /* ---- Hero section ---- */
 .hero-admision {
     background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
@@ -410,219 +463,13 @@ footer {
     /* oscurece para que se lea el texto */
 }
 
-/* ====== MEDIA QUERIES RESPONSIVE ====== */
-
-/* Desktop grande (más de 1024px) */
-@media (min-width: 1024px) {
-    .galeria-container {
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas para desktop grande */
-        gap: 25px;
-        padding: 25px;
-    }
-    
-    h1, h2, h3 {
-        font-size: 28px; /* Títulos más grandes en desktop */
-    }
-    .logo {
-        height: 140px;
-    }
-}
-
-/* Tablet (entre 769px y 1023px) */
-@media (max-width: 1023px) and (min-width: 769px) {
-    .hamburger {
-        display: flex; /* Mostrar en tablet */
-    }
-    
-    .link-container {
-        display: none; /* Ocultar navegación normal */
-    }
-    
-    .link-container.active {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #2E7D32;
-        padding: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        z-index: 999;
-    }
-    
-    .link-container li {
-        margin: 10px 0;
-        text-align: center;
-    }
-    
-    .link-container li a {
-        font-size: 16px;
-        padding: 10px;
-        display: block;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
-    
-    .link-container li a:hover {
-        background-color: rgba(255,255,255,0.1);
-    }
-    
-    /* Grid de servicios para tablet */
-    .galeria-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
-        gap: 20px;
-        padding: 20px;
-    }
-    
-    /* Hero section para tablet */
-    header {
-        padding: 45px 25px;
-    }
-    
-    /* Tipografía para tablet */
-    h1, h2, h3 {
-        font-size: 26px; /* Más grande que antes */
-    }
-    
-    section {
-        padding: 35px 25px;
-    }
-    
-    /* Ajustes de navegación para tablet */
-    .btn-reservar {
-        font-size: 15px;
-        padding: 10px 18px;
-    }
-    .logo {
-        height: 120px; /* Logo más pequeño en tablet */
-    }
-}
-
-/* Móvil (768px y menos) */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex; /* Mostrar en móvil */
-    }
-    
-    .link-container {
-        display: none; /* Ocultar navegación normal */
-    }
-    
-    .link-container.active {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #2E7D32;
-        padding: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        z-index: 999;
-    }
-    
-    .link-container li {
-        margin: 10px 0;
-        text-align: center;
-    }
-    
-    .link-container li a {
-        font-size: 16px;
-        padding: 10px;
-        display: block;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
-    
-    .link-container li a:hover {
-        background-color: rgba(255,255,255,0.1);
-    }
-    
-    /* Grid de servicios para móvil */
-    .galeria-container {
-        grid-template-columns: 1fr; /* 1 columna en móvil */
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    /* Hero section para móvil */
-    header {
-        padding: 30px 20px;
-    }
-    
-    /* Tipografía para móvil */
-    h1, h2, h3 {
-        font-size: 24px; /* Títulos apropiados para móvil */
-    }
-    
-    section {
-        padding: 25px 20px;
-    }
-    
-    /* Ajustes de navegación para móvil */
-    .btn-reservar {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-    .logo {
-        height: 110px; /* Reducir altura del logo en 768px */
-    }
-    
-    /* Ajustes adicionales para móvil */
-    .galeria-card {
-        max-width: 100%; /* Cards ocupen todo el ancho */
-    }
-    
-    .galeria-card img {
-        height: 180px; /* Imágenes un poco más pequeñas */
-    }
-}
-
-/* Móvil pequeño (480px y menos) */
-@media (max-width: 480px) {
-    nav {
-        padding: 10px 15px;
-    }
-    
-    .logo {
-        height: 90px; /* Logo más pequeño en móvil */
-    }
-    
-    .brand-name {
-        font-size: 14px; /* Texto más pequeño */
-    }
-    
-    .btn-reservar {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-    
-    /* Hero section para móvil pequeño */
-    header {
-        padding: 25px 15px;
-    }
-    
-    header h1 {
-        font-size: 22px; /* Título más pequeño */
-    }
-    
-    header h3 {
-        font-size: 18px; /* Subtítulo más pequeño */
-    }
-    
-    /* Tipografía para móvil pequeño */
-    h1, h2, h3 {
-        font-size: 20px; /* Títulos más pequeños */
-    }
-    
-    section {
-        padding: 20px 15px;
-    }
-    
-    /* Grid para móvil pequeño */
-    .galeria-container {
-        gap: 10px;
-        padding: 10px;
+/* ---- Estilos para pantallas de 768px en adelante ---- */
+@media (min-width: 768px) {
+    .profesional-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 45px;
+        padding: 10px 30px;
+        text-align: left;
     }
 }
