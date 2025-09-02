@@ -3,17 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pago en Línea - Clínica Bosque Verde</title>
+        <title>Pago en L�nea - Cl�nica Bosque Verde</title>
         <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
-        <!-- Barra de navegación -->
+        <!-- Barra de navegaci�n -->
         <nav>
             <div class="logo-container">
-                <img src="../assets/images/logo.jpeg" alt="Logo Clínica Bosque Verde" class="logo">
-            <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
+                <img src="../assets/images/logo.jpeg" alt="Logo Cl�nica Bosque Verde" class="logo">
+            <a href="index.html" class="brand-name">Cl�nica Bosque Verde</a>
         </div>
-        <!-- Botón hamburguesa -->
+        <!-- Bot�n hamburguesa -->
         <div class="hamburger">
             <span></span>
             <span></span>
@@ -22,11 +22,11 @@
         <ul class="link-container">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="profesionales.html">Profesional Acreditado</a></li>
-            <li><a href="pago.html" class="active">Pago en Línea</a></li>
-            <li><a href="centro.html">Centro Médico</a></li>
-            <li><a href="admision.html">Admisión y Presupuestos</a></li>
-            <li><a href="galerias.html">Galerías</a></li>
-            <li><a href="login.html">Inicio de Sesión</a></li>
+            <li><a href="pago.html" class="active">Pago en L�nea</a></li>
+            <li><a href="centro.html">Centro M�dico</a></li>
+            <li><a href="admision.html">Admisi�n y Presupuestos</a></li>
+            <li><a href="galerias.html">Galer�as</a></li>
+            <li><a href="login.html">Inicio de Sesi�n</a></li>
         </ul>
         <a href="reservar.html" class="btn-reservar">Reservar Cita</a>
     </nav>
@@ -34,45 +34,61 @@
         <!-- Encabezado con imagen -->
         <header class="hero-pago">
             <div class="hero-text">
-                <h1>Pago en Línea</h1>
-                <p>Realiza tus pagos de forma rápida y segura desde cualquier lugar.</p>
+                <h1>Pago en L�nea</h1>
+                <p>Realiza tus pagos de forma r�pida y segura desde cualquier lugar.</p>
             </div>
         </header>
         <!-- Contenido -->
         <main class="content">
             <section class="intro">
-                <h2>Información importante</h2>
+                <h2>Informaci�n importante</h2>
                 <p>
-                    Nuestro sistema de pagos en línea está diseñado para brindarte comodidad y seguridad.
-                    Puedes cancelar tus consultas, procedimientos o exámenes directamente desde la web, 
-                    sin necesidad de venir a la clínica.
+                    Nuestro sistema de pagos en l�nea est� dise�ado para brindarte comodidad y seguridad.
+                    Puedes cancelar tus consultas, procedimientos o ex�menes directamente desde la web, 
+                    sin necesidad de venir a la cl�nica.
                 </p>
                 <p>
-                    Asegúrate de tener a mano tu número de cita y el monto a cancelar antes de continuar.
+                    Aseg�rate de tener a mano tu n�mero de cita y el monto a cancelar antes de continuar.
                 </p>
             </section>
-            <!-- Formulario -->
-            <section class="form-section">
-                <h2>Formulario de Pago</h2>
-                <form>
-                    <div class="form-grid">
-                        <input type="text" placeholder="Número de cita" required>
-                        <input type="number" placeholder="Monto a pagar" required>
-                        <select required>
-                            <option value="">Seleccione un método de pago</option>
-                            <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+             <!-- Formulario -->
+        <section class="form-section">
+            <h2>Formulario de Pago</h2>
+            <form id="pagoForm">
+                <div class="form-grid">
+                    <div>
+                        <input type="text" id="numeroCita" class="form-control" placeholder="N�mero de cita" required>
+                        <div class="error-message"></div>
+                    </div>
+                    <div>
+                        <input type="number" id="montoPago" class="form-control" placeholder="Monto a pagar" required min="1">
+                        <div class="error-message"></div>
+                    </div>
+                    <div>
+                        <select id="metodoPago" class="form-control" required>
+                            <option value="">Seleccione un m�todo de pago</option>
+                            <option value="tarjeta">Tarjeta de Cr�dito/D�bito</option>
                             <option value="transferencia">Transferencia Bancaria</option>
                             <option value="webpay">WebPay</option>
                         </select>
-                        <input type="email" placeholder="Correo electrónico de confirmación" required>
+                        <div class="error-message"></div>
                     </div>
-                    <button type="submit" class="btn-submit">Pagar ahora</button>
-                </form>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-        <script src="../js/menu.js"></script>
+                    <div>
+                        <input type="email" id="correoConfirmacion" class="form-control" placeholder="Correo electr�nico de confirmaci�n" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Pagar ahora</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Cl�nica Bosque Verde</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../js/pago.js"></script>
     </body>
-</html>
+    </html>
