@@ -1,8 +1,4 @@
 /* ====== Estilos globales ====== */
-* {
-  box-sizing: border-box;
-}
-
 body {
     font-family: Arial;
     margin: 0;
@@ -13,15 +9,15 @@ body {
 
 /* ====== Barra de navegación ====== */
 nav {
-  background-color: #2E7D32;
-  color: white;
-  display: flex;
-  justify-content: space-between; /* separa izquierda, centro y derecha */
-  align-items: center;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background-color: #2E7D32;
+    color: white;
+    display: flex;
+    justify-content: space-between; /* separa izquierda, centro y derecha */
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* LOGO EN EL NAV */
@@ -32,9 +28,40 @@ nav {
     flex: 0 0 auto;
     max-width: fit-content;
 }
+
 .logo {
     height: 150px;
     width: auto;
+}
+
+/* MENÚ HAMBURGUESA */
+.hamburger {
+    display: none; /* Oculto por defecto en desktop */
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    order: 2; /* Posicionar en el medio */
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+/* Animación del menú hamburguesa */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
 }
 
 .link-container {
@@ -48,36 +75,54 @@ nav {
     gap: 20px;
     flex: 1 1 auto;
     justify-content: center;
+    order: 3; /* Posicionar después del hamburguesa */
+}
+
+/* BOTÓN RESERVAR */
+.btn-reservar {
+    order: 4; /* Posicionar al final */
+    background-color: #fff;
+    color: #2E7D32;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.btn-reservar:hover {
+    background-color: #c8e6c9;
 }
 
 nav a {
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 }
 
 nav a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  gap: 20px; /* separa los elementos del menú */
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    /* separa los elementos del menú */
+    margin: 0;
+    padding: 0;
 }
 
 .nav-left a {
-  font-weight: bold;
-  font-size: 1.2rem;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .nav-right a {
-  font-weight: bold;
+    font-weight: bold;
 }
 
-
-nav a:hover, .link-container a:hover {
+nav a:hover,
+.link-container a:hover {
     text-decoration: underline;
 }
 
@@ -88,13 +133,14 @@ nav a:hover, .link-container a:hover {
 
 /* ====== Encabezado ====== */
 header {
-    background: linear-gradient(rgba(46,125,50,0.7), rgba(46,125,50,0.7)),
-                url('img/clinica1.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(46, 125, 50, 0.7), rgba(46, 125, 50, 0.7)),
+        url('../assets/images/clinica1.jpg') center/cover no-repeat;
     text-align: center;
     padding: 55px 20px;
 }
 
-header h1, header h3 {
+header h1,
+header h3 {
     color: white;
 }
 
@@ -130,7 +176,9 @@ section {
     margin: auto;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     color: #2E7D32;
     margin-bottom: 20px;
 }
@@ -140,14 +188,9 @@ form {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     margin: auto;
-}
-
-.form-grid {
-    display: grid;
-    gap: 15px;
 }
 
 label {
@@ -156,7 +199,9 @@ label {
     font-weight: bold;
 }
 
-input, button, select {
+input,
+button,
+select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -244,22 +289,21 @@ section img {
 section img:hover {
     transform: scale(1.05);
 }
+
 .galeria-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     justify-items: center;
-    padding: 10px;
+    padding: 20px;
 }
 
+/* Evitar margen extra heredado de section img en la galería */
 .galeria-container img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
     margin: 0;
 }
 
-/* autofitauto-fit: Ajusta automáticamente el número de columnas, 
+/* autofitauto-fit: Ajustara automáticamente el número de columnas, 
 minmax(300px, 1fr): Cada columna tiene mínimo 300px y máximo 1 fracción del espacio,
 gap: 20px: Espacio entre cards,
 justify-items: center: Centra horizontalmente las cards*/
@@ -325,33 +369,131 @@ footer {
     margin-top: 40px;
 }
 
+/* ---- Responsive: navbar y footer (móvil) ---- */
+@media (max-width: 768px) {
+    /* Nav: apilar verticalmente y mostrar hamburguesa */
+    nav {
+        flex-wrap: wrap;
+        align-items: center;
+    }
 
-/* ---- Hero section pago y admision ---- */
-.hero-admision, .hero-pago {
+    .hamburger {
+        display: flex; /* visible en móvil */
+    }
+
+    .link-container {
+        display: none;            /* oculto por defecto */
+        flex-direction: column;   /* enlaces en columna */
+        width: 100%;
+        gap: 12px;
+        margin-top: 10px;
+        order: 3;                 /* mantener orden lógico */
+    }
+
+    .link-container.active {
+        display: flex;            /* visible cuando se activa desde JS */
+    }
+
+    .link-container li {
+        width: 100%;
+    }
+
+    .link-container li a {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .btn-reservar {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Reducir tamaño de logo para móvil (mejor uso de espacio) */
+    .logo {
+        height: 80px;
+    }
+
+    /* Footer: ajuste de espacios en móvil */
+    footer {
+        padding: 20px 12px;
+    }
+
+    /* Hero: tamaños y espaciado en móvil */
+    .hero {
+        padding: 28px 16px;
+        margin: 20px 10px;
+        border-radius: 12px;
+    }
+    .hero h1 { font-size: 1.6rem; }
+    .hero h3 { font-size: 1rem; }
+
+    /* "Nuestros Servicios": 1 columna en móvil */
+    .galeria-container {
+        grid-template-columns: 1fr;
+    }
+    .galeria-card {
+        max-width: 100%;
+    }
+}
+
+/* ---- Hero section ---- */
+.hero {
+    /* Hero genérico para Inicio */
+    background: linear-gradient(120deg, #2E7D32, #388E3C);
     color: white;
     text-align: center;
     padding: 40px 20px;
     border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     max-width: 900px;
-    margin: 20px auto;
+    margin: 40px auto;
+}
+
+.hero h1 {
+    margin: 0 0 10px 0;
+    font-size: 2rem;
+}
+
+.hero h3 {
+    margin: 0 0 20px 0;
+    font-weight: normal;
+}
+
+.btn-hero {
+    display: inline-block;
+    padding: 12px 18px;
+    background: #fff;
+    color: #2E7D32;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-hero:hover {
+    background: #c8e6c9;
+    color: #1b5e20;
+}
+.hero-admision {
+    background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 900px;
+    margin: 60px auto;
     position: relative;
     overflow: hidden;
 }
 
-.hero-admision {
-    background: url("../assets/images/clinica4.jpg") center/cover no-repeat;
-}
-
-.hero-pago {
-    background: url("../assets/images/pago.jpg") center /cover no-repeat;
-}
-
-.hero-admision::after, .hero-pago::after {
+.hero-admision::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
+    /* oscurece para que se lea el texto */
 }
 
 .hero-text {
@@ -359,15 +501,14 @@ footer {
     z-index: 1;
 }
 
-
 /* ---- Hero section pago---- */
 .hero-pago {
-     background: url("../assets/images/pago.jpg") center /cover no-repeat;
+    background: url("../assets/images/pago.jpg") center /cover no-repeat;
     color: white;
     text-align: center;
     padding: 40px 20px;
     border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     max-width: 900px;
     margin: 60px auto;
     position: relative;
@@ -378,7 +519,8 @@ footer {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4); /* oscurece para que se lea el texto */
+    background: rgba(0, 0, 0, 0.4);
+    /* oscurece para que se lea el texto */
 }
 
 /* ---- Estilos para pantallas de 768px en adelante ---- */
@@ -389,9 +531,5 @@ footer {
         gap: 45px;
         padding: 10px 30px;
         text-align: left;
-    }
-
-    .galeria-container {
-        padding: 20px;
     }
 }
