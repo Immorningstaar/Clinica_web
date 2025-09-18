@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -5,13 +6,13 @@
         <!--Etiqueta para controlar como se verá la pag web en dispositivos móviles-->    
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
     <body>
         <!-- Barra de navegación -->
         <nav>
             <div class="logo-container">
-                <img src="../assets/images/logo.jpeg" alt="Logo Clínica Bosque Verde" class="logo">
+                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
                 <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
             </div>
             <!-- Botón hamburguesa -->
@@ -38,7 +39,7 @@
                 <div class="galeria-container">
                     <!-- Card 1 -->
                     <div class="galeria-card">
-                        <img src="../assets/images/clinica1.jpg" alt="Recepción">
+                        <img src="{% static 'assets/images/clinica1.jpeg' %}" alt="Recepción">
                         <div class="galeria-info">
                             <h3>Recepción</h3>
                             <p>Nuestro espacio de recepción está diseñado para entregar comodidad y confianza a los pacientes desde el primer momento.</p>
@@ -47,7 +48,7 @@
                     </div>
                     <!-- Card 2 -->
                     <div class="galeria-card">
-                        <img src="../assets/images/clinica2.jpg" alt="Equipos Médicos">
+                        <img src="{% static 'assets/images/clinica2.jpeg' %}" alt="Equipos Médicos">
                         <div class="galeria-info">
                             <h3>Equipos Médicos</h3>
                             <p>Contamos con tecnología moderna y equipos de última generación para diagnósticos precisos y tratamientos efectivos.</p>
@@ -56,7 +57,7 @@
                     </div>
                     <!-- Card 3 -->
                     <div class="galeria-card">
-                        <img src="../assets/images/clinica3.jpg" alt="Personal de Trabajo">
+                        <img src="{% static 'assets/images/clinica3.jpeg' %}" alt="Personal de Trabajo">
                         <div class="galeria-info">
                             <h3>Personal de Trabajo</h3>
                             <p>Un equipo humano altamente capacitado y comprometido con la salud y bienestar de nuestros pacientes.</p>
@@ -69,6 +70,6 @@
         <footer>
             <p>&copy; 2025 Clínica Bosque Verde</p>
         </footer>
-        <script src="../js/menu.js"></script>
+        <script src="{% static 'js/menu.js' %}"></script>
     </body>
 </html>
