@@ -76,8 +76,10 @@ WSGI_APPLICATION = 'clinica_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'localhost:1521/XEPDB1',
+        'USER': 'clinica',
+        'PASSWORD': 'ClinicaBV_Orcl21c!Cedro79',
     }
 }
 
