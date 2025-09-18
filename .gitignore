@@ -10,3 +10,19 @@ __pycache__/
 
 # Archivos del sistema operativo
 .DS_Store
+
+# Archivos del editor de código
+.vscode/
+.idea/
+
+# Archivos de media ssubidos por usuarios
+media/
+
+# Archivos estáticos generados por collectstatic
+staticfiles/
+
+# Archivos de entorno
+.env
+
+# Archivos de Logs
+*.log
