@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Clínica Bosque Verde - Registro de Usuario</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="{% static 'css/registro.css' %}">
+    </head>
+
+    <body class="bg-light">
+
+        <nav>
+            <div class="logo-container">
+                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
+                <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
+            </div>
+            <!-- Botón hamburguesa -->
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="link-container">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="profesionales.html">Profesional Acreditado</a></li>
+                <li><a href="pago.html">Pago en Línea</a></li>
+                <li><a href="centro.html">Centro Médico</a></li>
+                <li><a href="admision.html">Admisión y Presupuestos</a></li>
+                <li><a href="galerias.html">Galerías</a></li>
+                <li><a href="login.html">Inicio de Sesión</a></li>
+                <li><a href="perfil.html">Mi Perfil</a></li>
+            </ul>
+            <a href="#" class="btn-reservar">Reservar Cita</a>
+        </nav>
+
+        <!--  Contenedor del Formulario de Registro -->
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Registro de Usuario</h1>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="card p-4">
+                        <form id="registroForm">
+                            <!-- Nombre -->
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                                <div class="error-message text-danger"></div>
+                            </div>
+
+                            <!-- Apellidos -->
+                            <div class="mb-3">
+                                <label for="apellidos" class="form-label">Apellidos *</label>
+                                <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
+                                <div class="error-message text-danger"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rut" class="form-label">RUT *</label>
+                                <input type="text" class="form-control" id="rut" placeholder="12345678-9">
+                                <div class="error-message text-danger"></div>
+                                <div class="rut-helper">Formato: 12345678-9 (con guión y dígito verificador)</div>
+                            </div>
+
+                                <!-- Correo -->
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo Electrónico *</label>
+                                    <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com">
+                                    <div class="error-message text-danger"></div>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña *</label>
+                                    <input type="password" class="form-control" id="password"
+                                        placeholder="Ingresa tu contraseña">
+                                    <div class="error-message text-danger"></div>
+                                    <div class="password-feedback">
+                                        <div class="requirement" id="length-check">
+                                            <i class="bi"></i> Al menos 8 caracteres
+                                        </div>
+                                        <div class="requirement" id="uppercase-check">
+                                            <i class="bi"></i> Al menos una mayúscula
+                                        </div>
+                                        <div class="requirement" id="number-check">
+                                            <i class="bi"></i> Al menos un número
+                                        </div>
+                                        <div class="requirement" id="special-check">
+                                            <i class="bi"></i> Al menos un carácter especial (@$!%*?&)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Repetir Password-->
+                                <div class="mb-3">
+                                    <label for="confirm-password" class="form-label">Repetir Contraseña *</label>
+                                    <input type="password" class="form-control" id="confirm-password"
+                                        placeholder="Repite tu contraseña">
+                                    <div class="error-message text-danger"></div>
+                                </div>
+
+                                <!-- Dirección -->
+                                <div class="mb-3">
+                                    <label for="direccion" class="form-label">Dirección *</label>
+                                    <input type="text" class="form-control" id="direccion" placeholder="Dirección">
+                                    <div class="error-message text-danger"></div>
+                                </div>
+
+                                <!-- Teléfono -->
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label">Teléfono *</label>
+                                    <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
+                                    <div class="error-message text-danger"></div>
+                                </div>
+                                <!-- Botón de envío -->
+                                <button type="submit">Registrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer>
+            <p>&copy; 2025 Clínica Bosque Verde</p>
+        </footer>
+
+
+
+        <!--  Scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'js/menu.js' %}"></script>
+        <script src="{% static 'js/registro.js' %}"></script>
+    </body>
+</html>

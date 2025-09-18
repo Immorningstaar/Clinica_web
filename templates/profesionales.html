@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Profesionales Acreditados - Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
     <body>
         <!-- Barra de navegación -->
         <nav>
             <div class="logo-container">
-                <img src="../assets/images/logo.jpeg" alt="Logo Clínica Bosque Verde" class="logo">
+                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
                 <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
             </div>
             <!-- Botón hamburguesa -->
@@ -39,7 +40,7 @@
                 <div class="profesional-card">
                     <div class="card-profile">
                         <h3>Dr. Juan Pérez</h3>
-                        <img src="../assets/images/dr1.jpg" alt="juan perez">
+                        <img src="{% static 'assets/images/dr1.jpg' %}" alt="juan perez">
                         <a class="button-link" href="#">Ver agenda</a>
                     </div>
                     <div class="card-content">
@@ -55,7 +56,7 @@
                 <div class="profesional-card">
                     <div class="card-profile">
                         <h3>Dra. María López</h3>
-                        <img src="../assets/images/dr2.jpg" alt="maría lopez">
+                        <img src="{% static 'assets/images/dr2.jpg' %}" alt="maría lopez">
                         <a class="button-link" href="#">Ver agenda</a>
                     </div>
                     <div class="card-content">
@@ -72,6 +73,7 @@
                     <div class="card-profile">
                         <h3>Dra. Sabrina Jaramillo</h3>
                         <img src="../assets/images/d3.jpg" alt="sabrina jaramillo">
+                        <img src="{% static 'assets/images/dr3.jpg' %}" alt="sabrina jaramillo">
                         <a class="button-link" href="#">Ver agenda</a>
                     </div>
                     <div class="card-content">
@@ -89,6 +91,6 @@
         <footer>
             <p>&copy; 2025 Clínica Bosque Verde</p>
         </footer>
-        <script src="../js/menu.js"></script>
+        <script src="{% static 'js/menu.js' %}"></script>
     </body>
 </html>

@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Pago en Línea - Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
     <body>
         <!-- Barra de navegación -->
         <nav>
             <div class="logo-container">
-                <img src="../assets/images/logo.jpeg" alt="Logo Clínica Bosque Verde" class="logo">
+                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
             <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
         </div>
         <!-- Botón hamburguesa -->
@@ -85,4 +86,4 @@
 </html>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/pago.js"></script>
+    <script src="{% static 'js/pago.js' %}"></script>

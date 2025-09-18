@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Centro Médico - Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
     <body>
         <!-- Barra de navegación -->
         <nav>
             <div class="logo-container">
-                <img src="../assets/images/logo.jpeg" alt="Logo Clínica Bosque Verde" class="logo">
+                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
                 <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
             </div>
             <!-- Botón hamburguesa -->
@@ -41,7 +42,7 @@
                 <div class="profesional-card">
                     <div class="card-profile">
                         <h3>Consultorios Equipados</h3>
-                        <img src="../assets/images/consultorio.jpg" alt="Consultorios Clínica Bosque Verde">
+                        <img src="{% static 'assets/images/consultorio.jpeg' %}" alt="Consultorios Clínica Bosque Verde">
                         <a class="button-link" href="reservar.html">Reservar</a>
                     </div>
                     <div class="card-content">
@@ -57,7 +58,7 @@
                 <div class="profesional-card">
                     <div class="card-profile">
                         <h3>Laboratorio Clínico</h3>
-                        <img src="../assets/images/laboratorio.jpg" alt="Laboratorio Clínica Bosque Verde">
+                        <img src="{% static 'assets/images/laboratorio.jpeg' %}" alt="Laboratorio Clínica Bosque Verde">
                         <a class="button-link" href="reservar.html">Solicitar hora</a>
                     </div>
                     <div class="card-content">
@@ -73,7 +74,7 @@
                 <div class="profesional-card">
                     <div class="card-profile">
                         <h3>Salas de Imagenología</h3>
-                        <img src="../assets/images/Imagenología.jpg" alt="Imagenología Clínica Bosque Verde">
+                        <img src="{% static 'assets/images/Imagenología.jpeg' %}" alt="Imagenología Clínica Bosque Verde">
                         <a class="button-link" href="reservar.html">Agendar examen</a>
                     </div>
                     <div class="card-content">
@@ -89,7 +90,7 @@
                 <div class="profesional-card">
                     <div class="card-profile">
                         <h3>Área de Urgencias</h3>
-                        <img src="../assets/images/urgencias.jpg" alt="Urgencias Clínica Bosque Verde">
+                        <img src="{% static 'assets/images/urgencias.jpeg' %}" alt="Urgencias Clínica Bosque Verde">
                         <a class="button-link" href="tel:+56222222222">Llamar ahora</a>
                     </div>
                     <div class="card-content">
@@ -105,6 +106,6 @@
         <footer>
             <p>&copy; 2025 Clínica Bosque Verde</p>
         </footer>
-        <script src="../js/menu.js"></script>
+        <script src="{% static 'js/menu.js' %}"></script>
     </body>
 </html>
