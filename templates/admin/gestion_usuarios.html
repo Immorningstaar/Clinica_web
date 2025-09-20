@@ -51,7 +51,7 @@
     </style>
     <script>
         function confirmarEliminacion(usuarioId, username) {
-            if (confirm(`Eliminar usuario "${username}"?`)) {
+            var msg = "Eliminar usuario \"" + username + "\"?"; if (confirm(msg)) {
                 const form = document.getElementById(`form-eliminar-${usuarioId}`);
                 form.submit();
             }
@@ -186,4 +186,5 @@
     <script src="{% static 'js/menu.js' %}"></script>
 </body>
 </html>
+
 
