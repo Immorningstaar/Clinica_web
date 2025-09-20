@@ -12,7 +12,7 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
         th { background: #f6f6f6; }
-        .acciones { display: flex; gap: 8px; align-items: center; }
+        .acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .acciones a, .acciones form { display: inline-block; margin: 0; }
         /* Sobrescribir estilos globales de form y button dentro de la celda */
         .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
@@ -22,13 +22,14 @@
         .btn-secundario { background: #1565c0; color: #fff; }
         .btn-peligro { background: #c62828; color: #fff; }
         .panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
+        .panel form { max-width: 100%; margin: 0; }
         .panel h3 { margin-top: 0; }
         .campo { margin-bottom: 10px; }
         .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
         .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
         .buscador { margin: 12px 0 16px; }
         .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
-        .tabla-scroll { width: 100%; overflow-x: auto; }
+        .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .tabla-scroll table { min-width: 640px; }
 
         /* Responsivo */
@@ -39,8 +40,14 @@
         @media (max-width: 576px) {
             .contenedor-admin { padding: 0 10px; }
             th, td { padding: 8px; }
-            .btn { padding: 8px 10px; }
+            .btn { padding: 6px 10px; font-size: 0.92rem; }
+            .acciones { gap: 6px; }
             .tabla-scroll table { min-width: 520px; }
+        }
+        @media (max-width: 400px) {
+            .btn { padding: 6px 8px; font-size: 0.88rem; }
+            .acciones { gap: 6px; }
+            .tabla-scroll table { min-width: 460px; }
         }
     </style>
     <script>
