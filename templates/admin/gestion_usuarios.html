@@ -12,7 +12,11 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
         th { background: #f6f6f6; }
-        .acciones a, .acciones form { display: inline-block; margin-right: 8px; }
+        .acciones { display: flex; gap: 8px; align-items: center; }
+        .acciones a, .acciones form { display: inline-block; margin: 0; }
+        /* Sobrescribir estilos globales de form y button dentro de la celda */
+        .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
+        .acciones button { width: auto; }
         .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; cursor: pointer; }
         .btn-primario { background: #2e7d32; color: #fff; }
         .btn-secundario { background: #1565c0; color: #fff; }
