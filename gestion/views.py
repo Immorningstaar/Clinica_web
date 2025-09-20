@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from .models import PerfilUsuario, Rol
@@ -22,9 +21,8 @@ def _usuario_es_admin(user) -> bool:
         return False
 
 
-@login_required
 def gestion_usuarios(request):
-    if not _usuario_es_admin(request.user):
+    if not request.user.is_authenticated or not _usuario_es_admin(request.user):
         return HttpResponseForbidden("Acceso restringido a administradores")
 
     # Asegurar que exista el rol Administrador para el formulario
@@ -63,9 +61,8 @@ def gestion_usuarios(request):
     return render(request, "admin/gestion_usuarios.html", contexto)
 
 
-@login_required
 def editar_usuario(request, user_id: int):
-    if not _usuario_es_admin(request.user):
+    if not request.user.is_authenticated or not _usuario_es_admin(request.user):
         return HttpResponseForbidden("Acceso restringido a administradores")
 
     usuario = get_object_or_404(User, pk=user_id)
@@ -97,9 +94,8 @@ def editar_usuario(request, user_id: int):
     return render(request, "admin/gestion_usuarios.html", contexto)
 
 
-@login_required
 def eliminar_usuario(request, user_id: int):
-    if not _usuario_es_admin(request.user):
+    if not request.user.is_authenticated or not _usuario_es_admin(request.user):
         return HttpResponseForbidden("Acceso restringido a administradores")
     usuario = get_object_or_404(User, pk=user_id)
     if request.method == "POST":
