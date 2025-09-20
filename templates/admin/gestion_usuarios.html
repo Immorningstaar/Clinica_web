@@ -101,7 +101,7 @@
                                     <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
                                     <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
                                         {% csrf_token %}
-                                        <button class="btn btn-peligro" type="button" onclick="confirmarEliminacion({{ u.obj.id }}, '{{ u.obj.username }}')">Eliminar</button>
+                                        <button class="btn btn-peligro" type="button" onclick="confirmarEliminacion({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
                                     </form>
                                 </td>
                             </tr>
@@ -183,5 +183,6 @@
     <footer>
         <p>&copy; 2025 Clínica Bosque Verde</p>
     </footer>
+    <script src="{% static 'js/menu.js' %}"></script>
 </body>
 </html>
