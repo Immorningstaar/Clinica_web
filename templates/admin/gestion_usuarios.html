@@ -6,13 +6,14 @@
     <title>Gestión de Usuarios - Clínica Bosque Verde</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <style>
+    <style>
         /* stylelint-disable */
         .contenedor-admin { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
         .fila { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
         th { background: #f6f6f6; }
+        tbody tr:hover { background: #fafafa; }
         .acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .acciones a, .acciones form { display: inline-block; margin: 0; }
         .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
@@ -27,10 +28,12 @@
         .campo { margin-bottom: 10px; }
         .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
         .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .buscador { margin: 12px 0 16px; }
+        .buscador { margin: 12px 0 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .buscador input { flex: 1 1 240px; }
+        .buscador button { flex: 0 0 auto; width: auto; }
         .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
         .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .tabla-scroll table { min-width: 640px; }
+        .tabla-scroll table { min-width: 720px; }
 
         /* 320px */
         @media (max-width: 320px) {
@@ -39,7 +42,7 @@
             th, td { padding: 8px; }
             .btn { padding: 6px 8px; font-size: 0.86rem; }
             .acciones { gap: 6px; }
-            .tabla-scroll table { min-width: 460px; }
+            .tabla-scroll table { min-width: 500px; }
         }
 
         /* 321–375px */
@@ -47,21 +50,21 @@
             .contenedor-admin { padding: 0 10px; }
             .fila { grid-template-columns: 1fr; gap: 18px; }
             .btn { padding: 6px 9px; font-size: 0.9rem; }
-            .tabla-scroll table { min-width: 520px; }
+            .tabla-scroll table { min-width: 560px; }
         }
 
         /* 376–425px */
         @media (min-width: 376px) and (max-width: 425px) {
             .fila { grid-template-columns: 1fr; }
             .btn { padding: 6px 10px; font-size: 0.94rem; }
-            .tabla-scroll table { min-width: 600px; }
+            .tabla-scroll table { min-width: 620px; }
         }
 
         /* 426–767px (teléfonos grandes) */
         @media (min-width: 426px) and (max-width: 767px) {
             .fila { grid-template-columns: 1fr; }
             .btn { padding: 6px 10px; font-size: 0.96rem; }
-            .tabla-scroll table { min-width: 680px; }
+            .tabla-scroll table { min-width: 700px; }
         }
 
         /* 768–1023px (tablets) */
@@ -87,6 +90,17 @@
         @media (min-width: 2560px) {
             .contenedor-admin { max-width: 1600px; }
             .btn { padding: 10px 14px; font-size: 1.02rem; }
+        }
+
+        /* Tabla modo tarjeta en móviles (≤425px) */
+        @media (max-width: 425px) {
+            .tabla-scroll table, .tabla-scroll thead, .tabla-scroll tbody, .tabla-scroll th, .tabla-scroll td, .tabla-scroll tr { display: block; }
+            .tabla-scroll thead { display: none; }
+            .tabla-scroll tr { margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; }
+            .tabla-scroll td { border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; gap: 10px; }
+            .tabla-scroll td:last-child { border-bottom: none; }
+            .tabla-scroll td::before { content: attr(data-label); font-weight: 600; color: #555; }
+            .acciones { justify-content: flex-end; }
         }
     </style>
     <script>
@@ -132,11 +146,11 @@
                         <tbody>
                             {% for u in usuarios %}
                             <tr>
-                                <td>{{ u.obj.username }}</td>
-                                <td>{{ u.obj.first_name }} {{ u.obj.last_name }}</td>
-                                <td>{{ u.obj.email }}</td>
-                                <td>{{ u.rol }}</td>
-                                <td class="acciones">
+                                <td data-label="Usuario">{{ u.obj.username }}</td>
+                                <td data-label="Nombre">{{ u.obj.first_name }} {{ u.obj.last_name }}</td>
+                                <td data-label="Correo">{{ u.obj.email }}</td>
+                                <td data-label="Rol">{{ u.rol }}</td>
+                                <td class="acciones" data-label="Acciones">
                                     <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
                                     <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
                                         {% csrf_token %}
@@ -226,7 +240,5 @@
     <script src="{% static 'js/menu.js' %}"></script>
 </body>
 </html>
-
-
 
 
