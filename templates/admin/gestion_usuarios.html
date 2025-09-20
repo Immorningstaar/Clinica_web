@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Clínica Bosque Verde</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .contenedor-admin { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
+        .fila { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        th { background: #f6f6f6; }
+        .acciones a, .acciones form { display: inline-block; margin-right: 8px; }
+        .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; cursor: pointer; }
+        .btn-primario { background: #2e7d32; color: #fff; }
+        .btn-secundario { background: #1565c0; color: #fff; }
+        .btn-peligro { background: #c62828; color: #fff; }
+        .panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
+        .panel h3 { margin-top: 0; }
+        .campo { margin-bottom: 10px; }
+        .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
+        .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .buscador { margin: 12px 0 16px; }
+        .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
+    </style>
+    <script>
+        function confirmarEliminacion(usuarioId, username) {
+            if (confirm(`¿Eliminar usuario "${username}"?`)) {
+                const form = document.getElementById(`form-eliminar-${usuarioId}`);
+                form.submit();
+            }
+        }
+    </script>
+    </head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
+            <a href="/" class="brand-name">Clínica Bosque Verde</a>
+        </div>
+        <ul class="link-container">
+            <li><a href="/">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <div class="contenedor-admin">
+        <h2 class="section-title">Gestión de Usuarios</h2>
+
+        <div class="fila">
+            <div class="panel">
+                <form class="buscador" method="get">
+                    <input type="text" name="q" placeholder="Buscar por usuario o nombre" value="{{ request.GET.q }}" />
+                    <button class="btn btn-secundario" type="submit">Buscar</button>
+                </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in usuarios %}
+                        <tr>
+                            <td>{{ u.obj.username }}</td>
+                            <td>{{ u.obj.first_name }} {{ u.obj.last_name }}</td>
+                            <td>{{ u.obj.email }}</td>
+                            <td>{{ u.rol }}</td>
+                            <td class="acciones">
+                                <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
+                                <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-peligro" type="button" onclick="confirmarEliminacion({{ u.obj.id }}, '{{ u.obj.username }}')">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5">No hay usuarios.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                {% if modo == 'editar' %}
+                    <h3>Editar Usuario: {{ usuario_editar.username }}</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="campo">
+                            <label for="id_username">Usuario</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_first_name">Nombre</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_last_name">Apellido</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_email">Correo</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_password">Contraseña (dejar en blanco para no cambiar)</label>
+                            {{ form.password }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_rol">Rol</label>
+                            {{ form.rol }}
+                        </div>
+                        <button class="btn btn-primario" type="submit">Guardar Cambios</button>
+                        <a class="btn" href="{% url 'gestion_usuarios' %}">Cancelar</a>
+                    </form>
+                {% else %}
+                    <h3>Crear Usuario</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="campo">
+                            <label for="id_username">Usuario</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_first_name">Nombre</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_last_name">Apellido</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_email">Correo</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_password">Contraseña</label>
+                            {{ form.password }}
+                        </div>
+                        <div class="campo">
+                            <label for="id_rol">Rol</label>
+                            {{ form.rol }}
+                        </div>
+                        <button class="btn btn-primario" type="submit">Crear</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Clínica Bosque Verde</p>
+    </footer>
+</body>
+</html>
