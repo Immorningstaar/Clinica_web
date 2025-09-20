@@ -14,7 +14,6 @@
         th { background: #f6f6f6; }
         .acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .acciones a, .acciones form { display: inline-block; margin: 0; }
-        /* Sobrescribir estilos globales de form y button dentro de la celda */
         .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
         .acciones button { width: auto; }
         .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; cursor: pointer; }
@@ -52,13 +51,13 @@
     </style>
     <script>
         function confirmarEliminacion(usuarioId, username) {
-            if (confirm(`¿Eliminar usuario "${username}"?`)) {
+            if (confirm(`Eliminar usuario "${username}"?`)) {
                 const form = document.getElementById(`form-eliminar-${usuarioId}`);
                 form.submit();
             }
         }
     </script>
-    </head>
+</head>
 <body>
     <nav>
         <div class="logo-container">
@@ -186,3 +185,4 @@
     <script src="{% static 'js/menu.js' %}"></script>
 </body>
 </html>
+
