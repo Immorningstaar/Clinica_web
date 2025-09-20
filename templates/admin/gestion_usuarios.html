@@ -118,27 +118,28 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="campo">
-                            <label for="id_username">Usuario</label>
+                            {{ form.username.label_tag }}
                             {{ form.username }}
                         </div>
                         <div class="campo">
-                            <label for="id_first_name">Nombre</label>
+                            {{ form.first_name.label_tag }}
                             {{ form.first_name }}
                         </div>
                         <div class="campo">
-                            <label for="id_last_name">Apellido</label>
+                            {{ form.last_name.label_tag }}
                             {{ form.last_name }}
                         </div>
                         <div class="campo">
-                            <label for="id_email">Correo</label>
+                            {{ form.email.label_tag }}
                             {{ form.email }}
                         </div>
                         <div class="campo">
-                            <label for="id_password">Contraseña (dejar en blanco para no cambiar)</label>
+                            {{ form.password.label_tag }}
+                            <small>(Dejar en blanco para no cambiar)</small>
                             {{ form.password }}
                         </div>
                         <div class="campo">
-                            <label for="id_rol">Rol</label>
+                            {{ form.rol.label_tag }}
                             {{ form.rol }}
                         </div>
                         <button class="btn btn-primario" type="submit">Guardar Cambios</button>
@@ -149,27 +150,27 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="campo">
-                            <label for="id_username">Usuario</label>
+                            {{ form.username.label_tag }}
                             {{ form.username }}
                         </div>
                         <div class="campo">
-                            <label for="id_first_name">Nombre</label>
+                            {{ form.first_name.label_tag }}
                             {{ form.first_name }}
                         </div>
                         <div class="campo">
-                            <label for="id_last_name">Apellido</label>
+                            {{ form.last_name.label_tag }}
                             {{ form.last_name }}
                         </div>
                         <div class="campo">
-                            <label for="id_email">Correo</label>
+                            {{ form.email.label_tag }}
                             {{ form.email }}
                         </div>
                         <div class="campo">
-                            <label for="id_password">Contraseña</label>
+                            {{ form.password.label_tag }}
                             {{ form.password }}
                         </div>
                         <div class="campo">
-                            <label for="id_rol">Rol</label>
+                            {{ form.rol.label_tag }}
                             {{ form.rol }}
                         </div>
                         <button class="btn btn-primario" type="submit">Crear</button>
