@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
         /* stylelint-disable */
+        /* Forzar barras verdes (nav y footer) a ancho completo */
+        nav, footer { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); max-width: 100vw; }
+        /* Altura y alineación coherente del nav en móvil */
+        nav { min-height: 56px; }
+        .logo { height: 48px; }
+
         .contenedor-admin { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
         .fila { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
         table { width: 100%; border-collapse: collapse; }
@@ -240,5 +246,4 @@
     <script src="{% static 'js/menu.js' %}"></script>
 </body>
 </html>
-
 
