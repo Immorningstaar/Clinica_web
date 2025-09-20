@@ -7,6 +7,9 @@ body {
     color: #333;
 }
 
+/* Medios: todas las imágenes se escalan dentro del contenedor */
+img { max-width: 100%; height: auto; }
+
 /* ====== Barra de navegación ====== */
 nav {
     background-color: #2E7D32;
@@ -219,6 +222,14 @@ button {
 
 button:hover {
     background-color: #1b5e20;
+}
+
+/* ====== Utilidades de tabla responsiva ====== */
+.tabla-scroll { width: 100%; overflow-x: auto; }
+.tabla-scroll > table { width: 100%; border-collapse: collapse; min-width: 640px; }
+
+@media (max-width: 768px) {
+    .tabla-scroll > table { min-width: 520px; }
 }
 
 /* ====== Profesionales ====== */
