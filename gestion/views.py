@@ -20,6 +20,7 @@ def recuperar(request):
 
 
 @require_POST
+# Genera y guarda el código (no contamos si existe el correo)
 def solicitar_codigo_recuperacion(request):
     correo = request.POST.get("email", "").strip().lower()
     if not correo:
@@ -47,6 +48,7 @@ def solicitar_codigo_recuperacion(request):
 
 @require_POST
 @transaction.atomic
+# Valida código vigente y cambia la clave con set_password
 def reset_password_con_codigo(request):
     correo = request.POST.get("email", "").strip().lower()
     codigo = request.POST.get("codigo", "").strip()
@@ -78,3 +80,5 @@ def reset_password_con_codigo(request):
     obj.save(update_fields=["utilizado", "usado_en"])
 
     return JsonResponse({"ok": True})
+
+
