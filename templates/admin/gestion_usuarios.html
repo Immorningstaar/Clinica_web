@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Clínica Bosque Verde</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* stylelint-disable */
+        /* Forzar barras verdes (nav y footer) a ancho completo */
+        nav, footer { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); max-width: 100vw; }
+        /* Altura y alineación coherente del nav en móvil */
+        nav { min-height: 56px; }
+        .logo { height: 48px; }
+
+        .contenedor-admin { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
+        .fila { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        th { background: #f6f6f6; }
+        tbody tr:hover { background: #fafafa; }
+        .acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .acciones a, .acciones form { display: inline-block; margin: 0; }
+        .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
+        .acciones button { width: auto; }
+        .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; cursor: pointer; }
+        .btn-primario { background: #2e7d32; color: #fff; }
+        .btn-secundario { background: #1565c0; color: #fff; }
+        .btn-peligro { background: #c62828; color: #fff; }
+        .panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
+        .panel form { max-width: 100%; margin: 0; }
+        .panel h3 { margin-top: 0; }
+        .campo { margin-bottom: 10px; }
+        .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
+        .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .buscador { margin: 12px 0 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .buscador input { flex: 1 1 240px; }
+        .buscador button { flex: 0 0 auto; width: auto; }
+        .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
+        .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .tabla-scroll table { min-width: 720px; }
+
+        /* 320px */
+        @media (max-width: 320px) {
+            .contenedor-admin { padding: 0 8px; }
+            .fila { grid-template-columns: 1fr; gap: 16px; }
+            th, td { padding: 8px; }
+            .btn { padding: 6px 8px; font-size: 0.86rem; }
+            .acciones { gap: 6px; }
+            .tabla-scroll table { min-width: 500px; }
+        }
+
+        /* 321–375px */
+        @media (min-width: 321px) and (max-width: 375px) {
+            .contenedor-admin { padding: 0 10px; }
+            .fila { grid-template-columns: 1fr; gap: 18px; }
+            .btn { padding: 6px 9px; font-size: 0.9rem; }
+            .tabla-scroll table { min-width: 560px; }
+        }
+
+        /* 376–425px */
+        @media (min-width: 376px) and (max-width: 425px) {
+            .fila { grid-template-columns: 1fr; }
+            .btn { padding: 6px 10px; font-size: 0.94rem; }
+            .tabla-scroll table { min-width: 620px; }
+        }
+
+        /* 426–767px (teléfonos grandes) */
+        @media (min-width: 426px) and (max-width: 767px) {
+            .fila { grid-template-columns: 1fr; }
+            .btn { padding: 6px 10px; font-size: 0.96rem; }
+            .tabla-scroll table { min-width: 700px; }
+        }
+
+        /* 768–1023px (tablets) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .fila { grid-template-columns: 1fr; gap: 22px; }
+            .contenedor-admin { max-width: 980px; }
+            .tabla-scroll table { min-width: 760px; }
+        }
+
+        /* 1024–1439px (desktop estándar) */
+        @media (min-width: 1024px) and (max-width: 1439px) {
+            .fila { grid-template-columns: 2fr 1fr; }
+            .contenedor-admin { max-width: 1280px; }
+        }
+
+        /* 1440–2559px (desktop grande) */
+        @media (min-width: 1440px) and (max-width: 2559px) {
+            .contenedor-admin { max-width: 1400px; }
+            .btn { padding: 8px 12px; font-size: 1rem; }
+        }
+
+        /* ≥2560px (2K/4K) */
+        @media (min-width: 2560px) {
+            .contenedor-admin { max-width: 1600px; }
+            .btn { padding: 10px 14px; font-size: 1.02rem; }
+        }
+
+        /* Tabla modo tarjeta en móviles (≤425px) */
+        @media (max-width: 425px) {
+            .tabla-scroll table, .tabla-scroll thead, .tabla-scroll tbody, .tabla-scroll th, .tabla-scroll td, .tabla-scroll tr { display: block; }
+            .tabla-scroll thead { display: none; }
+            .tabla-scroll tr { margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; }
+            .tabla-scroll td { border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; gap: 10px; }
+            .tabla-scroll td:last-child { border-bottom: none; }
+            .tabla-scroll td::before { content: attr(data-label); font-weight: 600; color: #555; }
+            .acciones { justify-content: flex-end; }
+        }
+    </style>
+    <script>
+        function confirmarEliminacion(usuarioId, username) {
+            var msg = "Eliminar usuario \"" + username + "\"?"; if (confirm(msg)) {
+                const form = document.getElementById(`form-eliminar-${usuarioId}`);
+                form.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
+            <a href="/" class="brand-name">Clínica Bosque Verde</a>
+        </div>
+        <ul class="link-container">
+            <li><a href="/">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <div class="contenedor-admin">
+        <h2 class="section-title">Gestión de Usuarios</h2>
+
+        <div class="fila">
+            <div class="panel">
+                <form class="buscador" method="get">
+                    <input type="text" name="q" placeholder="Buscar por usuario o nombre" value="{{ request.GET.q }}" />
+                    <button class="btn btn-secundario" type="submit">Buscar</button>
+                </form>
+                <div class="tabla-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in usuarios %}
+                            <tr>
+                                <td data-label="Usuario">{{ u.obj.username }}</td>
+                                <td data-label="Nombre">{{ u.obj.first_name }} {{ u.obj.last_name }}</td>
+                                <td data-label="Correo">{{ u.obj.email }}</td>
+                                <td data-label="Rol">{{ u.rol }}</td>
+                                <td class="acciones" data-label="Acciones">
+                                    <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
+                                    <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button class="btn btn-peligro" type="button" onclick="confirmarEliminacion({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5">No hay usuarios.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                {% if modo == 'editar' %}
+                    <h3>Editar Usuario: {{ usuario_editar.username }}</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="campo">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+                        <div class="campo">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                        </div>
+                        <div class="campo">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                        </div>
+                        <div class="campo">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                        </div>
+                        <div class="campo">
+                            {{ form.password.label_tag }}
+                            <small>(Dejar en blanco para no cambiar)</small>
+                            {{ form.password }}
+                        </div>
+                        <div class="campo">
+                            {{ form.rol.label_tag }}
+                            {{ form.rol }}
+                        </div>
+                        <button class="btn btn-primario" type="submit">Guardar Cambios</button>
+                        <a class="btn" href="{% url 'gestion_usuarios' %}">Cancelar</a>
+                    </form>
+                {% else %}
+                    <h3>Crear Usuario</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="campo">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+                        <div class="campo">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                        </div>
+                        <div class="campo">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                        </div>
+                        <div class="campo">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                        </div>
+                        <div class="campo">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                        </div>
+                        <div class="campo">
+                            {{ form.rol.label_tag }}
+                            {{ form.rol }}
+                        </div>
+                        <button class="btn btn-primario" type="submit">Crear</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Clínica Bosque Verde</p>
+    </footer>
+    <script src="{% static 'js/menu.js' %}"></script>
+</body>
+</html>
+
