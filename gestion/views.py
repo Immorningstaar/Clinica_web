@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -43,7 +44,10 @@ def gestion_usuarios(request):
         form = UsuarioCrearForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Usuario creado correctamente")
             return redirect("gestion_usuarios")
+        else:
+            messages.error(request, "Revisa los datos del formulario")
     else:
         form = UsuarioCrearForm()
 
@@ -82,7 +86,10 @@ def editar_usuario(request, user_id: int):
         form = UsuarioEditarForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
+            messages.success(request, "Usuario actualizado correctamente")
             return redirect("gestion_usuarios")
+        else:
+            messages.error(request, "No se pudo actualizar. Verifica los campos")
     else:
         form = UsuarioEditarForm(instance=usuario)
 
@@ -109,6 +116,7 @@ def eliminar_usuario(request, user_id: int):
     usuario = get_object_or_404(User, pk=user_id)
     if request.method == "POST":
         usuario.delete()
+        messages.success(request, "Usuario eliminado correctamente")
         return redirect("gestion_usuarios")
     # Confirmación simple en la misma pantalla usando GET -> POST automático
     usuarios = User.objects.all().order_by("username")
