@@ -1,15 +1,14 @@
-// Recuperación de contraseña (mock local)
-// - Paso 1: usuario ingresa correo -> generamos código y lo guardamos en sessionStorage
-// - Paso 2: usuario ingresa código y nueva contraseña -> validamos y confirmamos
+// Recuperación de contraseña contra backend
+// - Paso 1: backend genera y (simula) envía el código
+// - Paso 2: backend valida código y actualiza la contraseña
 
 $(document).ready(function () {
-    const CODE_TTL_MS = 10 * 60 * 1000; // 10 minutos
+    const CODE_TTL_MS = 10 * 60 * 1000; // referencia de UI (10 min)
 
     function validateEmail(email) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     }
-    // Validar requisitos de contraseña
     function validatePassword(password) {
         const validation = {
             isValid: true,
@@ -23,7 +22,6 @@ $(document).ready(function () {
         validation.isValid = Object.values(validation.requirements).every(Boolean);
         return validation;
     }
-    // Actualizar UI de requisitos
     function updateRequirementUI(selector, ok) {
         const element = $(selector);
         const icon = element.find("i");
@@ -32,7 +30,12 @@ $(document).ready(function () {
         if (ok) { element.addClass("valid"); icon.addClass("bi-check-circle-fill"); }
         else { element.addClass("invalid"); icon.addClass("bi-x-circle-fill"); }
     }
-    // Monitorear entrada de nueva contraseña
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
     $("#nuevaClave").on("input", function(){
         const v = validatePassword($(this).val());
         updateRequirementUI("#length-check", v.requirements.hasLength);
@@ -41,7 +44,6 @@ $(document).ready(function () {
         updateRequirementUI("#special-check", v.requirements.hasSpecial);
     });
 
-    // Paso 1: solicitar código
     $("#solicitarCodigoForm").on("submit", function(e){
         e.preventDefault();
         const correo = $("#correoRecuperacion").val().trim();
@@ -54,18 +56,25 @@ $(document).ready(function () {
             return;
         }
 
-        // Generar código 6 dígitos y guardar con expiración
-        const code = Math.floor(100000 + Math.random()*900000).toString();
-        const payload = { code, exp: Date.now() + CODE_TTL_MS };
-        sessionStorage.setItem(`reset:${correo}`, JSON.stringify(payload));
-
-        // Mostrar instrucción (en producción, se enviaría por correo)
-        $("#info-envio").text(`Te enviamos un código a ${correo}. (Código: ${code})`).show();
-        $("#resetForm").show();
-        $("#codigo").focus();
+        fetch('/auth/recuperar/solicitar/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: new URLSearchParams({ email: correo }).toString()
+        }).then(r=>r.json()).then(data=>{
+            if (!data.ok) throw new Error(data.error || 'Error al solicitar código');
+            const msg = data.codigo_debug ? `Te enviamos un código a ${correo}. (Código: ${data.codigo_debug})` : `Te enviamos un código a ${correo}.`;
+            $("#info-envio").text(msg).show();
+            $("#resetForm").removeClass('d-none');
+            $("#codigo").focus();
+        }).catch(err=>{
+            $("#correoRecuperacion").addClass("is-invalid");
+            $("#correoRecuperacion").next(".error-message").text(err.message).show();
+        });
     });
 
-    // Paso 2: validar y restablecer
     $("#resetForm").on("submit", function(e){
         e.preventDefault();
         const correo = $("#correoRecuperacion").val().trim();
@@ -75,41 +84,33 @@ $(document).ready(function () {
 
         $("#codigo, #nuevaClave, #confirmarClave").removeClass("is-invalid");
         $("#resetForm .error-message").text("").hide();
-        // Validar código
-        const raw = sessionStorage.getItem(`reset:${correo}`);
-        if (!raw) {
-            $("#codigo").addClass("is-invalid");
-            $("#codigo").next(".error-message").text("Vuelve a solicitar el código.").show();
-            return;
-        } // debería existir
-        const data = JSON.parse(raw);
-        if (Date.now() > data.exp) {
-            $("#codigo").addClass("is-invalid");
-            $("#codigo").next(".error-message").text("El código expiró. Solicítalo nuevamente.").show();
-            return;
-        } // no expiró
-        if (codigo !== data.code) {
-            $("#codigo").addClass("is-invalid");
-            $("#codigo").next(".error-message").text("Código incorrecto.").show();
-            return;
-        }
-        // Validar nueva contraseña
+
         const v = validatePassword(pass);
         if (!v.isValid) {
             $("#nuevaClave").addClass("is-invalid");
             $("#nuevaClave").nextAll(".error-message:first").text("La contraseña no cumple requisitos.").show();
             return;
-        } // es válida
+        }
         if (pass !== pass2) {
             $("#confirmarClave").addClass("is-invalid");
             $("#confirmarClave").next(".error-message").text("Las contraseñas no coinciden.").show();
             return;
         }
 
-        // En producción: enviar al backend {correo, nueva contraseña}
-        sessionStorage.removeItem(`reset:${correo}`);
-        $("#mensajeExito").show();
-        setTimeout(() => { window.location.href = 'login.html'; }, 1800);
+        fetch('/auth/recuperar/reset/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: new URLSearchParams({ email: correo, codigo, password: pass }).toString()
+        }).then(r=>r.json()).then(data=>{
+            if (!data.ok) throw new Error(data.error || 'No fue posible restablecer');
+            $("#mensajeExito").removeClass('d-none');
+            setTimeout(() => { window.location.href = 'login.html'; }, 1800);
+        }).catch(err=>{
+            $("#codigo").addClass("is-invalid");
+            $("#codigo").next(".error-message").text(err.message).show();
+        });
     });
 });
-
