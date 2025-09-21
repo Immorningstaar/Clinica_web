@@ -7,6 +7,9 @@ urlpatterns = [
     path('panel/usuarios/', views.gestion_usuarios, name='gestion_usuarios'),
     path('panel/usuarios/<int:user_id>/editar/', views.editar_usuario, name='editar_usuario'),
     path('panel/usuarios/<int:user_id>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
+    # SEG-01: rutas de autenticación y protegidas
+    path('login.html', views.login_page, name='login'),
+    path('perfil.html', views.perfil, name='perfil'),
     # Página de recuperación (HTML)
     path('recuperar.html', views.recuperar, name='recuperar_html'),
     path('recuperar/', views.recuperar, name='recuperar'),

@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db import transaction
@@ -197,3 +200,14 @@ def reset_password_con_codigo(request):
 
     return JsonResponse({"ok": True})
 
+
+# SEG-01: Vistas de autenticación y páginas protegidas
+def login_page(request):
+    # Página de inicio de sesión (solo renderiza el template)
+    return render(request, 'login.html')
+
+
+@login_required
+def perfil(request):
+    # Página de perfil del usuario, requiere autenticación
+    return render(request, 'perfil.html')

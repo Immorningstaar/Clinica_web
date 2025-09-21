@@ -128,3 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# SEG-01: URL de inicio de sesión para redirecciones de @login_required
+# Redirige a la página de login cuando el usuario no está autenticado.
+LOGIN_URL = '/login.html'
