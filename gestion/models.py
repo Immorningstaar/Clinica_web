@@ -95,3 +95,24 @@ class Pago(models.Model):
 
 
 
+# Recuperación de contraseña mediante código de verificación
+class PasswordResetCode(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    codigo = models.CharField(max_length=6)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    expira_en = models.DateTimeField()
+    usado_en = models.DateTimeField(null=True, blank=True)
+    utilizado = models.BooleanField(default=False)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["usuario", "codigo"]),
+            models.Index(fields=["expira_en", "utilizado"]),
+        ]
+        ordering = ["-creado_en"]
+
+    def __str__(self):
+        estado = "usado" if self.utilizado else "vigente"
+        return f"ResetCode({self.usuario.username}, {self.codigo}, {estado})"
+
+
