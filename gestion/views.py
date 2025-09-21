@@ -14,6 +14,11 @@ def index(request):
     return render(request, 'index.html')
 
 
+def recuperar(request):
+    # Renderiza la página de recuperación (front del flujo)
+    return render(request, 'recuperar.html')
+
+
 @require_POST
 def solicitar_codigo_recuperacion(request):
     correo = request.POST.get("email", "").strip().lower()
