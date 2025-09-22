@@ -22,15 +22,22 @@
             </div>
 
             <ul class="link-container">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="profesionales.html">Profesional Acreditado</a></li>
-                <li><a href="pago.html">Pago en Línea</a></li>
-                <li><a href="centro.html">Centro Médico</a></li>
-                <li><a href="admision.html">Admisión y Presupuestos</a></li>
-                <li><a href="galerias.html">Galerías</a></li>
-                <li><a href="login.html">Inicio de Sesión</a></li>
-                <li><a href="perfil.html">Mi Perfil</a></li>
-            </ul>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
+            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
+            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
+            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
+            <li><a href="{% url 'galerias' %}">Galerías</a></li>
+            {% if user.is_authenticated %}
+            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
+            </li>
+            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
+            <li><a href="{% url 'registro' %}">Registrarse</a></li>
+            {% endif %}
+        </ul>
 
             <a href="#" class="btn-reservar">Reservar Cita</a>
         </nav>

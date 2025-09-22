@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <!--Etiqueta para controlar como se verá la pag web en dispositivos móviles-->
@@ -8,114 +9,129 @@
     <title>Clínica Bosque Verde</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
     <!-- Barra de navegación -->
     <nav>
+
         <div class="logo-container">
             <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
             <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
         </div>
-        
+
         <!-- Botón hamburguesa -->
         <div class="hamburger">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        
+
         <ul class="link-container">
             <li><a href="{% url 'index' %}">Inicio</a></li>
             <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pagos' %}">Pago en Línea</a></li>
+            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
             <li><a href="{% url 'centro' %}">Centro Médico</a></li>
             <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
             <li><a href="{% url 'galerias' %}">Galerías</a></li>
-            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
+            {% if user.is_authenticated %}
+            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
+            </li>
             <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
+            <li><a href="{% url 'registro' %}">Registrarse</a></li>
+            {% endif %}
         </ul>
+
         <a href="#" class="btn-reservar">Reservar Cita</a>
     </nav>
 
-        <!-- Hero -->
-        <header class="hero">
-            <h1>Bienvenido a Clínica Bosque Verde</h1>
-            <h3>Tu salud, nuestra prioridad.</h3>
-            <a href="#" class="btn-hero">Reservar ahora</a>
-        </header>
-        <!-- Servicios con cards -->
-        <section>
-            <h2 class="section-title">Nuestros Servicios</h2>
-            <div class="galeria-container">
-                <!-- Card 1 -->
-                <div class="galeria-card">
+    <!-- Hero -->
+    <header class="hero">
+        <h1>Bienvenido a Clínica Bosque Verde</h1>
+        <h3>Tu salud, nuestra prioridad.</h3>
+        <a href="#" class="btn-hero">Reservar ahora</a>
+    </header>
+    <!-- Servicios con cards -->
+    <section>
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="galeria-container">
+            <!-- Card 1 -->
+            <div class="galeria-card">
                 <img src="{% static 'assets/images/clinica4.jpg' %}" alt="Consulta Médica General">
-                    <div class="galeria-info">
-                        <h3>Consultas Médicas Generales</h3>
-                        <p>Atención personalizada con profesionales acreditados para el cuidado integral de tu salud.</p>
-                        <a href="profesionales.html" class="galeria-btn">Más información</a>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="galeria-card">
-                    <img src="{% static 'assets/images/clinica5.jpg' %}" alt="Especialidades Médicas">
-                    <div class="galeria-info">
-                        <h3>Especialidades</h3>
-                        <p>Unidades médicas que abarcan diversas áreas, desde odontología hasta pediatría y más.</p>
-                        <a href="centro.html" class="galeria-btn">Más información</a>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="galeria-card">
-                    <img src="{% static 'assets/images/clinica7.jpg' %}" alt="Exámenes y Procedimientos">
-                    <div class="galeria-info">
-                        <h3>Exámenes y Procedimientos</h3>
-                        <p>Equipamiento de última generación en radiología, laboratorio clínico y diagnósticos de precisión.</p>
-                        <a href="galerias.html" class="galeria-btn">Más información</a>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="galeria-card">
-                    <img src="{% static 'assets/images/clinica6.jpg' %}" alt="Plan Dental">
-                    <div class="galeria-info">
-                        <h3>Plan Dental</h3>
-                        <p>Ahorra en tu salud dental con nuestros descuentos exclusivos para afiliados a Fonasa e Isapres.</p>
-                        <a href="admision.html" class="galeria-btn">Más información</a>
-                    </div>
-                </div>    
-            <!-- Card 5 -->
-                <div class="galeria-card">
-                    <img src="{% static 'assets/images/clinica9.jpg' %}" alt="Cirugías Generales">
-                    <div class="galeria-info">
-                        <h3>Cirugías Generales</h3>
-                        <p>En Clínica Bosque Verde, podrás encontrar los especialistas que necesitas, además del respaldo de contar con un equipo de Anestesistas las 24 horas.</p>
-                        <a href="admision.html" class="galeria-btn">Más información</a>
-                    </div>
-                </div> 
-            <!-- Card 6 -->
-                <div class="galeria-card">
-                    <img src="{% static 'assets/images/clinica8.jpg' %}" alt="Convenios">
-                    <div class="galeria-info">
-                        <h3>Nuestros Convenios</h3>
-                        <p>Contar con un Convenio te permite tener acceso y valores preferenciales ante una hospitalización o al momento de requerir atención médica o dental ambulatoria.</p>
-                        <a href="pago.html" class="galeria-btn">Más información</a>
-                    </div>                       
+                <div class="galeria-info">
+                    <h3>Consultas Médicas Generales</h3>
+                    <p>Atención personalizada con profesionales acreditados para el cuidado integral de tu salud.</p>
+                    <a href="profesionales.html" class="galeria-btn">Más información</a>
                 </div>
             </div>
-        </section>
-        <!-- Mapa -->
-        <section>
-            <h2 class="section-title">Ubicación</h2>
-            <p>Avenida Santa Rosa #230</p>
-        </section>
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-        
-        <!-- Script para menú hamburguesa -->
-        <script src="{% static 'js/menu.js' %}"></script>
-    </body>
+
+            <!-- Card 2 -->
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica5.jpg' %}" alt="Especialidades Médicas">
+                <div class="galeria-info">
+                    <h3>Especialidades</h3>
+                    <p>Unidades médicas que abarcan diversas áreas, desde odontología hasta pediatría y más.</p>
+                    <a href="centro.html" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica7.jpg' %}" alt="Exámenes y Procedimientos">
+                <div class="galeria-info">
+                    <h3>Exámenes y Procedimientos</h3>
+                    <p>Equipamiento de última generación en radiología, laboratorio clínico y diagnósticos de precisión.
+                    </p>
+                    <a href="galerias.html" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica6.jpg' %}" alt="Plan Dental">
+                <div class="galeria-info">
+                    <h3>Plan Dental</h3>
+                    <p>Ahorra en tu salud dental con nuestros descuentos exclusivos para afiliados a Fonasa e Isapres.
+                    </p>
+                    <a href="admision.html" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica9.jpg' %}" alt="Cirugías Generales">
+                <div class="galeria-info">
+                    <h3>Cirugías Generales</h3>
+                    <p>En Clínica Bosque Verde, podrás encontrar los especialistas que necesitas, además del respaldo de
+                        contar con un equipo de Anestesistas las 24 horas.</p>
+                    <a href="admision.html" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica8.jpg' %}" alt="Convenios">
+                <div class="galeria-info">
+                    <h3>Nuestros Convenios</h3>
+                    <p>Contar con un Convenio te permite tener acceso y valores preferenciales ante una hospitalización
+                        o al momento de requerir atención médica o dental ambulatoria.</p>
+                    <a href="pago.html" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Mapa -->
+    <section>
+        <h2 class="section-title">Ubicación</h2>
+        <p>Avenida Santa Rosa #230</p>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Clínica Bosque Verde</p>
+    </footer>
+
+    <!-- Script para menú hamburguesa -->
+    <script src="{% static 'js/menu.js' %}"></script>
+</body>
+
 </html>

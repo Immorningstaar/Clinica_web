@@ -8,8 +8,8 @@ urlpatterns = [
     path('panel/usuarios/<int:user_id>/editar/', views.editar_usuario, name='editar_usuario'),
     path('panel/usuarios/<int:user_id>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
     # SEG-01: rutas de autenticación y protegidas
-    path('login.html', views.login_page, name='login'),
-    path('perfil.html', views.perfil, name='perfil'),
+    path('login/', views.login_page, name='login'),
+    path('perfil/', views.perfil_page, name='perfil'),
     # Página de recuperación (HTML)
     path('recuperar.html', views.recuperar, name='recuperar_html'),
     path('recuperar/', views.recuperar, name='recuperar'),
@@ -18,9 +18,10 @@ urlpatterns = [
     path('auth/recuperar/reset/', views.reset_password_con_codigo, name='reset_password_con_codigo'),
     #Path para moverse por otras pag
     path('profesionales/', views.profesionales, name='profesionales'),
-    path('pagos/', views.pagos, name='pagos'),
+    path('pago/', views.pago, name='pago'),
     path('centros/', views.centro, name='centro'),
     path('admision/', views.admision, name='admision'),
     path('galerias/', views.galerias, name='galerias'),
     path('registro/', views.registro, name='registro'),
+    path('logout/', views.logout_page, name='logout'),
 ]
