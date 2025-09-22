@@ -146,18 +146,29 @@
             }
         });
 
+        // Modal de confirmación: apertura/cierre con lock de scroll y focus-trap básico
         let usuarioAEliminar = null;
+        let lastFocused = null;
         function abrirModalEliminar(usuarioId, username){
             usuarioAEliminar = usuarioId;
             var span = document.getElementById('modal-username');
             if (span) span.textContent = username;
             var modal = document.getElementById('modal-eliminar');
-            if (modal) modal.classList.add('show');
+            if (modal) {
+                modal.classList.add('show');
+                lastFocused = document.activeElement;
+                document.body.classList.add('no-scroll');
+                // Enfocar primer botón del modal
+                var firstBtn = modal.querySelector('.modal-actions button');
+                if (firstBtn) firstBtn.focus();
+            }
         }
         function cerrarModalEliminar(){
             var modal = document.getElementById('modal-eliminar');
             if (modal) modal.classList.remove('show');
             usuarioAEliminar = null;
+            document.body.classList.remove('no-scroll');
+            if (lastFocused && lastFocused.focus) lastFocused.focus();
         }
         function confirmarEliminar(){
             if (usuarioAEliminar !== null){
@@ -166,6 +177,22 @@
             }
             cerrarModalEliminar();
         }
+
+        // Cerrar con ESC y mantener el foco dentro del modal (trap simple)
+        document.addEventListener('keydown', function(e){
+            var modal = document.getElementById('modal-eliminar');
+            if (!modal || !modal.classList.contains('show')) return;
+            if (e.key === 'Escape') { e.preventDefault(); cerrarModalEliminar(); }
+            if (e.key === 'Tab') {
+                var focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                focusables = Array.prototype.slice.call(focusables).filter(function(el){ return !el.disabled && el.offsetParent !== null; });
+                if (focusables.length === 0) return;
+                var first = focusables[0];
+                var last = focusables[focusables.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        });
     </script>
 </head>
 <body>
