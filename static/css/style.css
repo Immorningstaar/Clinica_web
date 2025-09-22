@@ -416,8 +416,12 @@ footer {
         flex-direction: column;   /* enlaces en columna */
         width: 100%;
         gap: 12px;
-        margin-top: 10px;
+        margin-top: 12px;
         order: 3;                 /* mantener orden lógico */
+        flex: 0 0 100%;
+        background: #2E7D32;
+        padding: 12px 16px;
+        border-radius: 10px;
     }
 
     .link-container.active {
@@ -430,13 +434,20 @@ footer {
 
     .link-container li a {
         display: block;
-        padding: 10px 0;
+        padding: 10px 12px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.08);
     }
 
     .btn-reservar {
         width: 100%;
         text-align: center;
-        margin-top: 10px;
+        margin-top: 12px;
+        display: block;
+        flex: 0 0 100%;
+        background-color: #ffffff;
+        color: #2E7D32;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
     /* Reducir tamaño de logo para móvil (mejor uso de espacio) */
