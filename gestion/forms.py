@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from .models import PerfilUsuario, Rol
+from .models import PerfilUsuario, Rol, Paciente, Profesional
 
 
 class UsuarioCrearForm(forms.ModelForm):
@@ -236,3 +236,40 @@ class UsuarioEditarForm(forms.ModelForm):
                     mensajes.append("La contraseña no cumple con los requisitos de seguridad.")
             raise forms.ValidationError(mensajes)
         return password
+
+# Formulario para editar el perfil del PACIENTE
+class PacientePerfilForm(forms.ModelForm):
+    # La fecha de nacimiento SOLO va aquí
+    fecha_nacimiento = forms.DateField(
+        label='Fecha de Nacimiento',
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        required=False
+    )
+    
+    class Meta:
+        model = Paciente
+        # Campos editables del Paciente (asumo que tiene 'direccion' y 'celular' como en el registro)
+        fields = ('direccion', 'celular', 'fecha_nacimiento') 
+        labels = {
+            'celular': 'Teléfono',
+        }
+        widgets = {
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'celular': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+# 2. Formulario para editar el perfil del PROFESIONAL
+class ProfesionalPerfilForm(forms.ModelForm):
+    # El profesional no edita su especialidad, ni fecha de nacimiento, solo lo de contacto
+    
+    class Meta:
+        model = Profesional
+        # Campos editables del Profesional (Dirección y Teléfono)
+        fields = ('direccion', 'celular') 
+        labels = {
+            'celular': 'Teléfono',
+        }
+        widgets = {
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'celular': forms.TextInput(attrs={'class': 'form-control'}),
+        }

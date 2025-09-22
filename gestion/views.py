@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db import IntegrityError, transaction
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.db.models import ObjectDoesNotExist
 from django.urls import reverse
 import re 
 import random
@@ -15,7 +16,7 @@ from datetime import timedelta
 
 # Modelos y Formularios
 from .models import Paciente, Profesional, Rol, PerfilUsuario, PasswordResetCode
-from .forms import UsuarioCrearForm, UsuarioEditarForm
+from .forms import UsuarioCrearForm, UsuarioEditarForm, PacientePerfilForm, ProfesionalPerfilForm
 from .decorators import admin_required
 
 
@@ -51,6 +52,7 @@ def registro(request):
         confirm_password = request.POST.get('confirm-password')
         direccion = request.POST.get('direccion')
         telefono = request.POST.get('telefono')
+        fecha_nacimiento = request.POST.get('fecha_nacimiento') 
         # Utilizamos 'rol' porque ese es el name del select en tu último HTML.
         tipo_usuario = request.POST.get('rol') 
         
@@ -95,7 +97,8 @@ def registro(request):
                     usuario=user,
                     rut=rut,
                     direccion=direccion,
-                    celular=telefono
+                    celular=telefono,
+                    fecha_nacimiento=fecha_nacimiento
                 )
                 rol_nombre = 'Paciente'
                 
@@ -338,11 +341,97 @@ def login_page(request):
 
     return render(request, 'login.html')
 
-# SEG-02: Vistas de autenticación y páginas protegidas
+# Vistas de autenticación y páginas protegidas
 @login_required
 def perfil_page(request):
-    # Esta función SÓLO se ejecutará si el usuario está logueado.
-    return render(request, 'perfil.html')
+    
+    # 1. Determinar el Rol y el Objeto de Perfil Específico
+    rol = 'N/A'
+    perfil_obj = None 
+    perfil_form = None
+    
+    try:
+        # A) Obtener el nombre del Rol y la Clase de Formulario correcta
+        rol = request.user.perfilusuario.rol.nombre
+        
+        if rol.lower() == 'paciente':
+            perfil_obj = request.user.paciente
+            PerfilFormClass = PacientePerfilForm
+        elif rol.lower() == 'profesional':
+            perfil_obj = request.user.profesional
+            PerfilFormClass = ProfesionalPerfilForm
+        else:
+            # Manejar el caso de Administrador u otro rol sin perfil editable
+            messages.info(request, "Tu rol no tiene un perfil específico editable.")
+            context = { 'perfil_form': None, 'rol_fijo': rol, 'rut_fijo': 'N/A' }
+            return render(request, 'perfil.html', context)
+        
+    except ObjectDoesNotExist:
+        messages.error(request, "Error de perfil: Tu cuenta no tiene un perfil asociado (Paciente o Profesional).")
+        context = { 'perfil_form': None, 'rol_fijo': rol, 'rut_fijo': 'N/A' }
+        return render(request, 'perfil.html', context)
+    
+    
+    # 2. Manejo de POST (Guardar Perfil y/o Cambiar Contraseña)
+    if request.method == 'POST':
+        
+        # --- A. Edición de Perfil (Dirección, Teléfono, Fecha Nac.) ---
+        perfil_form = PerfilFormClass(request.POST, instance=perfil_obj)
+
+        if perfil_form.is_valid():
+            perfil_form.save()
+            messages.success(request, '¡Información de contacto actualizada con éxito!')
+        else:
+            messages.error(request, 'Error al actualizar el perfil. Revisa la Dirección y Teléfono.')
+
+
+        # --- B. Cambio de Contraseña (Utilizando tu función validar_contraseña) ---
+        current_password = request.POST.get('current-password')
+        new_password = request.POST.get('new-password')
+        confirm_password = request.POST.get('confirm-password')
+        
+        # Solo procesamos si hay intento de cambio
+        if current_password or new_password or confirm_password: 
+            
+            if not request.user.check_password(current_password):
+                messages.error(request, 'La Contraseña Actual no es correcta.')
+            elif not new_password:
+                messages.error(request, 'La Nueva Contraseña no puede estar vacía.')
+            elif new_password != confirm_password:
+                messages.error(request, 'La Nueva Contraseña y la Confirmación no coinciden.')
+            else:
+                # La función validar_contraseña está definida y lista para usarse
+                errores_contraseña = validar_contraseña(new_password) 
+                
+                if errores_contraseña:
+                    for error in errores_contraseña:
+                        messages.error(request, f'Contraseña: {error}') 
+                else:
+                    # ¡GUARDAR LA NUEVA CONTRASEÑA!
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    
+                    # ESENCIAL: Mantenemos la sesión activa
+                    update_session_auth_hash(request, request.user)
+                    
+                    messages.success(request, '¡Contraseña cambiada con éxito!')
+        
+        # Redirigir para evitar re-envío del formulario al refrescar
+        return redirect('perfil') 
+
+    # 3. Manejo de GET (Mostrar el formulario por primera vez)
+    # Si la vista no entró en POST, creamos el formulario inicial
+    perfil_form = PerfilFormClass(instance=perfil_obj)
+
+    # --- 4. Preparar el Contexto Final ---
+    context = {
+        'perfil_form': perfil_form, 
+        # RUT: El RUT está en el objeto específico (Paciente/Profesional)
+        'rut_fijo': perfil_obj.rut, 
+        'rol_fijo': rol, 
+    }
+    
+    return render(request, 'perfil.html', context)
 
 # Vistas de navegación que no necesitan protección
 def index(request):
