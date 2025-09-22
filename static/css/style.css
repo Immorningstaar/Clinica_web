@@ -7,6 +7,17 @@ body {
     color: #333;
 }
 
+/* Evitar scroll de fondo cuando hay modales/overlays activos */
+.no-scroll { overflow: hidden !important; }
+
+/* Utilidad de accesibilidad para elementos solo-visuales */
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
 /* Medios: todas las imágenes se escalan dentro del contenedor */
 img { max-width: 100%; height: auto; }
 
@@ -21,6 +32,14 @@ nav {
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+/* Barras verdes a ancho completo (full‑bleed) para todas las páginas */
+nav, footer {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
 }
 
 /* LOGO EN EL NAV */
@@ -225,7 +244,7 @@ button:hover {
 }
 
 /* ====== Utilidades de tabla responsiva ====== */
-.tabla-scroll { width: 100%; overflow-x: auto; }
+.tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tabla-scroll > table { width: 100%; border-collapse: collapse; min-width: 640px; }
 
 @media (max-width: 768px) {
@@ -397,8 +416,12 @@ footer {
         flex-direction: column;   /* enlaces en columna */
         width: 100%;
         gap: 12px;
-        margin-top: 10px;
+        margin-top: 12px;
         order: 3;                 /* mantener orden lógico */
+        flex: 0 0 100%;
+        background: #2E7D32;
+        padding: 12px 16px;
+        border-radius: 10px;
     }
 
     .link-container.active {
@@ -411,13 +434,20 @@ footer {
 
     .link-container li a {
         display: block;
-        padding: 10px 0;
+        padding: 10px 12px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.08);
     }
 
     .btn-reservar {
         width: 100%;
         text-align: center;
-        margin-top: 10px;
+        margin-top: 12px;
+        display: block;
+        flex: 0 0 100%;
+        background-color: #ffffff;
+        color: #2E7D32;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
     /* Reducir tamaño de logo para móvil (mejor uso de espacio) */
@@ -446,6 +476,28 @@ footer {
     .galeria-card {
         max-width: 100%;
     }
+}
+
+/* ------- Panel de usuarios (admin) responsive ------- */
+@media (max-width: 992px) {
+  .contenedor-admin .fila { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media (max-width: 768px) {
+  /* Tabla -> tarjetas (cards) en móvil */
+  .tabla-scroll > table,
+  .tabla-scroll thead,
+  .tabla-scroll tbody,
+  .tabla-scroll th,
+  .tabla-scroll td,
+  .tabla-scroll tr { display: block; }
+  .tabla-scroll thead { display: none !important; }
+  .tabla-scroll tr { margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; }
+  .tabla-scroll td { border-bottom: 1px solid #f0f0f0; padding: 10px 12px; display: grid; grid-template-columns: 44% 1fr; column-gap: 10px; word-break: break-word; overflow-wrap: anywhere; }
+  .tabla-scroll td:last-child { border-bottom: none; }
+  .tabla-scroll td::before { content: attr(data-label); font-weight: 600; color: #555; }
+  .acciones { justify-content: flex-end; gap: 8px; }
+  .acciones .btn { min-width: 88px; }
 }
 
 /* ---- Hero section ---- */

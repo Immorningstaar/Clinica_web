@@ -324,21 +324,20 @@ def reset_password_con_codigo(request):
 # SEG-01: Vistas de autenticación y páginas protegidas
 def login_page(request):
     if request.method == 'POST':
-        
-        # 1. RECIBIR DATOS DEL POST (¡Con comillas!)
         email = request.POST.get('email')
         password = request.POST.get('password')
-        
-        # 2. AUTENTICAR (¡SIN comillas!)
-        # Ahora pasamos el *valor* de las variables, no la palabra "email"
-        user = authenticate(request, username=email, password=password) 
-        
+
+        user = authenticate(request, username=email, password=password)
+
         if user is not None:
             login(request, user)
-            return JsonResponse({'success': True, 'message': 'Inicio de sesión exitoso.'}) 
+            
+            redirect_url = reverse('perfil') # 'perfil' es el name= de tu URL de perfil
+            
+            return JsonResponse({'success': True, 'redirect_url': redirect_url})
         else:
-            return JsonResponse({'success': False, 'message': 'Credenciales inválidas. Verifica tu correo y contraseña.'}, status=400)
-    
+            return JsonResponse({'success': False, 'message': 'Credenciales inválidas. Verifica tu correo y contraseña.'}, status=401)
+
     return render(request, 'login.html')
 
 

@@ -132,3 +132,8 @@ STATICFILES_DIRS = [
 # SEG-01: URL de inicio de sesión para redirecciones de @login_required
 # Redirige a la página de login cuando el usuario no está autenticado.
 LOGIN_URL = '/login.html'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'gestion.backends.EmailBackend',
+]
