@@ -467,6 +467,28 @@ footer {
     }
 }
 
+/* ------- Panel de usuarios (admin) responsive ------- */
+@media (max-width: 992px) {
+  .contenedor-admin .fila { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media (max-width: 768px) {
+  /* Tabla -> tarjetas (cards) en móvil */
+  .tabla-scroll > table,
+  .tabla-scroll thead,
+  .tabla-scroll tbody,
+  .tabla-scroll th,
+  .tabla-scroll td,
+  .tabla-scroll tr { display: block; }
+  .tabla-scroll thead { display: none !important; }
+  .tabla-scroll tr { margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; }
+  .tabla-scroll td { border-bottom: 1px solid #f0f0f0; padding: 10px 12px; display: grid; grid-template-columns: 44% 1fr; column-gap: 10px; word-break: break-word; overflow-wrap: anywhere; }
+  .tabla-scroll td:last-child { border-bottom: none; }
+  .tabla-scroll td::before { content: attr(data-label); font-weight: 600; color: #555; }
+  .acciones { justify-content: flex-end; gap: 8px; }
+  .acciones .btn { min-width: 88px; }
+}
+
 /* ---- Hero section ---- */
 .hero {
     /* Hero genérico para Inicio */
