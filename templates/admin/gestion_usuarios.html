@@ -31,7 +31,19 @@
         .panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
         .panel form { max-width: 100%; margin: 0; }
         .panel h3 { margin-top: 0; }
-        .campo { margin-bottom: 10px; }
+        .campo { margin-bottom: 10px; position: relative; }
+        /* Tooltip/burbuja de ayuda para contraseña */
+        .hint-bubble{position:absolute; left:0; top:100%; transform:translateY(6px); background:#fff; border:1px solid #ddd; border-radius:8px; padding:10px 12px; box-shadow:0 6px 18px rgba(0,0,0,.12); width:320px; max-width:calc(100vw - 40px); display:none; z-index:5000}
+        .hint-bubble::before{content:""; position:absolute; top:-8px; left:16px; border-width:8px; border-style:solid; border-color:transparent transparent #ddd transparent}
+        .hint-bubble::after{content:""; position:absolute; top:-7px; left:16px; border-width:7px; border-style:solid; border-color:transparent transparent #fff transparent}
+        .hint-bubble strong{display:block; margin-bottom:6px}
+        .hint-bubble ul{margin:0; padding:0}
+        .hint-bubble li{list-style:none; margin:4px 0; padding-left:22px; position:relative; color:#444}
+        .hint-bubble li::before{content:"•"; position:absolute; left:6px; color:#888}
+        .hint-bubble li.ok{color:#2e7d32}
+        .hint-bubble li.ok::before{content:"✓"; color:#2e7d32}
+        /* Mostrar al enfocar el input de contraseña */
+        .campo input[type="password"]:focus + .hint-bubble{display:block}
         .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
         .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
         .buscador { margin: 12px 0 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
@@ -40,6 +52,14 @@
         .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
         .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .tabla-scroll table { min-width: 720px; }
+
+        /* Modal de confirmación */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10000}
+        .modal-overlay.show{display:flex}
+        .modal-box{background:#fff;border-radius:10px;padding:18px 22px;max-width:420px;width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+        .modal-box h3{margin:0 0 8px 0}
+        .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+        .btn-text{background:#e0e0e0;color:#333}
 
         /* 320px */
         @media (max-width: 320px) {
@@ -110,11 +130,41 @@
         }
     </style>
     <script>
-        function confirmarEliminacion(usuarioId, username) {
-            var msg = "Eliminar usuario \"" + username + "\"?"; if (confirm(msg)) {
-                const form = document.getElementById(`form-eliminar-${usuarioId}`);
-                form.submit();
+        // Marca reglas satisfechas de manera simple en la burbuja
+        function updatePwHint(input){
+            var v = (input.value||"");
+            var hint = input.nextElementSibling;
+            if(!hint || !hint.classList || !hint.classList.contains('hint-bubble')) return;
+            var len = hint.querySelector('[data-rule="len"]');
+            var num = hint.querySelector('[data-rule="numeric"]');
+            if(len){ len.classList.toggle('ok', v.length >= 8); }
+            if(num){ num.classList.toggle('ok', !(v && /^\d+$/.test(v))); }
+        }
+        document.addEventListener('input', function(e){
+            if(e.target && e.target.matches('input[type="password"]')){
+                updatePwHint(e.target);
             }
+        });
+
+        let usuarioAEliminar = null;
+        function abrirModalEliminar(usuarioId, username){
+            usuarioAEliminar = usuarioId;
+            var span = document.getElementById('modal-username');
+            if (span) span.textContent = username;
+            var modal = document.getElementById('modal-eliminar');
+            if (modal) modal.classList.add('show');
+        }
+        function cerrarModalEliminar(){
+            var modal = document.getElementById('modal-eliminar');
+            if (modal) modal.classList.remove('show');
+            usuarioAEliminar = null;
+        }
+        function confirmarEliminar(){
+            if (usuarioAEliminar !== null){
+                const form = document.getElementById(`form-eliminar-${usuarioAEliminar}`);
+                if (form) form.submit();
+            }
+            cerrarModalEliminar();
         }
     </script>
 </head>
@@ -130,6 +180,18 @@
     </nav>
 
     <div class="contenedor-admin">
+        <!-- Modal de confirmacion de eliminacion -->
+        <div id="modal-eliminar" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-eliminar-titulo">
+            <div class="modal-box">
+                <h3 id="modal-eliminar-titulo">Confirmar eliminacion</h3>
+                <p>Deseas eliminar al usuario "<span id="modal-username"></span>"?</p>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-peligro" onclick="confirmarEliminar()">Eliminar</button>
+                    <button type="button" class="btn btn-text" onclick="cerrarModalEliminar()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        {% include 'includes/messages.html' %}
         <h2 class="section-title">Gestión de Usuarios</h2>
 
         <div class="fila">
@@ -160,8 +222,8 @@
                                     <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
                                     <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
                                         {% csrf_token %}
-                                        <button class="btn btn-peligro" type="button" onclick="confirmarEliminacion({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
-                                    </form>
+                                        <button class="btn btn-peligro" type="button" onclick="abrirModalEliminar({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
+                                        </form>
                                 </td>
                             </tr>
                             {% empty %}
@@ -180,27 +242,41 @@
                         <div class="campo">
                             {{ form.username.label_tag }}
                             {{ form.username }}
+                            {% for e in form.username.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.first_name.label_tag }}
                             {{ form.first_name }}
+                            {% for e in form.first_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.last_name.label_tag }}
                             {{ form.last_name }}
+                            {% for e in form.last_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.email.label_tag }}
                             {{ form.email }}
+                            {% for e in form.email.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.password.label_tag }}
-                            <small>(Dejar en blanco para no cambiar)</small>
                             {{ form.password }}
+                            <div class="hint-bubble">
+                                <strong>Requisitos de contrasena</strong>
+                                <ul>
+                                    <li data-rule="len">Minimo 8 caracteres</li>
+                                    <li data-rule="numeric">No solo numeros</li>
+                                    <li>Evitar contrasenas comunes</li>
+                                    <li>No demasiado similar al nombre de usuario</li>
+                                </ul>
+                            </div>
+                            {# Ocultamos mensajes verbatim del validador para evitar inglés; usamos burbuja y overlay #}
                         </div>
                         <div class="campo">
                             {{ form.rol.label_tag }}
                             {{ form.rol }}
+                            {% for e in form.rol.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <button class="btn btn-primario" type="submit">Guardar Cambios</button>
                         <a class="btn" href="{% url 'gestion_usuarios' %}">Cancelar</a>
@@ -212,26 +288,41 @@
                         <div class="campo">
                             {{ form.username.label_tag }}
                             {{ form.username }}
+                            {% for e in form.username.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.first_name.label_tag }}
                             {{ form.first_name }}
+                            {% for e in form.first_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.last_name.label_tag }}
                             {{ form.last_name }}
+                            {% for e in form.last_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.email.label_tag }}
                             {{ form.email }}
+                            {% for e in form.email.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <div class="campo">
                             {{ form.password.label_tag }}
                             {{ form.password }}
+                            <div class="hint-bubble">
+                                <strong>Requisitos de contrasena</strong>
+                                <ul>
+                                    <li data-rule="len">Minimo 8 caracteres</li>
+                                    <li data-rule="numeric">No solo numeros</li>
+                                    <li>Evitar contrasenas comunes</li>
+                                    <li>No demasiado similar al nombre de usuario</li>
+                                </ul>
+                            </div>
+                            {# Ocultamos mensajes verbatim del validador para evitar inglés; usamos burbuja y overlay #}
                         </div>
                         <div class="campo">
                             {{ form.rol.label_tag }}
                             {{ form.rol }}
+                            {% for e in form.rol.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
                         </div>
                         <button class="btn btn-primario" type="submit">Crear</button>
                     </form>
@@ -244,6 +335,30 @@
         <p>&copy; 2025 Clínica Bosque Verde</p>
     </footer>
     <script src="{% static 'js/menu.js' %}"></script>
+    <script>
+      // Mensajes nativos del navegador en español
+      (function(){
+        var reqMsg = 'Este campo es obligatorio.';
+        var emailMsg = 'El formato del correo no es valido.';
+        function hook(form){
+          var sel = form.querySelectorAll('input[required], select[required], textarea[required]');
+          sel.forEach(function(el){
+            el.addEventListener('invalid', function(){
+              this.setCustomValidity('');
+              if (this.validity.valueMissing) {
+                this.setCustomValidity(reqMsg);
+              } else if (this.type === 'email' && this.validity.typeMismatch) {
+                this.setCustomValidity(emailMsg);
+              }
+            });
+            el.addEventListener('input', function(){ this.setCustomValidity(''); });
+          });
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+          document.querySelectorAll('form').forEach(hook);
+        });
+      })();
+    </script>
 </body>
 </html>
 
