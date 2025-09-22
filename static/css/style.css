@@ -7,6 +7,17 @@ body {
     color: #333;
 }
 
+/* Evitar scroll de fondo cuando hay modales/overlays activos */
+.no-scroll { overflow: hidden !important; }
+
+/* Utilidad de accesibilidad para elementos solo-visuales */
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
 /* Medios: todas las imágenes se escalan dentro del contenedor */
 img { max-width: 100%; height: auto; }
 
@@ -225,7 +236,7 @@ button:hover {
 }
 
 /* ====== Utilidades de tabla responsiva ====== */
-.tabla-scroll { width: 100%; overflow-x: auto; }
+.tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tabla-scroll > table { width: 100%; border-collapse: collapse; min-width: 640px; }
 
 @media (max-width: 768px) {
