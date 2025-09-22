@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Ajuste menor de formateo; sin impacto funcional -->
     <title>Clínica Bosque Verde - Inicio de sesión</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -52,7 +51,7 @@
                         <!-- Correo -->
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico *</label>
-                            <input type="email" class="form-control" id="correo" name="email" placeholder="usuario@ejemplo.com"
+                            <input type="email" class="form-control" id="email" name="email" placeholder="usuario@ejemplo.com"
                                 autocomplete="email">
                             <div class="error-message text-danger"></div>
                         </div>
@@ -60,12 +59,12 @@
                         <!-- Contraseña -->
                         <div class="mb-3">
                             <label for="clave" class="form-label">Contraseña *</label>
-                            <input type="password" class="form-control" id="clave" name="password" placeholder="Tu contraseña"
-                                autocomplete="current-password">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Tu contraseña" autocomplete="current-password">
                             <div class="error-message text-danger"></div>
                         </div>
 
                         <!-- Botón de envío -->
+                        <div id="server-error-message" class="alert alert-danger" style="display:none;"></div>
                         <button type="submit">Ingresar</button>
 
                         <!-- Enlace para recuperar contraseña -->
