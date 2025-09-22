@@ -16,4 +16,11 @@ urlpatterns = [
     # Recuperación de contraseña (FP-03)
     path('auth/recuperar/solicitar/', views.solicitar_codigo_recuperacion, name='solicitar_codigo_recuperacion'),
     path('auth/recuperar/reset/', views.reset_password_con_codigo, name='reset_password_con_codigo'),
+    #Path para moverse por otras pag
+    path('profesionales/', views.profesionales, name='profesionales'),
+    path('pagos/', views.pagos, name='pagos'),
+    path('centros/', views.centro, name='centro'),
+    path('admision/', views.admision, name='admision'),
+    path('galerias/', views.galerias, name='galerias'),
+    path('registro/', views.registro, name='registro'),
 ]

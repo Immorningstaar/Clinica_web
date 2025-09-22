@@ -6,14 +6,17 @@ $(document).ready(function () {
 
 
     $("#registroForm").submit(function (event) {
-        event.preventDefault();
+        // ELIMINAMOS event.preventDefault();
+        // En su lugar, el return false al final detendrá el envío si hay errores.
+        
         let isValid = true;
 
         $(".error-message").hide();
         $(".form-control").removeClass("is-invalid");
 
         // Campos obligatorios
-        const campos = ["#nombre", "#apellidos", "#rut", "#correo", "#direccion", "#password", "#confirm-password", "#telefono"];
+        // NOTA: Usamos '#rol' para el select, aunque en HTML el name sea 'rol' y el id sea 'rol'.
+        const campos = ["#nombre", "#apellidos", "#rut", "#correo", "#direccion", "#password", "#confirm-password", "#telefono", "#rol"];
         const mensajes = [
             "El nombre es obligatorio.",
             "Los apellidos son obligatorios.",
@@ -23,22 +26,29 @@ $(document).ready(function () {
             "La contraseña es obligatoria.",
             "Confirme la contraseña ingresada.",
             "El teléfono es obligatorio.",
+            "Seleccione un rol."
         ];
 
+        // Validación de campos vacíos
         campos.forEach((campo, i) => {
-            if ($(campo).val().trim() === "") {
-                $(campo).addClass("is-invalid");
-                $(campo).next(".error-message").text(mensajes[i]).show();
+            const $campo = $(campo);
+            
+            // Verificación segura: solo intenta hacer .val().trim() si el elemento existe
+            if ($campo.length > 0 && $campo.val().trim() === "") {
+                $campo.addClass("is-invalid");
+                $campo.next(".error-message").text(mensajes[i]).show();
                 isValid = false;
             }
         });
-        //  Validar teléfono
+        
+        // Validar teléfono (9 dígitos y solo números)
         const telefono = $("#telefono").val().trim();
         if (telefono !== "" && (!/^[0-9]+$/.test(telefono) || telefono.length !== 9)) {
             $("#telefono").addClass("is-invalid");
             $("#telefono").next(".error-message").text("El teléfono debe tener 9 dígitos y solo números.").show();
             isValid = false;
         }
+
         // Validar email
         if ($("#correo").val().trim() !== "" && !validateEmail($("#correo").val().trim())) {
             $("#correo").addClass("is-invalid");
@@ -46,14 +56,14 @@ $(document).ready(function () {
             isValid = false;
         }
 
-        //  Validar RUT (si no está vacío y cumple formato)
+        // Validar RUT (si no está vacío y cumple formato)
         if ($("#rut").val().trim() !== "" && !validarRut($("#rut").val().trim())) {
             $("#rut").addClass("is-invalid");
             $("#rut").next(".error-message").text("El RUT ingresado no es válido.").show();
             isValid = false;
         }
 
-        // Validar contraseña
+        // Validar fortaleza de contraseña
         if ($("#password").val().trim() !== "") {
             const passwordValidation = validatePassword($("#password").val());
             if (!passwordValidation.isValid) {
@@ -71,19 +81,18 @@ $(document).ready(function () {
             isValid = false;
         }
 
-        if (isValid) {
-            alert("Usuario registrado correctamente.");
-            $("#registroForm")[0].reset();
-            // Limpiar los indicadores de contraseña
-            $(".requirement").removeClass("valid invalid");
-            $(".requirement i").removeClass("bi-check-circle-fill bi-x-circle-fill");
-        }
+        // Si es válido, el formulario se envía a Django. Si no, se detiene el envío.
+        return isValid; 
+        // Eliminamos el alert y el reset de aquí.
     });
 
-    //  Función para validar RUT 
+
+    // --- FUNCIONES DE VALIDACIÓN ---
+
+    // Función para validar RUT
     function validarRut(rut) {
         if (!/^[0-9]+-[0-9kK]{1}$/.test(rut)) {
-            return false; // <-- Si el formato es incorrecto
+            return false;
         }
         const [cuerpo, dv] = rut.split('-');
         let suma = 0;
@@ -117,17 +126,13 @@ $(document).ready(function () {
             }
         };
 
-        // Verificar si todos los requisitos se cumplen
         validation.isValid = Object.values(validation.requirements).every(req => req === true);
-
         return validation;
     }
 
-    // Función para mostrar el estado de los requisitos de contraseña
+    // Función para mostrar el estado de los requisitos de contraseña (UI)
     function validatePasswordRequirements(password) {
         const validation = validatePassword(password);
-
-        // Actualizar la interfaz para cada requisito
         updateRequirementUI("#length-check", validation.requirements.hasLength);
         updateRequirementUI("#uppercase-check", validation.requirements.hasUppercase);
         updateRequirementUI("#number-check", validation.requirements.hasNumber);
