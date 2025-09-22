@@ -34,6 +34,14 @@ nav {
     z-index: 1000;
 }
 
+/* Barras verdes a ancho completo (full‑bleed) para todas las páginas */
+nav, footer {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+
 /* LOGO EN EL NAV */
 .logo-container {
     display: flex;
