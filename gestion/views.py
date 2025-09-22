@@ -13,6 +13,7 @@ from datetime import timedelta
 
 from .models import PerfilUsuario, Rol, PasswordResetCode
 from .forms import UsuarioCrearForm, UsuarioEditarForm
+from .decorators import admin_required
 
 
 def index(request):
@@ -32,9 +33,8 @@ def _usuario_es_admin(user) -> bool:
         return False
 
 
+@admin_required
 def gestion_usuarios(request):
-    if not request.user.is_authenticated or not _usuario_es_admin(request.user):
-        return HttpResponseForbidden("Acceso restringido a administradores")
 
     # Asegurar que exista el rol Administrador para el formulario
     Rol.objects.get_or_create(nombre="Administrador")
@@ -72,9 +72,8 @@ def gestion_usuarios(request):
     return render(request, "admin/gestion_usuarios.html", contexto)
 
 
+@admin_required
 def editar_usuario(request, user_id: int):
-    if not request.user.is_authenticated or not _usuario_es_admin(request.user):
-        return HttpResponseForbidden("Acceso restringido a administradores")
 
     usuario = get_object_or_404(User, pk=user_id)
     Rol.objects.get_or_create(nombre="Administrador")
@@ -105,9 +104,8 @@ def editar_usuario(request, user_id: int):
     return render(request, "admin/gestion_usuarios.html", contexto)
 
 
+@admin_required
 def eliminar_usuario(request, user_id: int):
-    if not request.user.is_authenticated or not _usuario_es_admin(request.user):
-        return HttpResponseForbidden("Acceso restringido a administradores")
     usuario = get_object_or_404(User, pk=user_id)
     if request.method == "POST":
         usuario.delete()
