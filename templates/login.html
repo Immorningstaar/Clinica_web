@@ -26,14 +26,14 @@
             <span></span>
         </div>
         <ul class="link-container">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="profesionales.html">Profesional Acreditado</a></li>
-            <li><a href="pago.html">Pago en Línea</a></li>
-            <li><a href="centro.html">Centro Médico</a></li>
-            <li><a href="admision.html">Admisión y Presupuestos</a></li>
-            <li><a href="galerias.html">Galerías</a></li>
-            <li><a href="login.html">Inicio de Sesión</a></li>
-            <li><a href="perfil.html">Mi Perfil</a></li>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
+            <li><a href="{% url 'pagos' %}">Pago en Línea</a></li>
+            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
+            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
+            <li><a href="{% url 'galerias' %}">Galerías</a></li>
+            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
+            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
         </ul>
         <a href="#" class="btn-reservar">Reservar Cita</a>
     </nav>
@@ -67,10 +67,10 @@
 
                         <!-- Enlace para recuperar contraseña -->
                         <div class="text-center mt-3">
-                            <a href="registro.html" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
+                            <a href="{% url 'registro' %}" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
                         </div>
                                             <div class="text-center mt-2">
-                            <a href="recuperar.html" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+                            <a href="{% url 'recuperar' %}" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
                         </div>
                         </form>
                 </div>
