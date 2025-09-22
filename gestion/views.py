@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db import IntegrityError, transaction
+from django.contrib.auth import authenticate, login, logout
 import re 
 import random
 from datetime import timedelta
@@ -126,6 +127,9 @@ def registro(request):
 
 def index(request):
     return render(request, 'index.html')
+
+
+
 
 
 # --- Administración de usuarios (CRUD para Administrador) ---
@@ -316,21 +320,45 @@ def reset_password_con_codigo(request):
 
 # SEG-01: Vistas de autenticación y páginas protegidas
 def login_page(request):
-    # Página de inicio de sesión (solo renderiza el template)
+    if request.method == 'POST':
+        
+        # 1. RECIBIR DATOS DEL POST (¡Con comillas!)
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        # 2. AUTENTICAR (¡SIN comillas!)
+        # Ahora pasamos el *valor* de las variables, no la palabra "email"
+        user = authenticate(request, username=email, password=password) 
+        
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'success': True, 'message': 'Inicio de sesión exitoso.'}) 
+        else:
+            return JsonResponse({'success': False, 'message': 'Credenciales inválidas. Verifica tu correo y contraseña.'}, status=400)
+    
     return render(request, 'login.html')
 
 
+# SEG-02: Vistas de autenticación y páginas protegidas
 @login_required
-def perfil(request):
-    # Página de perfil del usuario, requiere autenticación
+def perfil_page(request):
+    # Esta función SÓLO se ejecutará si el usuario está logueado.
     return render(request, 'perfil.html')
+
+# Vistas de navegación que no necesitan protección
+def index(request):
+    # Se pasa el objeto request.user al contexto, ya sea un usuario logueado o anónimo.
+    context = {
+        'user': request.user
+    }
+    return render(request, 'index.html', context)
 
 
 def profesionales(request):
     return render(request, 'profesionales.html')
 
-def pagos(request):
-    return render(request, 'pagos.html') 
+def pago(request):
+    return render(request, 'pago.html') 
 
 def centro(request):
     return render(request, 'centro.html')
@@ -340,3 +368,8 @@ def admision(request):
 
 def galerias(request):
     return render(request, 'galerias.html') 
+
+def logout_page(request):
+    logout(request)
+    # Redirigir al usuario al index después de cerrar sesión
+    return redirect('index')

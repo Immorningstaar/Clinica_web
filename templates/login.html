@@ -29,7 +29,7 @@
         <ul class="link-container">
             <li><a href="{% url 'index' %}">Inicio</a></li>
             <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pagos' %}">Pago en Línea</a></li>
+            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
             <li><a href="{% url 'centro' %}">Centro Médico</a></li>
             <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
             <li><a href="{% url 'galerias' %}">Galerías</a></li>
@@ -47,11 +47,12 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card p-4">
-                    <form id="loginForm">
+                    <form id="loginForm" method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
                         <!-- Correo -->
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico *</label>
-                            <input type="email" class="form-control" id="correo" placeholder="usuario@ejemplo.com"
+                            <input type="email" class="form-control" id="correo" name="email" placeholder="usuario@ejemplo.com"
                                 autocomplete="email">
                             <div class="error-message text-danger"></div>
                         </div>
@@ -59,7 +60,7 @@
                         <!-- Contraseña -->
                         <div class="mb-3">
                             <label for="clave" class="form-label">Contraseña *</label>
-                            <input type="password" class="form-control" id="clave" placeholder="Tu contraseña"
+                            <input type="password" class="form-control" id="clave" name="password" placeholder="Tu contraseña"
                                 autocomplete="current-password">
                             <div class="error-message text-danger"></div>
                         </div>
