@@ -41,6 +41,14 @@
         .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .tabla-scroll table { min-width: 720px; }
 
+        /* Modal de confirmación */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10000}
+        .modal-overlay.show{display:flex}
+        .modal-box{background:#fff;border-radius:10px;padding:18px 22px;max-width:420px;width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+        .modal-box h3{margin:0 0 8px 0}
+        .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+        .btn-text{background:#e0e0e0;color:#333}
+
         /* 320px */
         @media (max-width: 320px) {
             .contenedor-admin { padding: 0 8px; }
@@ -110,11 +118,25 @@
         }
     </style>
     <script>
-        function confirmarEliminacion(usuarioId, username) {
-            var msg = "Eliminar usuario \"" + username + "\"?"; if (confirm(msg)) {
-                const form = document.getElementById(`form-eliminar-${usuarioId}`);
-                form.submit();
+        let usuarioAEliminar = null;
+        function abrirModalEliminar(usuarioId, username){
+            usuarioAEliminar = usuarioId;
+            var span = document.getElementById('modal-username');
+            if (span) span.textContent = username;
+            var modal = document.getElementById('modal-eliminar');
+            if (modal) modal.classList.add('show');
+        }
+        function cerrarModalEliminar(){
+            var modal = document.getElementById('modal-eliminar');
+            if (modal) modal.classList.remove('show');
+            usuarioAEliminar = null;
+        }
+        function confirmarEliminar(){
+            if (usuarioAEliminar !== null){
+                const form = document.getElementById(`form-eliminar-${usuarioAEliminar}`);
+                if (form) form.submit();
             }
+            cerrarModalEliminar();
         }
     </script>
 </head>
@@ -130,6 +152,17 @@
     </nav>
 
     <div class="contenedor-admin">
+        <!-- Modal de confirmacion de eliminacion -->
+        <div id="modal-eliminar" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-eliminar-titulo">
+            <div class="modal-box">
+                <h3 id="modal-eliminar-titulo">Confirmar eliminacion</h3>
+                <p>Deseas eliminar al usuario "<span id="modal-username"></span>"?</p>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-peligro" onclick="confirmarEliminar()">Eliminar</button>
+                    <button type="button" class="btn btn-text" onclick="cerrarModalEliminar()">Cancelar</button>
+                </div>
+            </div>
+        </div>
         {% include 'includes/messages.html' %}
         <h2 class="section-title">Gestión de Usuarios</h2>
 
@@ -161,8 +194,8 @@
                                     <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
                                     <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
                                         {% csrf_token %}
-                                        <button class="btn btn-peligro" type="button" onclick="confirmarEliminacion({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
-                                    </form>
+                                        <button class="btn btn-peligro" type="button" onclick="abrirModalEliminar({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
+                                        </form>
                                 </td>
                             </tr>
                             {% empty %}

@@ -1,10 +1,31 @@
 {% if messages %}
-<div class="django-messages" style="margin: 12px 0;">
-  {% for message in messages %}
-    <div class="mensaje alert-{{ message.tags }}" style="padding:10px;border-radius:4px;margin-bottom:8px; border:1px solid #ddd; background:#f8f9fa;">
-      {{ message }}
+  {# Overlay de pantalla completa tipo "flash" #}
+  <style id="flash-overlay-style">
+    .flash-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s ease}
+    .flash-overlay.show{opacity:1;pointer-events:auto}
+    .flash-content{padding:18px 26px;border-radius:10px;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:90vw;text-align:center;font-weight:600;font-size:1.05rem;line-height:1.35}
+    .flash-success{background:#2e7d32}
+    .flash-error{background:#c62828}
+    .flash-warning{background:#f57c00}
+    .flash-info{background:#1565c0}
+  </style>
+  <div id="flash-overlay" class="flash-overlay" data-timeout="2500" role="alert" aria-live="assertive">
+    <div class="flash-content">
+      {% for message in messages %}
+        <div class="flash-{{ message.tags|default:'info' }}" style="padding:10px 14px;border-radius:8px;margin:6px 0;">{{ message }}</div>
+      {% endfor %}
     </div>
-  {% endfor %}
   </div>
+  <script>
+    (function(){
+      var overlay = document.getElementById('flash-overlay');
+      if(!overlay) return;
+      requestAnimationFrame(function(){ overlay.classList.add('show'); });
+      var t = parseInt(overlay.getAttribute('data-timeout')||'2500',10);
+      setTimeout(function(){
+        overlay.classList.remove('show');
+        setTimeout(function(){ overlay.remove && overlay.remove(); }, 300);
+      }, t);
+    })();
+  </script>
 {% endif %}
-
