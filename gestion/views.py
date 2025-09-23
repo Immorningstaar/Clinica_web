@@ -13,7 +13,7 @@ from django.urls import reverse
 import re 
 import random
 from datetime import timedelta
-
+from django.urls import reverse
 # Modelos y Formularios
 from .models import Paciente, Profesional, Rol, PerfilUsuario, PasswordResetCode
 from .forms import UsuarioCrearForm, UsuarioEditarForm, PacientePerfilForm, ProfesionalPerfilForm
@@ -419,7 +419,7 @@ def perfil_page(request):
         # Redirigir para evitar re-envío del formulario al refrescar
         return redirect('perfil') 
 
-    # 3. Manejo de GET (Mostrar el formulario por primera vez)
+    # . Manejo de GET (Mostrar el formulario por primera vez)
     # Si la vista no entró en POST, creamos el formulario inicial
     perfil_form = PerfilFormClass(instance=perfil_obj)
 
