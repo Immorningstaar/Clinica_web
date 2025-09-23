@@ -1,52 +1,62 @@
 # Clínica Bosque Verde
 
-Repositorio para el desarrollo del proyecto fullstack de la Clínica Bosque Verde, utilizando Django para el backend.
+Repositorio para el desarrollo del proyecto fullstack de la Clínica Bosque Verde, utilizando Django para el backend y Oracle como base de datos.
 
 ---
 ## Requisitos Previos
 
 ### 1. Python
-Asegúrate de tener instalado **Python 3.12+** en tu sistema. Verifícalo con el comando:
+Asegúrate de tener instalado **Python 3.12+** en tu sistema.
 ```bash
 python --version
 ```
 
 ### 2. Base de Datos Oracle
-Este proyecto requiere una instalación local de **Oracle Database** (se recomienda la versión Express Edition 21c). La base de datos debe estar instalada y en funcionamiento antes de continuar.
+Este proyecto requiere una instalación local de **Oracle Database** (se recomienda la versión Express Edition 21c). La base de datos debe estar instalada y en funcionamiento.
+
+---
+## Manejo de Secretos (Variables de Entorno)
+
+Para evitar exponer contraseñas y claves secretas en el código, es una buena práctica usar un archivo `.env`.
+
+**1. Instala `python-dotenv`**
+```bash
+pip install python-dotenv
+```
+No olvides agregar la dependencia a tu archivo `requirements.txt`:
+```bash
+pip freeze > requirements.txt
+```
+
+**2. Crea el archivo `.env`**
+En la raíz del proyecto, crea un archivo llamado `.env` y pega el siguiente contenido, reemplazando los valores:
+```env
+# Archivo: .env
+SECRET_KEY='tu-secret-key-aqui-puedes-generar-una-nueva'
+DB_PASSWORD='LA_CONTRASEÑA_DEL_PROYECTO'
+```
+
+**3. Asegúrate de que `.env` esté en `.gitignore`**
+Abre tu archivo `.gitignore` y añade la línea `.env` para no subir nunca tus secretos al repositorio.
 
 ---
 ## Configuración Inicial (Solo la primera vez)
 
-Antes de ejecutar la aplicación, cada miembro del equipo debe configurar el usuario de la base de datos en su máquina local.
-
 ### 1. Conéctate a Oracle como Administrador
-Usa una herramienta como **SQL\*Plus** o **SQL Developer** para conectarte a tu base de datos local con privilegios de administrador.
-* **Usuario:** `sys as sysdba`
-* **Contraseña:** La que definiste durante la instalación de Oracle.
+Usa **SQL\*Plus** o **SQL Developer** con el usuario `sys as sysdba`.
 
 ### 2. Crea el Usuario para la Aplicación
-Una vez conectado como administrador, ejecuta los siguientes comandos SQL para crear el usuario y darle los permisos necesarios.
-
-> **¡Importante!** Todos en el equipo deben usar la misma contraseña para el usuario `clinica`, la cual está definida en el archivo `settings.py`. Pídele la contraseña al encargado de la configuración inicial.
+Ejecuta los siguientes comandos SQL. Reemplaza `"LA_CONTRASEÑA_DEL_PROYECTO"` con la misma contraseña que pusiste en tu archivo `.env`.
 
 ```sql
--- Permite la creación de usuarios locales en algunas versiones de Oracle
 alter session set "_ORACLE_SCRIPT"=true;
-
--- Crea el usuario de la aplicación
 create user clinica identified by "LA_CONTRASEÑA_DEL_PROYECTO";
-
--- Otorga permisos básicos para operar
 grant connect, resource to clinica;
-
--- Asigna espacio de almacenamiento
 alter user clinica quota unlimited on users;
 ```
 
 ---
 ## Instalación y Puesta en Marcha
-
-Sigue estos pasos en tu terminal para clonar y ejecutar el proyecto localmente.
 
 **1. Clona el Repositorio**
 ```bash
@@ -56,14 +66,10 @@ cd Clinica_web
 
 **2. Crea y Activa el Entorno Virtual**
 ```bash
-# Crea el entorno (sólo la primera vez)
+# Crea el entorno
 python -m venv venv
-
-# Activa el entorno (cada vez que abras una nueva terminal)
-# En Windows PowerShell:
+# Activa el entorno (Windows PowerShell)
 .\venv\Scripts\activate
-# En macOS/Linux:
-source venv/bin/activate
 ```
 
 **3. Instala las Dependencias**
@@ -71,8 +77,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Aplica las Migraciones de la Base de Datos**
-Este comando creará todas las tablas del proyecto en tu base de datos Oracle.
+**4. Aplica las Migraciones**
+Este comando creará todas las tablas y, gracias a una migración de datos, **insertará los roles y un superusuario por defecto**.
 ```bash
 python manage.py migrate
 ```
@@ -82,16 +88,29 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-**6. Crea un Superusuario Local (Paso Individual)**
-Este comando creará tu cuenta de administrador personal para acceder al panel de Django (`/admin`). **Cada miembro del equipo debe ejecutar este paso para crear su propio superusuario.** No es necesario compartir estas credenciales.
-```bash
-python manage.py createsuperuser
-```
+---
+## Credenciales de Acceso Iniciales
+
+La migración de datos crea un superusuario por defecto para que todo el equipo pueda empezar a probar. Las credenciales son:
+
+* **Username:** `superadmin`
+* **Email:** `admin@bosqueverde.cl`
+* **Password:** `superadminpassword`
+
+Existen dos formas de iniciar sesión:
+
+### Login Público (`/login/`)
+* **Usuario:** `admin@bosqueverde.cl` (se usa el **Email**)
+* **Contraseña:** `superadminpassword`
+
+### Panel de Administración de Django (`/admin/`)
+* **Usuario:** `superadmin` (se usa el **Username**)
+* **Contraseña:** `superadminpassword`
 
 ---
 ## Cómo Usar
 
-Una vez que el servidor esté corriendo, abre tu navegador en:
+Una vez que el servidor esté corriendo, abre browser en:
 
 **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**
 
