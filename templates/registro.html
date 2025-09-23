@@ -33,7 +33,6 @@
             <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
             <li><a href="{% url 'galerias' %}">Galerías</a></li>
             <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
         </ul>
         <a href="#" class="btn-reservar">Reservar Cita</a>
     </nav>
@@ -60,9 +59,8 @@
                         <!-- Nombre -->
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre *</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" 
-                                 value="{{ datos.nombre|default:'' }}"
-                                placeholder="Nombre">
+                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                value="{{ datos.nombre|default:'' }}" placeholder="Nombre">
                             <div class="error-message text-danger"></div>
                         </div>
 
@@ -70,16 +68,14 @@
                         <div class="mb-3">
                             <label for="apellidos" class="form-label">Apellidos *</label>
                             <input type="text" class="form-control" id="apellidos" name="apellidos"
-                                 value="{{ datos.apellidos|default:'' }}"
-                                placeholder="Apellidos">
+                                value="{{ datos.apellidos|default:'' }}" placeholder="Apellidos">
                             <div class="error-message text-danger"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="rut" class="form-label">RUT *</label>
-                            <input type="text" class="form-control" id="rut" name="rut" 
-                                value="{{ datos.rut|default:'' }}"
-                                placeholder="12345678-9">
+                            <input type="text" class="form-control" id="rut" name="rut"
+                                value="{{ datos.rut|default:'' }}" placeholder="12345678-9">
                             <div class="error-message text-danger"></div>
                             <div class="rut-helper">Formato: 12345678-9 (con guión y dígito verificador)</div>
                         </div>
@@ -88,8 +84,7 @@
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico *</label>
                             <input type="email" class="form-control" id="correo" name="email"
-                                value="{{ datos.email|default:'' }}" 
-                                placeholder="correo@ejemplo.com">
+                                value="{{ datos.email|default:'' }}" placeholder="correo@ejemplo.com">
                             <div class="error-message text-danger"></div>
                         </div>
 
@@ -123,12 +118,18 @@
                             <div class="error-message text-danger"></div>
                         </div>
 
+                        <!--Fecha de nacimiento-->
+                        <div class="form-group mb-3">
+                            <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="id_fecha_nacimiento" name="fecha_nacimiento"
+                                required>
+                        </div>
+
                         <!-- Dirección -->
                         <div class="mb-3">
                             <label for="direccion" class="form-label">Dirección *</label>
                             <input type="text" class="form-control" id="direccion" name="direccion"
-                                value="{{ datos.direccion|default:'' }}"
-                                placeholder="Dirección">
+                                value="{{ datos.direccion|default:'' }}" placeholder="Dirección">
                             <div class="error-message text-danger"></div>
                         </div>
 
@@ -136,8 +137,7 @@
                         <div class="mb-3">
                             <label for="telefono" class="form-label">Teléfono *</label>
                             <input type="text" class="form-control" id="telefono" name="telefono"
-                                value="{{ datos.telefono|default:'' }}"
-                                placeholder="Teléfono">
+                                value="{{ datos.telefono|default:'' }}" placeholder="Teléfono">
                             <div class="error-message text-danger"></div>
                         </div>
                         <!-- ROl -->

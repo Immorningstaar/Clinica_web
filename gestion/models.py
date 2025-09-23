@@ -20,7 +20,7 @@ class PerfilUsuario(models.Model):
 class Paciente(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     rut = models.CharField(max_length=20, unique=True)
-    fecha_nacimiento = models.DateField(null=True, blank=True)
+    fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=200)
     celular = models.CharField(max_length=20)
 
@@ -31,7 +31,9 @@ class Paciente(models.Model):
 class Profesional(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     rut = models.CharField(max_length=20, unique=True)
-    especialidad = models.CharField(max_length=100, null=True, blank=True) # Ej: "Cardiología", "Odontología"
+    especialidad = models.CharField(max_length=100)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+    celular = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return f"Dr(a). {self.usuario.first_name} {self.usuario.last_name} ({self.especialidad})"
