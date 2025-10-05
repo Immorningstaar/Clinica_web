@@ -12,7 +12,8 @@ from django.db.models import ObjectDoesNotExist
 import re 
 import random
 from datetime import timedelta
-from django.urls import reverse 
+from django.urls import reverse
+import requests
 
 
 # Modelos y Formularios
@@ -448,7 +449,23 @@ def profesionales(request):
     return render(request, 'profesionales.html')
 
 def pago(request):
-    return render(request, 'pago.html') 
+    valor_uf = None
+
+    try:
+        response = requests.get('https://mindicador.cl/api/uf')
+        response.raise_for_status()
+        data = response.json()
+        valor_uf = data['serie'][0]['valor']
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consumir UF API: {e}")
+        valor_uf = "No disponible."
+    
+    context = {
+        'valor_uf': valor_uf
+    }
+
+    return render(request, 'pago.html', context) 
 
 def centro(request):
     return render(request, 'centro.html')
