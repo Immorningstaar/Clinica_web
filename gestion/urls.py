@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import ProfesionalListAPIView
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('logout/', views.logout_page, name='logout'),
     path('api/profesionales/', ProfesionalListAPIView.as_view(), name='api-profesionales'),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth')
 ]
