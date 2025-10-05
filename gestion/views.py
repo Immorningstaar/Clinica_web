@@ -13,6 +13,10 @@ import re
 import random
 from datetime import timedelta
 from django.urls import reverse 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Profesional
+from .serializers import ProfesionalSerializer
 
 
 # Modelos y Formularios
@@ -463,3 +467,10 @@ def logout_page(request):
     logout(request)
     # Redirigir al usuario al index después de cerrar sesión
     return redirect('index')
+
+# API Profesionales
+class ProfesionalListAPIView(APIView):
+    def get(self, request):
+        profesionales = Profesional.objects.all()
+        serializer = ProfesionalSerializer(profesionales, many=True)
+        return Response(serializer.data)
