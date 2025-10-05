@@ -137,3 +137,5 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'gestion.backends.EmailBackend',
 ]
+
+WEATHERSTACK_API_KEY = 'bf078988d0638251fd5b7bbd7db58abd'

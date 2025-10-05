@@ -16,8 +16,7 @@
 
         <div class="logo-container">
             <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-            <a href="index.html" class="brand-name">Clínica Bosque Verde</a>
-        </div>
+            <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>        </div>
 
         <!-- Botón hamburguesa -->
         <div class="hamburger">
@@ -52,11 +51,28 @@
         <h1>Bienvenido a Clínica Bosque Verde</h1>
         <h3>Tu salud, nuestra prioridad.</h3>
         <a href="#" class="btn-hero">Reservar ahora</a>
+        <hr>
+        {% if datos_clima %}
+        <div class="weather-widget">
+            <div class="weather-header">
+                <h3>Clima en {{ datos_clima.ciudad }} (Actual)</h3>
+            </div>
+            <div class="weather-details">
+                <span>Sensación: {{ datos_clima.sensacion_termica }}</span> |
+                <span>Humedad: {{ datos_clima.humedad }}</span> |
+                <span>Viento: {{ datos_clima.viento }}</span>
+            </div>
+        </div>
+        {% else %}
+            <div class="alert uf-alert" role="alert">
+                El servicio de clima no está disponible.
+            </div>
+        {% endif %}
     </header>
+
     <!-- Servicios con cards -->
     <section>
         <h2 class="section-title">Nuestros Servicios</h2>
-        <div class="galeria-container">
             <!-- Card 1 -->
             <div class="galeria-card">
                 <img src="{% static 'assets/images/clinica4.jpg' %}" alt="Consulta Médica General">
