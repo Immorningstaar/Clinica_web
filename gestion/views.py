@@ -136,11 +136,56 @@ def registro(request):
     # Manejar la petición GET (mostrar el formulario vacío)
     return render(request, 'registro.html')
 
+
 def index(request):
-    return render(request, 'index.html')
+    datos_clima = None
+    
+    try:
+        api_key = settings.WEATHERSTACK_API_KEY
+    except AttributeError:
+        print("Error: WEATHERSTACK_API_KEY no está definida en settings.py.")
+        context = { 'user': request.user, 'datos_clima': None }
+        return render(request, 'index.html', context)
+    
+    WEATHERSTACK_URL = f'http://api.weatherstack.com/current?access_key={api_key}&query=Santiago&units=m'
+    
+    try:
+        response_clima = requests.get(WEATHERSTACK_URL, timeout=5)
+        response_clima.raise_for_status()
+        
+        data_clima = response_clima.json()
+        
+        if data_clima.get('success', True) == False:
+             error_info = data_clima.get('error', {}).get('info', 'Error desconocido de Weatherstack.')
+             raise Exception(f"Error de la API de Weatherstack: {error_info}")
 
 
+        current = data_clima.get('current', {})
+        location = data_clima.get('location', {})
+        
+        datos_clima = {
+            'ciudad': location.get('name', 'N/A'),
+            'temperatura': f"{current.get('temperature', 'N/A')}°C",
+            'sensacion_termica': f"{current.get('feelslike', 'N/A')}°C",
+            'descripcion': current.get('weather_descriptions', ['Sin datos'])[0],
+            'humedad': f"{current.get('humidity', 'N/A')}%",
+            'viento': f"{current.get('wind_speed', 'N/A')} km/h",
+        }
 
+    except requests.exceptions.RequestException as e:
+        print(f"Advertencia: Error de conexión HTTP o Timeout. {e}")
+        datos_clima = None
+    except Exception as e:
+        print(f"Advertencia: Error al procesar datos de clima. {e}")
+        datos_clima = None
+
+
+    context = {
+        'user': request.user,
+        'datos_clima': datos_clima, 
+    }
+    
+    return render(request, 'index.html', context)
 
 
 # --- Administración de usuarios (CRUD para Administrador) ---
@@ -440,15 +485,6 @@ def perfil_page(request):
     }
     
     return render(request, 'perfil.html', context)
-
-# Vistas de navegación que no necesitan protección
-def index(request):
-    # Se pasa el objeto request.user al contexto, ya sea un usuario logueado o anónimo.
-    context = {
-        'user': request.user
-    }
-    return render(request, 'index.html', context)
-
 
 def profesionales(request):
     return render(request, 'profesionales.html')

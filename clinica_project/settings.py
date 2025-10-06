@@ -146,3 +146,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+WEATHERSTACK_API_KEY = 'bf078988d0638251fd5b7bbd7db58abd'
