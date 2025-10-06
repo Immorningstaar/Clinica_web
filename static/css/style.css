@@ -604,6 +604,14 @@ footer {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.alert.uf-alert{
+    border: 1px solid #91B38E;
+    background-color: #D3ECDC;
+    padding: 10px ;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
 /* ---- Estilos para pantallas de 768px en adelante ---- */
 @media (min-width: 768px) {
     .profesional-card {
@@ -614,3 +622,4 @@ footer {
         text-align: left;
     }
 }
+

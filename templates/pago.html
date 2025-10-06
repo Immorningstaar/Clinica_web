@@ -59,6 +59,11 @@
                 <p>
                     Asegúrate de tener a mano tu número de cita y el monto a cancelar antes de continuar.
                 </p>
+                {% if valor_uf and valor_uf != "No disponible" %}
+                    <div class="alert uf-alert" role="alert">
+                        <strong>Valor UF de hoy:</strong> ${{ valor_uf }} (Considerar para presupuesto)
+                    </div>
+                {% endif %}
             </section>
              <!-- Formulario -->
         <section class="form-section">
