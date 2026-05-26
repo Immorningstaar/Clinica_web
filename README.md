@@ -22,6 +22,8 @@ Plataforma integral que permite la administración de citas, atenciones médicas
 
 ### 👨‍⚕️ Profesionales
 - Perfil con foto, especialidad, dirección y contacto
+<img width="2496" height="1286" alt="image" src="https://github.com/user-attachments/assets/c1cfae10-bce6-4661-8bcc-cb888cbe9281" />
+
 - Agenda diaria con todas las citas del día
 - Botón **"Atender"** → la cita pasa a estado *"En curso"* y redirige a la ficha clínica
 <img width="2536" height="972" alt="image" src="https://github.com/user-attachments/assets/4a05a8ff-0cb1-4839-a2bb-6d2461f4af92" />
