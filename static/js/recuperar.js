@@ -107,7 +107,7 @@ $(document).ready(function () {
         }).then(r=>r.json()).then(data=>{
             if (!data.ok) throw new Error(data.error || 'No fue posible restablecer');
             $("#mensajeExito").removeClass('d-none');
-            setTimeout(() => { window.location.href = 'login.html'; }, 1800);
+            setTimeout(() => { window.location.href = '/login/'; }, 1800);
         }).catch(err=>{
             $("#codigo").addClass("is-invalid");
             $("#codigo").next(".error-message").text(err.message).show();

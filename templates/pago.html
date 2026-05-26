@@ -1,100 +1,77 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pago en Línea - Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <!-- Barra de navegación -->
-        <nav>
-            <div class="logo-container">
-                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-            <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>        </div>
-        <!-- Botón hamburguesa -->
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <ul class="link-container">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
-            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
-            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
-            <li><a href="{% url 'galerias' %}">Galerías</a></li>
-            {% if user.is_authenticated %}
-            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
-            </li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
-            <li><a href="{% url 'registro' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
-        <a href="reservar.html" class="btn-reservar">Reservar Cita</a>
-    </nav>
+{% extends 'base.html' %}
+{% load static l10n %}
 
-        <!-- Encabezado con imagen -->
-        <header class="hero-pago">
-            <div class="hero-text">
-                <h1>Pago en Línea</h1>
-                <p>Realiza tus pagos de forma rápida y segura desde cualquier lugar.</p>
+{% block title %}Pago en Línea - Clínica Bosque Verde{% endblock %}
+
+{% block content %}
+<header class="hero-pago">
+    <div class="hero-text">
+        <h1>Pago en Línea</h1>
+        <p>Realiza tus pagos de forma rápida y segura desde cualquier lugar.</p>
+    </div>
+</header>
+<main class="content">
+    <section class="intro">
+        <h2>Información importante</h2>
+        <p>Nuestro sistema de pagos en línea está diseñado para brindarte comodidad y seguridad. Puedes cancelar tus consultas directamente desde la web mediante WebPay.</p>
+        {% if valor_uf and valor_uf != "No disponible" %}
+            <div class="alert uf-alert" role="alert">
+                <strong>Valor UF de hoy:</strong> ${{ valor_uf }} (Considerar para presupuesto)
             </div>
-        </header>
-        <!-- Contenido -->
-        <main class="content">
-            <section class="intro">
-                <h2>Información importante</h2>
-                <p>
-                    Nuestro sistema de pagos en línea está diseñado para brindarte comodidad y seguridad.
-                    Puedes cancelar tus consultas, procedimientos o exámenes directamente desde la web, 
-                    sin necesidad de venir a la clínica.
-                </p>
-                <p>
-                    Asegúrate de tener a mano tu número de cita y el monto a cancelar antes de continuar.
-                </p>
-                {% if valor_uf and valor_uf != "No disponible" %}
-                    <div class="alert uf-alert" role="alert">
-                        <strong>Valor UF de hoy:</strong> ${{ valor_uf }} (Considerar para presupuesto)
+        {% endif %}
+    </section>
+    <section class="form-section">
+        <h2>Tus Citas Pendientes de Pago</h2>
+        {% if user.is_authenticated %}
+            {% if citas_pendientes %}
+                {% for cita in citas_pendientes %}
+                <div class="pending-cita-card boleta">
+                    <div class="boleta-header">
+                        <h3>Boleta de Pago — Cita #{{ cita.id }}</h3>
                     </div>
-                {% endif %}
-            </section>
-             <!-- Formulario -->
-        <section class="form-section">
-            <h2>Formulario de Pago</h2>
-            <form id="pagoForm">
-                <div class="form-grid">
-                    <div>
-                        <input type="text" id="numeroCita" class="form-control" placeholder="Número de cita" required>
-                        <div class="error-message"></div>
+                    <div class="boleta-body">
+                        <div class="boleta-row">
+                            <span class="boleta-label">Paciente:</span>
+                            <span class="boleta-value">{{ user.first_name }} {{ user.last_name }}</span>
+                        </div>
+                        <div class="boleta-row">
+                            <span class="boleta-label">Profesional:</span>
+                            <span class="boleta-value">Dr(a). {{ cita.profesional.usuario.first_name }} {{ cita.profesional.usuario.last_name }}</span>
+                        </div>
+                        <div class="boleta-row">
+                            <span class="boleta-label">Fecha:</span>
+                            <span class="boleta-value">{{ cita.fecha_hora|date:"d/m/Y H:i" }}</span>
+                        </div>
+                        <div class="boleta-row">
+                            <span class="boleta-label">Motivo:</span>
+                            <span class="boleta-value">{{ cita.motivo }}</span>
+                        </div>
+                        <hr>
+                        <div class="boleta-row">
+                            <span class="boleta-label">Consulta médica:</span>
+                            <span class="boleta-value">${{ cita.monto_base|floatformat:0 }} CLP</span>
+                        </div>
+                        <div class="boleta-row">
+                            <span class="boleta-label">IVA (19%):</span>
+                            <span class="boleta-value">${{ cita.monto_iva|floatformat:0 }} CLP</span>
+                        </div>
+                        <hr>
+                        <div class="boleta-row boleta-total">
+                            <span class="boleta-label"><strong>TOTAL:</strong></span>
+                            <span class="boleta-value"><strong>${{ cita.monto_total|floatformat:0 }} CLP</strong></span>
+                        </div>
                     </div>
-                    <div>
-                        <input type="number" id="montoPago" class="form-control" placeholder="Monto a pagar" required min="1">
-                        <div class="error-message"></div>
+                    <div class="boleta-footer">
+                        <a href="{% url 'webpay_simular' cita.id %}" class="btn-webpay">Pagar con WebPay →</a>
                     </div>
-                    <div>
-                        <select id="metodoPago" class="form-control" required>
-                            <option value="">Seleccione un método de pago</option>
-                            <option value="tarjeta">Tarjeta de Crédito/Débito</option>
-                            <option value="transferencia">Transferencia Bancaria</option>
-                            <option value="webpay">WebPay</option>
-                        </select>
-                        <input type="email" placeholder="Correo electrónico de confirmación" required>
-                    </div>
-                    <button type="submit" class="btn-submit">Pagar ahora</button>
-                </form>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-    </body>
-</html>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'js/pago.js' %}"></script>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No tienes citas pendientes de pago. <a href="{% url 'reservar' %}">Reserva una cita</a> para continuar.</p>
+            {% endif %}
+        {% else %}
+            <p class="text-muted">Debes <a href="{% url 'login' %}">iniciar sesión</a> para ver tus citas pendientes.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

@@ -1,131 +1,92 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admisión y Presupuestos - Clínica Bosque Verde</title>
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    </head>
-    <body>
-        <!-- Barra de navegación -->
-        <nav>
-            <div class="logo-container">
-                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-                <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>            </div>
-            <!-- Botón hamburguesa -->
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admisión y Presupuestos - Clínica Bosque Verde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block content %}
+<header class="hero-admision">
+    <div class="hero-text">
+        <h1>Admisión y Presupuestos</h1>
+        <p>En Clínica Bosque Verde nos preocupamos por entregarte un servicio claro y seguro. Revisa aquí los requisitos y solicita tu presupuesto en línea.</p>
+    </div>
+</header>
+<main class="content">
+    <section class="intro">
+        <h2>Información importante</h2>
+        <p>Nuestra clínica es de mediana complejidad, por lo tanto todo paciente debe pasar por una pre-evaluación ya sea para cirugía o para parto. Este proceso es previo a agendar hora para pabellón o para fecha de parto.</p>
+        <p>Para nosotros lo más importante es contar con la seguridad tanto para nuestros pacientes como para el recién nacido, en entregar una atención integral completa en lo que requieran durante su hospitalización.</p>
+        <p>Al enviar tu solicitud, recibirás un presupuesto estimado basado en tu previsión de salud.</p>
+    </section>
+    <section class="form-section">
+        <h2>Solicita tu Presupuesto</h2>
+        <form id="formulario-presupuesto" method="POST" action="{% url 'solicitar_presupuesto' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div>
+                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" value="{% if datos_paciente %}{{ datos_paciente.nombre }}{% elif user.is_authenticated %}{{ user.first_name }}{% endif %}" {% if not user.is_authenticated %}required{% endif %}>
+                    <div id="error-nombre" class="error"></div>
+                </div>
+                <div>
+                    <input type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Apellidos" value="{% if datos_paciente %}{{ datos_paciente.apellidos }}{% elif user.is_authenticated %}{{ user.last_name }}{% endif %}" {% if not user.is_authenticated %}required{% endif %}>
+                    <div id="error-apellidos" class="error"></div>
+                </div>
+                <div>
+                    <input type="text" id="rut" name="rut" class="form-control" placeholder="RUT (Ej: 12345678-9)" value="{{ datos_paciente.rut }}" required>
+                    <div id="error-rut" class="error"></div>
+                </div>
+                <div>
+                    <input type="date" id="fecha" name="fecha_nacimiento" class="form-control" placeholder="Fecha Nac." value="{{ datos_paciente.fecha_nacimiento }}" required>
+                    <div id="error-fecha" class="error"></div>
+                </div>
+                <div>
+                    <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="Teléfono" value="{{ datos_paciente.telefono }}" required>
+                    <div id="error-telefono" class="error"></div>
+                </div>
+                <div>
+                    <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo Electrónico" value="{% if datos_paciente %}{{ datos_paciente.correo }}{% elif user.is_authenticated %}{{ user.email }}{% endif %}" {% if not user.is_authenticated %}required{% endif %}>
+                    <div id="error-correo" class="error"></div>
+                </div>
+                <div>
+                    <input type="text" id="comuna" name="comuna" class="form-control" placeholder="Comuna" value="{{ datos_paciente.direccion }}">
+                    <div id="error-comuna" class="error"></div>
+                </div>
+                <div>
+                    <select id="medico" name="medico_tratante" class="form-control">
+                        <option value="">Seleccione un médico</option>
+                        {% for p in profesionales %}
+                        <option value="{{ p.usuario.first_name }} {{ p.usuario.last_name }}">Dr(a). {{ p.usuario.first_name }} {{ p.usuario.last_name }} — {{ p.especialidad }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="error-medico" class="error"></div>
+                </div>
+                <div>
+                    <select id="prevision" name="prevision" class="form-control" required>
+                        <option value="">Seleccione previsión</option>
+                        <option value="FONASA">FONASA</option>
+                        <option value="Isapre">Isapre</option>
+                        <option value="Particular">Particular</option>
+                    </select>
+                    <div id="error-prevision" class="error"></div>
+                </div>
             </div>
-            <ul class="link-container">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
-            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
-            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
-            <li><a href="{% url 'galerias' %}">Galerías</a></li>
-            {% if user.is_authenticated %}
-            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
-            </li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
-            <li><a href="{% url 'registro' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
-            <a href="reservar.html" class="btn-reservar">Reservar Cita</a>
-        </nav>
-        
-        <!-- Encabezado con imagen -->
-        <header class="hero-admision">
-            <div class="hero-text">
-                <h1>Admisión y Presupuestos</h1>
-                <p>En Clínica Bosque Verde nos preocupamos por entregarte un servicio claro y seguro.
-                    Revisa aquí los requisitos y solicita tu presupuesto en línea.</p>
+            <div class="form-info" style="margin: 10px 0; font-size: 0.9rem; color: #555;">
+                <i class="bi bi-info-circle"></i> El monto estimado se calculará según tu previsión: FONASA (70%), Isapre (100%), Particular (120%) sobre una base de $80,000 CLP.
             </div>
-        </header>
-        
-        <!-- Contenido -->
-        <main class="content">
-            <section class="intro">
-                <h2>Información importante</h2>
-                <p>
-                    Nuestra clínica es de mediana complejidad, por lo tanto todo paciente debe pasar
-                    por una pre-evaluación ya sea para cirugía o para parto. Este proceso es previo
-                    a agendar hora para pabellón o para fecha de parto.
-                </p>
-                <p>
-                    Para nosotros lo más importante es contar con la seguridad tanto para nuestros pacientes
-                    como para el recién nacido, en entregar una atención integral completa en lo que requieran
-                    durante su hospitalización.
-                </p>
-            </section>
-            
-            <!-- Formulario -->
-            <section class="form-section">
-                <h2>Solicita tu Presupuesto</h2>
-                <form id="formulario-presupuesto">
-                    <div class="form-grid">
-                        <div>
-                            <input type="text" id="nombre" class="form-control" placeholder="Nombre" required>
-                            <div id="error-nombre" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="text" id="apellidos" class="form-control" placeholder="Apellidos" required>
-                            <div id="error-apellidos" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="text" id="rut" class="form-control" placeholder="RUT (Ej: 12345678-9)" required>
-                            <div id="error-rut" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="date" id="fecha" class="form-control" placeholder="Fecha Nac." required>
-                            <div id="error-fecha" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="tel" id="telefono" class="form-control" placeholder="Teléfono" required>
-                            <div id="error-telefono" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="email" id="correo" class="form-control" placeholder="Correo Electrónico" required>
-                            <div id="error-correo" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="text" id="comuna" class="form-control" placeholder="Comuna">
-                            <div id="error-comuna" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="text" id="medico" class="form-control" placeholder="Médico tratante">
-                            <div id="error-medico" class="error"></div>
-                        </div>
-                        <div>
-                            <input type="text" id="prevision" class="form-control" placeholder="Previsión">
-                            <div id="error-prevision" class="error"></div>
-                        </div>
-                    </div>
-                    <div class="form-file mt-3">
-                        <label for="orden" class="form-label">Adjuntar Orden Médica:</label>
-                        <input type="file" id="orden" name="orden" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
-                        <div id="error-orden" class="error"></div>
-                    </div>
-                    <button type="submit">Enviar</button>
-                </form>
-            </section>
-        </main>
-        
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-        
-        <!--  Scripts -->
-        <script src="{% static 'js/menu.js' %}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{% static 'js/admision.js' %}"></script>
-    </body>
-</html>
+            <div class="form-file mt-3">
+                <label for="orden" class="form-label">Adjuntar Orden Médica:</label>
+                <input type="file" id="orden" name="documento" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+                <div id="error-orden" class="error"></div>
+            </div>
+            <button type="submit">Enviar Solicitud</button>
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admision.js' %}"></script>
+{% endblock %}

@@ -1,81 +1,38 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <!--Etiqueta para controlar como se verá la pag web en dispositivos móviles-->    
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <!-- Barra de navegación -->
-        <nav>
-            <div class="logo-container">
-                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-                <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>            </div>
-            <!-- Botón hamburguesa -->
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-           <ul class="link-container">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
-            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
-            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
-            <li><a href="{% url 'galerias' %}">Galerías</a></li>
-            {% if user.is_authenticated %}
-            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
-            </li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
-            <li><a href="{% url 'registro' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
-            <a href="#" class="btn-reservar">Reservar Cita</a>
-        </nav>
-        <main>
-            <section>
-                <h1>Explora Nuestras Instalaciones</h1>
-                <div class="galeria-container">
-                    <!-- Card 1 -->
-                    <div class="galeria-card">
-                        <img src="{% static 'assets/images/clinica1.jpeg' %}" alt="Recepción">
-                        <div class="galeria-info">
-                            <h3>Recepción</h3>
-                            <p>Nuestro espacio de recepción está diseñado para entregar comodidad y confianza a los pacientes desde el primer momento.</p>
-                            <a href="#" class="galeria-btn">Más información</a>
-                        </div>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="galeria-card">
-                        <img src="{% static 'assets/images/clinica2.jpeg' %}" alt="Equipos Médicos">
-                        <div class="galeria-info">
-                            <h3>Equipos Médicos</h3>
-                            <p>Contamos con tecnología moderna y equipos de última generación para diagnósticos precisos y tratamientos efectivos.</p>
-                            <a href="#" class="galeria-btn">Más información</a>
-                        </div>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="galeria-card">
-                        <img src="{% static 'assets/images/clinica3.jpeg' %}" alt="Personal de Trabajo">
-                        <div class="galeria-info">
-                            <h3>Personal de Trabajo</h3>
-                            <p>Un equipo humano altamente capacitado y comprometido con la salud y bienestar de nuestros pacientes.</p>
-                            <a href="#" class="galeria-btn">Más información</a>
-                        </div>
-                    </div>
+
+{% block title %}Clínica Bosque Verde - Galerías{% endblock %}
+
+{% block content %}
+<main>
+    <section>
+        <h1>Explora Nuestras Instalaciones</h1>
+        <div class="galeria-container">
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica1.jpg' %}" alt="Recepción">
+                <div class="galeria-info">
+                    <h3>Recepción</h3>
+                    <p>Nuestro espacio de recepción está diseñado para entregar comodidad y confianza a los pacientes desde el primer momento.</p>
+                    <a href="#" class="galeria-btn">Más información</a>
                 </div>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-        <script src="{% static 'js/menu.js' %}"></script>
-    </body>
-</html>
+            </div>
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica2.jpg' %}" alt="Equipos Médicos">
+                <div class="galeria-info">
+                    <h3>Equipos Médicos</h3>
+                    <p>Contamos con tecnología moderna y equipos de última generación para diagnósticos precisos y tratamientos efectivos.</p>
+                    <a href="#" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+            <div class="galeria-card">
+                <img src="{% static 'assets/images/clinica3.jpg' %}" alt="Personal de Trabajo">
+                <div class="galeria-info">
+                    <h3>Personal de Trabajo</h3>
+                    <p>Un equipo humano altamente capacitado y comprometido con la salud y bienestar de nuestros pacientes.</p>
+                    <a href="#" class="galeria-btn">Más información</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

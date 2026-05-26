@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Página no encontrada - Clínica Bosque Verde{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1>404</h1>
+    <h2>Página no encontrada</h2>
+    <p>La página que buscas no existe o ha sido movida.</p>
+    <a href="{% url 'index' %}" class="btn-hero">Volver al inicio</a>
+</div>
+{% endblock %}

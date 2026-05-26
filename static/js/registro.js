@@ -1,4 +1,13 @@
 $(document).ready(function () {
+    // Mostrar/ocultar campo de especialidad según rol seleccionado
+    $("#rol").on("change", function () {
+        if ($(this).val() === "profesional") {
+            $("#especialidad-field").show();
+        } else {
+            $("#especialidad-field").hide();
+        }
+    });
+
     // Validar fortaleza de contraseña en tiempo real
     $("#password").on("input", function () {
         validatePasswordRequirements($(this).val());

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reservar Cita - Clínica Bosque Verde{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Reservar Cita</h1>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card p-4">
+                {% if errores %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for error in errores %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                <form id="reservaForm" method="POST" action="{% url 'reservar' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="profesional" class="form-label">Profesional *</label>
+                        <select class="form-select" id="profesional" name="profesional" required>
+                            <option value="">Seleccione un profesional</option>
+                            {% for p in profesionales %}
+                            <option value="{{ p.pk }}" {% if datos.profesional|add:"0" == p.pk %}selected{% endif %}>
+                                Dr(a). {{ p.usuario.first_name }} {{ p.usuario.last_name }} - {{ p.especialidad }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha *</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" min="{{ hoy_iso }}" value="{{ datos.fecha|default:'' }}" required>
+                        <div class="error-message text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="hora" class="form-label">Hora *</label>
+                        <select class="form-select" id="hora" name="hora" required>
+                            <option value="">Seleccione un horario</option>
+                            {% for bloque in bloques_horarios %}
+                            <option value="{{ bloque }}" {% if datos.hora == bloque %}selected{% endif %}>{{ bloque }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">Motivo de la Consulta *</label>
+                        <textarea class="form-control" id="motivo" name="motivo" rows="3" required>{{ datos.motivo|default:'' }}</textarea>
+                        <div class="error-message text-danger"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Agendar Cita</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/reservar.js' %}"></script>
+{% endblock %}

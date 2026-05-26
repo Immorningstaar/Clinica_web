@@ -265,11 +265,13 @@ class ProfesionalPerfilForm(forms.ModelForm):
     class Meta:
         model = Profesional
         # Campos editables del Profesional (Dirección y Teléfono)
-        fields = ('direccion', 'celular') 
+        fields = ('direccion', 'celular', 'foto')
         labels = {
             'celular': 'Teléfono',
+            'foto': 'Foto de Perfil',
         }
         widgets = {
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'celular': forms.TextInput(attrs={'class': 'form-control'}),
+            'foto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }

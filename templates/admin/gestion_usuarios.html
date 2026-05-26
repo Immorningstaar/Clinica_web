@@ -1,402 +1,270 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Usuarios - Clínica Bosque Verde</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        /* stylelint-disable */
-        /* Forzar barras verdes (nav y footer) a ancho completo */
-        nav, footer { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); max-width: 100vw; }
-        /* Altura y alineación coherente del nav en móvil */
-        nav { min-height: 56px; }
-        .logo { height: 48px; }
+{% extends 'base.html' %}
+{% load static %}
 
-        .contenedor-admin { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
-        .fila { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
-        th { background: #f6f6f6; }
-        tbody tr:hover { background: #fafafa; }
-        .acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .acciones a, .acciones form { display: inline-block; margin: 0; }
-        .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
-        .acciones button { width: auto; }
-        .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; cursor: pointer; }
-        .btn-primario { background: #2e7d32; color: #fff; }
-        .btn-secundario { background: #1565c0; color: #fff; }
-        .btn-peligro { background: #c62828; color: #fff; }
-        .panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
-        .panel form { max-width: 100%; margin: 0; }
-        .panel h3 { margin-top: 0; }
-        .campo { margin-bottom: 10px; position: relative; }
-        /* Tooltip/burbuja de ayuda para contraseña */
-        .hint-bubble{position:absolute; left:0; top:100%; transform:translateY(6px); background:#fff; border:1px solid #ddd; border-radius:8px; padding:10px 12px; box-shadow:0 6px 18px rgba(0,0,0,.12); width:320px; max-width:calc(100vw - 40px); display:none; z-index:5000}
-        .hint-bubble::before{content:""; position:absolute; top:-8px; left:16px; border-width:8px; border-style:solid; border-color:transparent transparent #ddd transparent}
-        .hint-bubble::after{content:""; position:absolute; top:-7px; left:16px; border-width:7px; border-style:solid; border-color:transparent transparent #fff transparent}
-        .hint-bubble strong{display:block; margin-bottom:6px}
-        .hint-bubble ul{margin:0; padding:0}
-        .hint-bubble li{list-style:none; margin:4px 0; padding-left:22px; position:relative; color:#444}
-        .hint-bubble li::before{content:"•"; position:absolute; left:6px; color:#888}
-        .hint-bubble li.ok{color:#2e7d32}
-        .hint-bubble li.ok::before{content:"✓"; color:#2e7d32}
-        /* Mostrar al enfocar el input de contraseña */
-        .campo input[type="password"]:focus + .hint-bubble{display:block}
-        .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
-        .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .buscador { margin: 12px 0 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .buscador input { flex: 1 1 240px; }
-        .buscador button { flex: 0 0 auto; width: auto; }
-        .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
-        .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .tabla-scroll table { min-width: 720px; }
+{% block title %}Gestión de Usuarios - Clínica Bosque Verde{% endblock %}
 
-        /* Modal de confirmación */
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10000}
-        .modal-overlay.show{display:flex}
-        .modal-box{background:#fff;border-radius:10px;padding:18px 22px;max-width:420px;width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-        .modal-box h3{margin:0 0 8px 0}
-        .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
-        .btn-text{background:#e0e0e0;color:#333}
+{% block extra_css %}
+<style>
+    nav, footer { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); max-width: 100vw; }
+    nav { min-height: 56px; }
+    .logo { height: 48px; }
+    .contenedor-admin { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
+    .fila { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    th { background: #f6f6f6; }
+    tbody tr:hover { background: #fafafa; }
+    .acciones { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .acciones a, .acciones form { display: inline-block; margin: 0; }
+    .acciones form { background: transparent; padding: 0; box-shadow: none; max-width: none; }
+    .acciones button { width: auto; }
+    .btn { padding: 8px 12px; border-radius: 4px; text-decoration: none; cursor: pointer; }
+    .btn-primario { background: #2e7d32; color: #fff; }
+    .btn-secundario { background: #1565c0; color: #fff; }
+    .btn-peligro { background: #c62828; color: #fff; }
+    .panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
+    .panel form { max-width: 100%; margin: 0; }
+    .panel h3 { margin-top: 0; }
+    .campo { margin-bottom: 10px; position: relative; }
+    .hint-bubble{position:absolute; left:0; top:100%; transform:translateY(6px); background:#fff; border:1px solid #ddd; border-radius:8px; padding:10px 12px; box-shadow:0 6px 18px rgba(0,0,0,.12); width:320px; max-width:calc(100vw - 40px); display:none; z-index:5000}
+    .hint-bubble::before{content:""; position:absolute; top:-8px; left:16px; border-width:8px; border-style:solid; border-color:transparent transparent #ddd transparent}
+    .hint-bubble::after{content:""; position:absolute; top:-7px; left:16px; border-width:7px; border-style:solid; border-color:transparent transparent #fff transparent}
+    .hint-bubble strong{display:block; margin-bottom:6px}
+    .hint-bubble ul{margin:0; padding:0}
+    .hint-bubble li{list-style:none; margin:4px 0; padding-left:22px; position:relative; color:#444}
+    .hint-bubble li::before{content:"•"; position:absolute; left:6px; color:#888}
+    .hint-bubble li.ok{color:#2e7d32}
+    .hint-bubble li.ok::before{content:"✓"; color:#2e7d32}
+    .campo input[type="password"]:focus + .hint-bubble{display:block}
+    .campo label { display: block; font-weight: 600; margin-bottom: 4px; }
+    .campo input, .campo select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .buscador { margin: 12px 0 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .buscador input { flex: 1 1 240px; }
+    .buscador button { flex: 0 0 auto; width: auto; }
+    .mensaje { padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; margin-bottom: 10px; }
+    .tabla-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tabla-scroll table { min-width: 720px; }
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10000}
+    .modal-overlay.show{display:flex}
+    .modal-box{background:#fff;border-radius:10px;padding:18px 22px;max-width:420px;width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .modal-box h3{margin:0 0 8px 0}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+    .btn-text{background:#e0e0e0;color:#333}
+    @media (max-width: 320px) {
+        .contenedor-admin { padding: 0 8px; }
+        .fila { grid-template-columns: 1fr; gap: 16px; }
+        th, td { padding: 8px; }
+        .btn { padding: 6px 8px; font-size: 0.86rem; }
+        .acciones { gap: 6px; }
+        .tabla-scroll table { min-width: 500px; }
+    }
+    @media (min-width: 321px) and (max-width: 375px) {
+        .contenedor-admin { padding: 0 10px; }
+        .fila { grid-template-columns: 1fr; gap: 18px; }
+        .btn { padding: 6px 9px; font-size: 0.9rem; }
+        .tabla-scroll table { min-width: 560px; }
+    }
+    @media (min-width: 376px) and (max-width: 425px) {
+        .fila { grid-template-columns: 1fr; }
+        .btn { padding: 6px 10px; font-size: 0.94rem; }
+        .tabla-scroll table { min-width: 620px; }
+    }
+    @media (min-width: 426px) and (max-width: 767px) {
+        .fila { grid-template-columns: 1fr; }
+        .btn { padding: 6px 10px; font-size: 0.96rem; }
+        .tabla-scroll table { min-width: 700px; }
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .fila { grid-template-columns: 1fr; gap: 22px; }
+        .contenedor-admin { max-width: 980px; }
+        .tabla-scroll table { min-width: 760px; }
+    }
+    @media (min-width: 1024px) and (max-width: 1439px) {
+        .fila { grid-template-columns: 2fr 1fr; }
+        .contenedor-admin { max-width: 1280px; }
+    }
+    @media (min-width: 1440px) and (max-width: 2559px) {
+        .contenedor-admin { max-width: 1400px; }
+        .btn { padding: 8px 12px; font-size: 1rem; }
+    }
+    @media (min-width: 2560px) {
+        .contenedor-admin { max-width: 1600px; }
+        .btn { padding: 10px 14px; font-size: 1.02rem; }
+    }
+    @media (max-width: 425px) {
+        .tabla-scroll table, .tabla-scroll thead, .tabla-scroll tbody, .tabla-scroll th, .tabla-scroll td, .tabla-scroll tr { display: block; }
+        .tabla-scroll thead { display: none; }
+        .tabla-scroll tr { margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; }
+        .tabla-scroll td { border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; gap: 10px; }
+        .tabla-scroll td:last-child { border-bottom: none; }
+        .tabla-scroll td::before { content: attr(data-label); font-weight: 600; color: #555; }
+        .acciones { justify-content: flex-end; }
+    }
+</style>
+{% endblock %}
 
-        /* 320px */
-        @media (max-width: 320px) {
-            .contenedor-admin { padding: 0 8px; }
-            .fila { grid-template-columns: 1fr; gap: 16px; }
-            th, td { padding: 8px; }
-            .btn { padding: 6px 8px; font-size: 0.86rem; }
-            .acciones { gap: 6px; }
-            .tabla-scroll table { min-width: 500px; }
-        }
-
-        /* 321–375px */
-        @media (min-width: 321px) and (max-width: 375px) {
-            .contenedor-admin { padding: 0 10px; }
-            .fila { grid-template-columns: 1fr; gap: 18px; }
-            .btn { padding: 6px 9px; font-size: 0.9rem; }
-            .tabla-scroll table { min-width: 560px; }
-        }
-
-        /* 376–425px */
-        @media (min-width: 376px) and (max-width: 425px) {
-            .fila { grid-template-columns: 1fr; }
-            .btn { padding: 6px 10px; font-size: 0.94rem; }
-            .tabla-scroll table { min-width: 620px; }
-        }
-
-        /* 426–767px (teléfonos grandes) */
-        @media (min-width: 426px) and (max-width: 767px) {
-            .fila { grid-template-columns: 1fr; }
-            .btn { padding: 6px 10px; font-size: 0.96rem; }
-            .tabla-scroll table { min-width: 700px; }
-        }
-
-        /* 768–1023px (tablets) */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .fila { grid-template-columns: 1fr; gap: 22px; }
-            .contenedor-admin { max-width: 980px; }
-            .tabla-scroll table { min-width: 760px; }
-        }
-
-        /* 1024–1439px (desktop estándar) */
-        @media (min-width: 1024px) and (max-width: 1439px) {
-            .fila { grid-template-columns: 2fr 1fr; }
-            .contenedor-admin { max-width: 1280px; }
-        }
-
-        /* 1440–2559px (desktop grande) */
-        @media (min-width: 1440px) and (max-width: 2559px) {
-            .contenedor-admin { max-width: 1400px; }
-            .btn { padding: 8px 12px; font-size: 1rem; }
-        }
-
-        /* ≥2560px (2K/4K) */
-        @media (min-width: 2560px) {
-            .contenedor-admin { max-width: 1600px; }
-            .btn { padding: 10px 14px; font-size: 1.02rem; }
-        }
-
-        /* Tabla modo tarjeta en móviles (≤425px) */
-        @media (max-width: 425px) {
-            .tabla-scroll table, .tabla-scroll thead, .tabla-scroll tbody, .tabla-scroll th, .tabla-scroll td, .tabla-scroll tr { display: block; }
-            .tabla-scroll thead { display: none; }
-            .tabla-scroll tr { margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; }
-            .tabla-scroll td { border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; gap: 10px; }
-            .tabla-scroll td:last-child { border-bottom: none; }
-            .tabla-scroll td::before { content: attr(data-label); font-weight: 600; color: #555; }
-            .acciones { justify-content: flex-end; }
-        }
-    </style>
-    <script>
-        // Marca reglas satisfechas de manera simple en la burbuja
-        function updatePwHint(input){
-            var v = (input.value||"");
-            var hint = input.nextElementSibling;
-            if(!hint || !hint.classList || !hint.classList.contains('hint-bubble')) return;
-            var len = hint.querySelector('[data-rule="len"]');
-            var num = hint.querySelector('[data-rule="numeric"]');
-            if(len){ len.classList.toggle('ok', v.length >= 8); }
-            if(num){ num.classList.toggle('ok', !(v && /^\d+$/.test(v))); }
-        }
-        document.addEventListener('input', function(e){
-            if(e.target && e.target.matches('input[type="password"]')){
-                updatePwHint(e.target);
-            }
-        });
-
-        // Modal de confirmación: apertura/cierre con lock de scroll y focus-trap básico
-        let usuarioAEliminar = null;
-        let lastFocused = null;
-        function abrirModalEliminar(usuarioId, username){
-            usuarioAEliminar = usuarioId;
-            var span = document.getElementById('modal-username');
-            if (span) span.textContent = username;
-            var modal = document.getElementById('modal-eliminar');
-            if (modal) {
-                modal.classList.add('show');
-                lastFocused = document.activeElement;
-                document.body.classList.add('no-scroll');
-                // Enfocar primer botón del modal
-                var firstBtn = modal.querySelector('.modal-actions button');
-                if (firstBtn) firstBtn.focus();
-            }
-        }
-        function cerrarModalEliminar(){
-            var modal = document.getElementById('modal-eliminar');
-            if (modal) modal.classList.remove('show');
-            usuarioAEliminar = null;
-            document.body.classList.remove('no-scroll');
-            if (lastFocused && lastFocused.focus) lastFocused.focus();
-        }
-        function confirmarEliminar(){
-            if (usuarioAEliminar !== null){
-                const form = document.getElementById(`form-eliminar-${usuarioAEliminar}`);
-                if (form) form.submit();
-            }
-            cerrarModalEliminar();
-        }
-
-        // Cerrar con ESC y mantener el foco dentro del modal (trap simple)
-        document.addEventListener('keydown', function(e){
-            var modal = document.getElementById('modal-eliminar');
-            if (!modal || !modal.classList.contains('show')) return;
-            if (e.key === 'Escape') { e.preventDefault(); cerrarModalEliminar(); }
-            if (e.key === 'Tab') {
-                var focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                focusables = Array.prototype.slice.call(focusables).filter(function(el){ return !el.disabled && el.offsetParent !== null; });
-                if (focusables.length === 0) return;
-                var first = focusables[0];
-                var last = focusables[focusables.length - 1];
-                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-            }
-        });
-    </script>
-</head>
-<body>
-    <nav>
-        <div class="logo-container">
-            <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-            <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>
-        </div>
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <ul class="link-container">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'gestion_usuarios' %}">Gestion de Usuarios</a></li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-        </ul>
-        <a href="{% url 'index' %}" class="btn-reservar">Volver al sitio</a>
-    </nav>
-
-    <div class="contenedor-admin">
-        <!-- Modal de confirmacion de eliminacion -->
-        <div id="modal-eliminar" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-eliminar-titulo">
-            <div class="modal-box">
-                <h3 id="modal-eliminar-titulo">Confirmar eliminacion</h3>
-                <p>Deseas eliminar al usuario "<span id="modal-username"></span>"?</p>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-peligro" onclick="confirmarEliminar()">Eliminar</button>
-                    <button type="button" class="btn btn-text" onclick="cerrarModalEliminar()">Cancelar</button>
-                </div>
-            </div>
-        </div>
-        {% include 'includes/messages.html' %}
-        <h2 class="section-title">Gestión de Usuarios</h2>
-
-        <div class="fila">
-            <div class="panel">
-                <form class="buscador" method="get">
-                    <input type="text" name="q" placeholder="Buscar por usuario o nombre" value="{{ request.GET.q }}" />
-                    <button class="btn btn-secundario" type="submit">Buscar</button>
-                </form>
-                <div class="tabla-scroll">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Usuario</th>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>Rol</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for u in usuarios %}
-                            <tr>
-                                <td data-label="Usuario">{{ u.obj.username }}</td>
-                                <td data-label="Nombre">{{ u.obj.first_name }} {{ u.obj.last_name }}</td>
-                                <td data-label="Correo">{{ u.obj.email }}</td>
-                                <td data-label="Rol">{{ u.rol }}</td>
-                                <td class="acciones" data-label="Acciones">
-                                    <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
-                                    <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button class="btn btn-peligro" type="button" onclick="abrirModalEliminar({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
-                                        </form>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr><td colspan="5">No hay usuarios.</td></tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="panel">
-                {% if modo == 'editar' %}
-                    <h3>Editar Usuario: {{ usuario_editar.username }}</h3>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="campo">
-                            {{ form.username.label_tag }}
-                            {{ form.username }}
-                            {% for e in form.username.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.first_name.label_tag }}
-                            {{ form.first_name }}
-                            {% for e in form.first_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.last_name.label_tag }}
-                            {{ form.last_name }}
-                            {% for e in form.last_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.email.label_tag }}
-                            {{ form.email }}
-                            {% for e in form.email.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.password.label_tag }}
-                            {{ form.password }}
-                            <div class="hint-bubble">
-                                <strong>Requisitos de contrasena</strong>
-                                <ul>
-                                    <li data-rule="len">Minimo 8 caracteres</li>
-                                    <li data-rule="numeric">No solo numeros</li>
-                                    <li>Evitar contrasenas comunes</li>
-                                    <li>No demasiado similar al nombre de usuario</li>
-                                </ul>
-                            </div>
-                            {# Ocultamos mensajes verbatim del validador para evitar inglés; usamos burbuja y overlay #}
-                        </div>
-                        <div class="campo">
-                            {{ form.rol.label_tag }}
-                            {{ form.rol }}
-                            {% for e in form.rol.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <button class="btn btn-primario" type="submit">Guardar Cambios</button>
-                        <a class="btn" href="{% url 'gestion_usuarios' %}">Cancelar</a>
-                    </form>
-                {% else %}
-                    <h3>Crear Usuario</h3>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="campo">
-                            {{ form.username.label_tag }}
-                            {{ form.username }}
-                            {% for e in form.username.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.first_name.label_tag }}
-                            {{ form.first_name }}
-                            {% for e in form.first_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.last_name.label_tag }}
-                            {{ form.last_name }}
-                            {% for e in form.last_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.email.label_tag }}
-                            {{ form.email }}
-                            {% for e in form.email.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <div class="campo">
-                            {{ form.password.label_tag }}
-                            {{ form.password }}
-                            <div class="hint-bubble">
-                                <strong>Requisitos de contrasena</strong>
-                                <ul>
-                                    <li data-rule="len">Minimo 8 caracteres</li>
-                                    <li data-rule="numeric">No solo numeros</li>
-                                    <li>Evitar contrasenas comunes</li>
-                                    <li>No demasiado similar al nombre de usuario</li>
-                                </ul>
-                            </div>
-                            {# Ocultamos mensajes verbatim del validador para evitar inglés; usamos burbuja y overlay #}
-                        </div>
-                        <div class="campo">
-                            {{ form.rol.label_tag }}
-                            {{ form.rol }}
-                            {% for e in form.rol.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}
-                        </div>
-                        <button class="btn btn-primario" type="submit">Crear</button>
-                    </form>
-                {% endif %}
+{% block content %}
+<div class="contenedor-admin">
+    <div id="modal-eliminar" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-eliminar-titulo">
+        <div class="modal-box">
+            <h3 id="modal-eliminar-titulo">Confirmar eliminacion</h3>
+            <p>Deseas eliminar al usuario "<span id="modal-username"></span>"?</p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-peligro" onclick="confirmarEliminar()">Eliminar</button>
+                <button type="button" class="btn btn-text" onclick="cerrarModalEliminar()">Cancelar</button>
             </div>
         </div>
     </div>
+    <h2 class="section-title">Gestión de Usuarios</h2>
+    <div class="fila">
+        <div class="panel">
+            <form class="buscador" method="get">
+                <input type="text" name="q" placeholder="Buscar por usuario o nombre" value="{{ request.GET.q }}" />
+                <button class="btn btn-secundario" type="submit">Buscar</button>
+            </form>
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in usuarios %}
+                        <tr>
+                            <td data-label="Usuario">{{ u.obj.username }}</td>
+                            <td data-label="Nombre">{{ u.obj.first_name }} {{ u.obj.last_name }}</td>
+                            <td data-label="Correo">{{ u.obj.email }}</td>
+                            <td data-label="Rol">{{ u.rol }}</td>
+                            <td class="acciones" data-label="Acciones">
+                                <a class="btn btn-secundario" href="{% url 'editar_usuario' u.obj.id %}">Editar</a>
+                                <form id="form-eliminar-{{ u.obj.id }}" action="{% url 'eliminar_usuario' u.obj.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-peligro" type="button" onclick="abrirModalEliminar({{ u.obj.id }}, '{{ u.obj.username|escapejs }}')">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5">No hay usuarios.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel">
+            {% if modo == 'editar' %}
+                <h3>Editar Usuario: {{ usuario_editar.username }}</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="campo">{{ form.username.label_tag }}{{ form.username }}{% for e in form.username.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.first_name.label_tag }}{{ form.first_name }}{% for e in form.first_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.last_name.label_tag }}{{ form.last_name }}{% for e in form.last_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.email.label_tag }}{{ form.email }}{% for e in form.email.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.password.label_tag }}{{ form.password }}
+                        <div class="hint-bubble"><strong>Requisitos de contrasena</strong><ul><li data-rule="len">Minimo 8 caracteres</li><li data-rule="numeric">No solo numeros</li><li>Evitar contrasenas comunes</li><li>No demasiado similar al nombre de usuario</li></ul></div>
+                    </div>
+                    <div class="campo">{{ form.rol.label_tag }}{{ form.rol }}{% for e in form.rol.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <button class="btn btn-primario" type="submit">Guardar Cambios</button>
+                    <a class="btn" href="{% url 'gestion_usuarios' %}">Cancelar</a>
+                </form>
+            {% else %}
+                <h3>Crear Usuario</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="campo">{{ form.username.label_tag }}{{ form.username }}{% for e in form.username.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.first_name.label_tag }}{{ form.first_name }}{% for e in form.first_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.last_name.label_tag }}{{ form.last_name }}{% for e in form.last_name.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.email.label_tag }}{{ form.email }}{% for e in form.email.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <div class="campo">{{ form.password.label_tag }}{{ form.password }}
+                        <div class="hint-bubble"><strong>Requisitos de contrasena</strong><ul><li data-rule="len">Minimo 8 caracteres</li><li data-rule="numeric">No solo numeros</li><li>Evitar contrasenas comunes</li><li>No demasiado similar al nombre de usuario</li></ul></div>
+                    </div>
+                    <div class="campo">{{ form.rol.label_tag }}{{ form.rol }}{% for e in form.rol.errors %}<div class="error-message text-danger">{{ e }}</div>{% endfor %}</div>
+                    <button class="btn btn-primario" type="submit">Crear</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-    <footer>
-        <p>&copy; 2025 Clínica Bosque Verde</p>
-    </footer>
-    <script src="{% static 'js/menu.js' %}"></script>
-    <script>
-      // Mensajes nativos del navegador en español
-      (function(){
+{% block extra_js %}
+<script>
+    function updatePwHint(input){
+        var v = (input.value||"");
+        var hint = input.nextElementSibling;
+        if(!hint || !hint.classList || !hint.classList.contains('hint-bubble')) return;
+        var len = hint.querySelector('[data-rule="len"]');
+        var num = hint.querySelector('[data-rule="numeric"]');
+        if(len){ len.classList.toggle('ok', v.length >= 8); }
+        if(num){ num.classList.toggle('ok', !(v && /^\d+$/.test(v))); }
+    }
+    document.addEventListener('input', function(e){
+        if(e.target && e.target.matches('input[type="password"]')){
+            updatePwHint(e.target);
+        }
+    });
+    let usuarioAEliminar = null;
+    let lastFocused = null;
+    function abrirModalEliminar(usuarioId, username){
+        usuarioAEliminar = usuarioId;
+        var span = document.getElementById('modal-username');
+        if (span) span.textContent = username;
+        var modal = document.getElementById('modal-eliminar');
+        if (modal) {
+            modal.classList.add('show');
+            lastFocused = document.activeElement;
+            document.body.classList.add('no-scroll');
+            var firstBtn = modal.querySelector('.modal-actions button');
+            if (firstBtn) firstBtn.focus();
+        }
+    }
+    function cerrarModalEliminar(){
+        var modal = document.getElementById('modal-eliminar');
+        if (modal) modal.classList.remove('show');
+        usuarioAEliminar = null;
+        document.body.classList.remove('no-scroll');
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+    function confirmarEliminar(){
+        if (usuarioAEliminar !== null){
+            const form = document.getElementById(`form-eliminar-${usuarioAEliminar}`);
+            if (form) form.submit();
+        }
+        cerrarModalEliminar();
+    }
+    document.addEventListener('keydown', function(e){
+        var modal = document.getElementById('modal-eliminar');
+        if (!modal || !modal.classList.contains('show')) return;
+        if (e.key === 'Escape') { e.preventDefault(); cerrarModalEliminar(); }
+        if (e.key === 'Tab') {
+            var focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            focusables = Array.prototype.slice.call(focusables).filter(function(el){ return !el.disabled && el.offsetParent !== null; });
+            if (focusables.length === 0) return;
+            var first = focusables[0];
+            var last = focusables[focusables.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    });
+    (function(){
         var reqMsg = 'Este campo es obligatorio.';
         var emailMsg = 'El formato del correo no es valido.';
         function hook(form){
-          var sel = form.querySelectorAll('input[required], select[required], textarea[required]');
-          sel.forEach(function(el){
-            el.addEventListener('invalid', function(){
-              this.setCustomValidity('');
-              if (this.validity.valueMissing) {
-                this.setCustomValidity(reqMsg);
-              } else if (this.type === 'email' && this.validity.typeMismatch) {
-                this.setCustomValidity(emailMsg);
-              }
+            var sel = form.querySelectorAll('input[required], select[required], textarea[required]');
+            sel.forEach(function(el){
+                el.addEventListener('invalid', function(){
+                    this.setCustomValidity('');
+                    if (this.validity.valueMissing) { this.setCustomValidity(reqMsg); }
+                    else if (this.type === 'email' && this.validity.typeMismatch) { this.setCustomValidity(emailMsg); }
+                });
+                el.addEventListener('input', function(){ this.setCustomValidity(''); });
             });
-            el.addEventListener('input', function(){ this.setCustomValidity(''); });
-          });
         }
-        document.addEventListener('DOMContentLoaded', function(){
-          document.querySelectorAll('form').forEach(hook);
-        });
-      })();
-    </script>
-</body>
-</html>
-
-
-
-
+        document.addEventListener('DOMContentLoaded', function(){ document.querySelectorAll('form').forEach(hook); });
+    })();
+</script>
+{% endblock %}

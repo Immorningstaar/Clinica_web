@@ -7,6 +7,9 @@ body {
     color: #333;
 }
 
+/* Evitar scroll horizontal global */
+html, body { overflow-x: hidden; }
+
 /* Evitar scroll de fondo cuando hay modales/overlays activos */
 .no-scroll { overflow: hidden !important; }
 
@@ -36,7 +39,7 @@ nav {
 
 /* Barras verdes a ancho completo (full‑bleed) para todas las páginas */
 nav, footer {
-    width: 100vw;
+    width: 100%;
     max-width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
@@ -354,7 +357,8 @@ justify-items: center: Centra horizontalmente las cards*/
 
 .galeria-card img {
     width: 100%;
-    height: 200px;
+    height: auto;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
 }
 
@@ -388,6 +392,193 @@ justify-items: center: Centra horizontalmente las cards*/
 
 .galeria-btn:hover {
     background: #1b5e20;
+}
+
+/* ====== Clases faltantes usadas en templates ====== */
+
+.content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 576px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.btn-submit {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #2E7D32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: auto;
+    min-width: 200px;
+}
+
+.btn-submit:hover {
+    background-color: #1b5e20;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.weather-widget {
+    background: #e8f5e9;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.weather-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2E7D32;
+    margin-bottom: 10px;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    color: #333;
+    font-size: 1rem;
+}
+
+.pending-cita-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.pending-cita-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.pending-cita-id {
+    font-weight: bold;
+    color: #2E7D32;
+    font-size: 1rem;
+}
+
+.pending-cita-prof {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.pending-cita-fecha {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.pending-cita-monto {
+    font-weight: bold;
+    color: #1b5e20;
+    font-size: 1.05rem;
+}
+
+.btn-webpay {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2E7D32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+
+.btn-webpay:hover {
+    background: #1b5e20;
+}
+
+.btn-webpay:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+.webpay-confirmacion {
+    text-align: center;
+    padding: 20px;
+}
+
+@media (max-width: 576px) {
+    .pending-cita-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .pending-cita-info {
+        justify-content: center;
+    }
+    .btn-webpay {
+        width: 100%;
+    }
+}
+
+.welcome-text {
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    white-space: nowrap;
 }
 
 /* ====== Footer ====== */
@@ -610,6 +801,72 @@ footer {
     padding: 10px ;
     border-radius: 5px;
     margin-bottom: 20px;
+}
+
+/* ---- Responsive extra: 576px (tablets pequeñas / móviles grandes) ---- */
+@media (max-width: 576px) {
+    .hero {
+        padding: 24px 14px;
+        margin: 16px 8px;
+        border-radius: 10px;
+    }
+    .hero h1 { font-size: 1.4rem; }
+    .hero h3 { font-size: 0.95rem; }
+
+    .hero-admision, .hero-pago {
+        padding: 28px 14px;
+        margin: 30px 10px;
+    }
+
+    .card-profile {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .galeria-container {
+        padding: 10px;
+    }
+
+    section {
+        padding: 24px 12px;
+    }
+
+    .content {
+        padding: 12px;
+        margin: 20px auto;
+    }
+
+    .btn-submit {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+/* ---- Responsive extra: 375px (móviles pequeños) ---- */
+@media (max-width: 375px) {
+    .hero h1 { font-size: 1.2rem; }
+    .hero { padding: 18px 10px; }
+
+    .card-profile {
+        max-width: 240px;
+    }
+
+    .profesional-card {
+        padding: 14px 10px;
+    }
+
+    .logo {
+        height: 60px;
+    }
+
+    nav {
+        padding: 8px 12px;
+    }
+
+    .btn-reservar {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+    }
 }
 
 /* ---- Estilos para pantallas de 768px en adelante ---- */

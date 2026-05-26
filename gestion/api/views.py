@@ -7,14 +7,19 @@ from .serializers import PacienteSerializer
 
 
 class PacienteListView(ListAPIView):
-    """Entrega el listado de pacientes para consumo externo."""
+    """
+    API: Listado de pacientes.
+
+    Requiere autenticación por token.
+    Devuelve id, rut, nombre, apellidos, email, fecha_nacimiento, direccion, celular.
+    Ordenado por nombre y apellido del usuario.
+    """
 
     serializer_class = PacienteSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Se usa select_related para evitar consultas extra al tomar datos del usuario
         return Paciente.objects.select_related('usuario').order_by(
             'usuario__first_name',
             'usuario__last_name',

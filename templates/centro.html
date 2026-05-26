@@ -1,117 +1,68 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centro Médico - Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <!-- Barra de navegación -->
-        <nav>
-            <div class="logo-container">
-                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-                <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>            </div>
-            <!-- Botón hamburguesa -->
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+
+{% block title %}Centro Médico - Clínica Bosque Verde{% endblock %}
+
+{% block content %}
+<main>
+    <section>
+        <h1>Nuestro Centro Médico</h1>
+        <div class="profesional-card">
+            <div class="card-profile">
+                <h3>Consultorios Equipados</h3>
+                <img src="{% static 'assets/images/consultorio.jpg' %}" alt="Consultorios Clínica Bosque Verde">
+                <a class="button-link" href="{% url 'reservar' %}">Reservar</a>
             </div>
-
-            <ul class="link-container">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
-            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
-            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
-            <li><a href="{% url 'galerias' %}">Galerías</a></li>
-            {% if user.is_authenticated %}
-            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
-            </li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
-            <li><a href="{% url 'registro' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
-
-            <a href="#" class="btn-reservar">Reservar Cita</a>
-        </nav>
-        <main>
-            <section>
-                <h1>Nuestro Centro Médico</h1>
-                
-                <!-- Tarjeta de Instalaciones - Consultorios -->
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Consultorios Equipados</h3>
-                        <img src="{% static 'assets/images/consultorio.jpeg' %}" alt="Consultorios Clínica Bosque Verde">
-                        <a class="button-link" href="reservar.html">Reservar</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Equipamiento:</b> Tecnología de última generación para diagnóstico y tratamiento</p>
-                        <p><b>Especialidades:</b> 12 consultorios para diversas especialidades médicas</p>
-                        <p><b>Comodidades:</b> Aire acondicionado, sala de espera privada</p>
-                        <p><b>Horario:</b> Lunes a viernes de 8:00 a 20:00 hrs</p>
-                        <p><b>Accesibilidad:</b> Acceso para personas con movilidad reducida</p>
-                    </div>
-                </div>
-                
-                <!-- Tarjeta de Instalaciones - Laboratorio -->
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Laboratorio Clínico</h3>
-                        <img src="{% static 'assets/images/laboratorio.jpeg' %}" alt="Laboratorio Clínica Bosque Verde">
-                        <a class="button-link" href="reservar.html">Solicitar hora</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Exámenes:</b> Hematología, bioquímica, microbiología y más</p>
-                        <p><b>Tecnología:</b> Equipos automatizados para resultados precisos</p>
-                        <p><b>Tiempo de entrega:</b> Resultados en 24-48 horas</p>
-                        <p><b>Convenios:</b> FONASA, Isapres y particulares</p>
-                        <p><b>Horario:</b> Lunes a sábado de 7:00 a 14:00 hrs</p>
-                    </div>
-                </div>
-                
-                <!-- Tarjeta de Instalaciones - Imagenología -->
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Salas de Imagenología</h3>
-                        <img src="{% static 'assets/images/Imagenología.jpeg' %}" alt="Imagenología Clínica Bosque Verde">
-                        <a class="button-link" href="reservar.html">Agendar examen</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Equipos:</b> Tomógrafo, resonador magnético, ecógrafos y rayos X digital</p>
-                        <p><b>Especialistas:</b> Radiólogos con más de 10 años de experiencia</p>
-                        <p><b>Entrega de resultados:</b> Informes digitales disponibles en 24 horas</p>
-                        <p><b>Preparación:</b> Instrucciones claras para cada tipo de examen</p>
-                        <p><b>Horario:</b> Lunes a viernes de 8:00 a 18:00 hrs</p>
-                    </div>
-                </div>
-                
-                <!-- Tarjeta de Instalaciones - Urgencias -->
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Área de Urgencias</h3>
-                        <img src="{% static 'assets/images/urgencias.jpeg' %}" alt="Urgencias Clínica Bosque Verde">
-                        <a class="button-link" href="tel:+56222222222">Llamar ahora</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Atención:</b> 24/7 con equipo médico especializado</p>
-                        <p><b>Equipamiento:</b> Unidad de trauma, monitorización continua</p>
-                        <p><b>Tiempo de espera:</b> Máximo 15 minutos para triage</p>
-                        <p><b>Convenios:</b> Todas las Isapres y FONASA</p>
-                        <p><b>Contacto:</b> +56 2 2222 2222</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-        <script src="{% static 'js/menu.js' %}"></script>
-    </body>
-</html>
+            <div class="card-content">
+                <p><b>Equipamiento:</b> Tecnología de última generación para diagnóstico y tratamiento</p>
+                <p><b>Especialidades:</b> 12 consultorios para diversas especialidades médicas</p>
+                <p><b>Comodidades:</b> Aire acondicionado, sala de espera privada</p>
+                <p><b>Horario:</b> Lunes a viernes de 8:00 a 20:00 hrs</p>
+                <p><b>Accesibilidad:</b> Acceso para personas con movilidad reducida</p>
+            </div>
+        </div>
+        <div class="profesional-card">
+            <div class="card-profile">
+                <h3>Laboratorio Clínico</h3>
+                <img src="{% static 'assets/images/laboratorio.jpg' %}" alt="Laboratorio Clínica Bosque Verde">
+                <a class="button-link" href="{% url 'reservar' %}">Solicitar hora</a>
+            </div>
+            <div class="card-content">
+                <p><b>Exámenes:</b> Hematología, bioquímica, microbiología y más</p>
+                <p><b>Tecnología:</b> Equipos automatizados para resultados precisos</p>
+                <p><b>Tiempo de entrega:</b> Resultados en 24-48 horas</p>
+                <p><b>Convenios:</b> FONASA, Isapres y particulares</p>
+                <p><b>Horario:</b> Lunes a sábado de 7:00 a 14:00 hrs</p>
+            </div>
+        </div>
+        <div class="profesional-card">
+            <div class="card-profile">
+                <h3>Salas de Imagenología</h3>
+                <img src="{% static 'assets/images/Imagenología.jpg' %}" alt="Imagenología Clínica Bosque Verde">
+                <a class="button-link" href="{% url 'reservar' %}">Agendar examen</a>
+            </div>
+            <div class="card-content">
+                <p><b>Equipos:</b> Tomógrafo, resonador magnético, ecógrafos y rayos X digital</p>
+                <p><b>Especialistas:</b> Radiólogos con más de 10 años de experiencia</p>
+                <p><b>Entrega de resultados:</b> Informes digitales disponibles en 24 horas</p>
+                <p><b>Preparación:</b> Instrucciones claras para cada tipo de examen</p>
+                <p><b>Horario:</b> Lunes a viernes de 8:00 a 18:00 hrs</p>
+            </div>
+        </div>
+        <div class="profesional-card">
+            <div class="card-profile">
+                <h3>Área de Urgencias</h3>
+                <img src="{% static 'assets/images/urgencias.jpg' %}" alt="Urgencias Clínica Bosque Verde">
+                <a class="button-link" href="tel:+56222222222">Llamar ahora</a>
+            </div>
+            <div class="card-content">
+                <p><b>Atención:</b> 24/7 con equipo médico especializado</p>
+                <p><b>Equipamiento:</b> Unidad de trauma, monitorización continua</p>
+                <p><b>Tiempo de espera:</b> Máximo 15 minutos para triage</p>
+                <p><b>Convenios:</b> Todas las Isapres y FONASA</p>
+                <p><b>Contacto:</b> +56 2 2222 2222</p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

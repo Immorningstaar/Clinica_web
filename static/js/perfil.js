@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("#perfilForm").submit(function (event) {
-        event.preventDefault(); 
         let isValid = true;
 
         $(".error-message").hide();
@@ -51,12 +50,7 @@ $(document).ready(function () {
             }
         }
 
-        if (isValid) {
-            alert("Perfil actualizado correctamente.");
-            currentPassword.val('');
-            newPassword.val('');
-            confirmPassword.val('');
-        }
+        return isValid;
     });
 
 });

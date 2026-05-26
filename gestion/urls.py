@@ -26,6 +26,16 @@ urlpatterns = [
     path('galerias/', views.galerias, name='galerias'),
     path('registro/', views.registro, name='registro'),
     path('logout/', views.logout_page, name='logout'),
+    path('reservar/', views.reservar_cita, name='reservar'),
+    path('horas-ocupadas/', views.horas_ocupadas, name='horas_ocupadas'),
+    path('atencion/<int:cita_id>/', views.registrar_atencion, name='registrar_atencion'),
+    path('cita/<int:cita_id>/cancelar/', views.cancelar_cita, name='cancelar_cita'),
+    path('historial/', views.historial_paciente, name='historial'),
+    path('mis-citas/', views.mis_citas, name='mis_citas'),
+    path('pago/procesar/', views.procesar_pago, name='procesar_pago'),
+    path('webpay/<int:cita_id>/', views.webpay_simular, name='webpay_simular'),
+    path('admision/solicitar/', views.solicitar_presupuesto, name='solicitar_presupuesto'),
+    path('panel/agenda/', views.agenda_medico, name='agenda_medico'),
     path('api/profesionales/', ProfesionalListAPIView.as_view(), name='api-profesionales'),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth')
 ]

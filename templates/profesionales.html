@@ -1,101 +1,31 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profesionales Acreditados - Clínica Bosque Verde</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <!-- Barra de navegación -->
-        <nav>
-            <div class="logo-container">
-                <img src="{% static 'assets/images/logo.jpeg' %}" alt="Logo Clínica Bosque Verde" class="logo">
-                <a href="{% url 'index' %}" class="brand-name">Clínica Bosque Verde</a>            </div>
-            <!-- Botón hamburguesa -->
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+
+{% block title %}Profesionales Acreditados - Clínica Bosque Verde{% endblock %}
+
+{% block content %}
+<main>
+    <section>
+        <h1>Profesionales Acreditados</h1>
+        {% for p in profesionales %}
+        <div class="profesional-card">
+            <div class="card-profile">
+                <h3>Dr(a). {{ p.usuario.first_name }} {{ p.usuario.last_name }}</h3>
+                <img src="{% if p.foto %}{{ p.foto.url }}{% else %}{% static 'assets/images/dr0.jpg' %}{% endif %}" alt="{{ p.usuario.first_name }} {{ p.usuario.last_name }}">
+                <a class="button-link" href="{% url 'reservar' %}?profesional={{ p.pk }}">Ver agenda</a>
             </div>
-
-            <ul class="link-container">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'profesionales' %}">Profesional Acreditado</a></li>
-            <li><a href="{% url 'pago' %}">Pago en Línea</a></li>
-            <li><a href="{% url 'centro' %}">Centro Médico</a></li>
-            <li><a href="{% url 'admision' %}">Admisión y Presupuestos</a></li>
-            <li><a href="{% url 'galerias' %}">Galerías</a></li>
-            {% if user.is_authenticated %}
-            <li><span class="welcome-text">¡Hola, {{ user.first_name }} {{ user.last_name }}!</span>
-            </li>
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Inicio de Sesión</a></li>
-            <li><a href="{% url 'registro' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
-
-            <a href="#" class="btn-reservar">Reservar Cita</a>
-        </nav>
-        <main>
-            <section>
-                <h1>Profesionales Acreditados</h1>
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Dr. Juan Pérez</h3>
-                        <img src="{% static 'assets/images/dr1.jpg' %}" alt="juan perez">
-                        <a class="button-link" href="#">Ver agenda</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Especialidad:</b> Cardiología</p>
-                        <p><b>Subespecialidad:</b> Insuficiencia cardíaca y rehabilitación cardiovascular</p>
-                        <p><b>Años de experiencia:</b> 15</p>
-                        <p><b>Convenio:</b> Particular, valor preferencial FONASA, Isapre Colmena y Cruz Blanca</p>
-                        <p><b>Horario:</b> Lunes a viernes de 9:00 a 18:00 hrs</p>
-                        <p><b>Idiomas:</b> Español e inglés</p>
-                        <p><b>Este profesional no da licencias médicas online.</b></p>
-                    </div>
-                </div>
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Dra. María López</h3>
-                        <img src="{% static 'assets/images/dr2.jpg' %}" alt="maría lopez">
-                        <a class="button-link" href="#">Ver agenda</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Especialidad:</b> Pediatría</p>
-                        <p><b>Subespecialidad:</b> Neonatología y desarrollo infantil temprano</p>
-                        <p><b>Años de experiencia:</b> 10</p>
-                        <p><b>Convenio:</b> Particular, FONASA, Isapre Banmédica</p>
-                        <p><b>Horario:</b> Martes y jueves de 9:00 a 17:00 hrs</p>
-                        <p><b>Idiomas:</b> Español</p>
-                        <p><b>Este profesional sí entrega licencias médicas online.</b></p>
-                    </div>
-                </div>
-                <div class="profesional-card">
-                    <div class="card-profile">
-                        <h3>Dra. Sabrina Jaramillo</h3>
-                        <img src="{% static 'assets/images/d3.jpg' %}" alt="sabrina jaramillo">
-                        <a class="button-link" href="#">Ver agenda</a>
-                    </div>
-                    <div class="card-content">
-                        <p><b>Especialidad:</b> Obstetricia</p>
-                        <p><b>Subespecialidad:</b> Embarazo de alto riesgo</p>
-                        <p><b>Años de experiencia:</b> 2</p>
-                        <p><b>Convenio:</b> Particular, FONASA</p>
-                        <p><b>Horario:</b> Miércoles y viernes de 10:00 a 18:00 hrs</p>
-                        <p><b>Idiomas:</b> Español e inglés</p>
-                        <p><b>Este profesional no da licencias médicas online.</b></p>
-                    </div>
-                </div>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 Clínica Bosque Verde</p>
-        </footer>
-        <script src="{% static 'js/menu.js' %}"></script>
-    </body>
-</html>
+            <div class="card-content">
+                <p><b>Especialidad:</b> {{ p.especialidad }}</p>
+                <p><b>Email:</b> {{ p.usuario.email }}</p>
+                {% if p.direccion %}<p><b>Dirección:</b> {{ p.direccion }}</p>{% endif %}
+                {% if p.celular %}<p><b>Contacto:</b> {{ p.celular }}</p>{% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert uf-alert">
+            No hay profesionales registrados actualmente.
+        </div>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

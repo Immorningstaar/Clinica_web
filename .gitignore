@@ -26,3 +26,6 @@ staticfiles/
 
 # Archivos de Logs
 *.log
+
+#nul
+nul
